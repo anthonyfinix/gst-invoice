@@ -14,11 +14,28 @@ router.get('/', (req, res) => {
     });
 });
 
+// GET SINGLE
+router.get('/:id', (req, res) => {
+    Client.find({ _id: req.params.id }, (err, client) => {
+        if (err) {
+            res.send(err)
+        } else if (!client) {
+            res.status(404).send('user not found')
+        } else if (client) {
+            res.send(client)
+        } else {
+            res.status(500).send('Error')
+        }
+    });
+});
+
 // ADD NEW
 router.post('/', (req, res) => {
     let newClient = new Client({
         name: req.body.name,
         company: req.body.company,
+        address: req.body.address,
+        contactNumber: req.body.contactNumber,
     });
     newClient.save()
         .then(client => res.json(client))

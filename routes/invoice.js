@@ -12,6 +12,17 @@ router.get('/', (req, res) => {
 
     });
 });
+// VIEW ONE
+router.get('/:id', (req, res) => {
+    Invoice.find({_id: req.params.id}, (err, invoices) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(invoices)
+        };
+
+    });
+});
 
 // ADD NEW
 router.post('/', (req, res) => {

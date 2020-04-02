@@ -12,39 +12,67 @@ router.get('/', (req, res) => {
         }
     })
 });
+// get single product
+router.get('/:id', (req, res) => {
+    Product.find({ _id: req.params.id }, (err, product) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(product)
+        }
+    })
+});
 
-
+// ADD PRODUCT
 router.post('/', (req, res) => {
     let newProduct = new Product({
         name: req.body.name,
-        price: parseInt(req.body.price)
-    })
+        price: parseInt(req.body.price),
+        taxRate: parseInt(req.body.taxRate),
+        sku: req.body.sku,
+        description: req.body.description,
+    });
     newProduct.save().then((product) => res.send(product))
 });
 
 
-router.put('/:id',bodyParser.json(), (req, res) => {
-    Product.findOne({_id: req.params.id},(err,oldProduct)=>{
+router.put('/:id', bodyParser.json(), (req, res) => {
+    Product.findOne({ _id: req.params.id }, (err, oldProduct) => {
         if (err) {
             res.send(err)
-        }else{
-            if (req.body.name) {
-                oldProduct.name = req.body.name;
-            }
-            if (req.body.price) {
-                oldProduct.price = req.body.price;
-            }
-            oldProduct.save().then(product=>res.send(product));
+        } else {
+            oldProduct.name = req.body.name;
+            oldProduct.price = req.body.price;
+            oldProduct.sku = req.body.sku;
+            oldProduct.taxRate = req.body.taxRate;
+            oldProduct.description = req.body.description;
+            oldProduct.save().then(product => res.send(product));
         }
     });
 });
 
 router.delete('/:id', (req, res) => {
-    Product.findOne({_id: req.params.id},(err,product)=>{
+    console.log(req.params.id)
+    Product.findOne({ _id: req.params.id }, (err, product) => {
         if (err) {
             res.send(err)
-        }else{
-            product.remove().then(deletedProduct=>res.send(deletedProduct))
+        } else {
+            product.remove().then(deletedProduct => res.send(deletedProduct))
+        }
+    });
+});
+
+// SEARCH WITH NAME
+router.get('/search/:name', (req, res) => {
+    Product.find({ name: { $regex: req.params.name.toString() } }, (err, product) => {
+        if (err) {
+            res.send(err)
+        } else if (!product) {
+            res.status(404).send('user not found')
+        } else if (product) {
+            res.send(product)
+        } else {
+            res.status(500).send('Error')
         }
     });
 });
