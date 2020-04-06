@@ -26,12 +26,13 @@ router.get('/:id', (req, res) => {
 
 // ADD NEW
 router.post('/', (req, res) => {
+    // res.send(req.body)
     let newInvoice = new Invoice({
         client:{
             name :req.body.client.name,
             id: req.body.client.id,
         },
-        productsId: req.body.productsId
+        products: req.body.products
     });
     newInvoice.save()
         .then(invoice => res.json(invoice))

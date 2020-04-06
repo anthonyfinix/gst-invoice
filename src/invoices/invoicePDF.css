@@ -1,0 +1,12 @@
+#invoice table{
+    width: 100%;
+  }
+#invoice table#intro th,#invoice table#intro td{
+    border: 2px solid black;
+    font-family:'Courier New', Courier, monospace;
+  }
+#invoice  table#products th,#invoice table#products td{
+    border-right: 2px solid black;
+    border-left: 2px solid black;
+    font-family:'Courier New', Courier, monospace;
+  }

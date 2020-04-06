@@ -6,7 +6,7 @@ const invoiceSchema = new mongoose.Schema({
         id: String,
     },
     created: { type: Date, default: Date.now },
-    productsId: [String],
+    products: [],
 });
 
 let invoice = module.exports = mongoose.model('Invoice', invoiceSchema);

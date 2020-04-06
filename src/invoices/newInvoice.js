@@ -4,6 +4,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { Redirect } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import ProductInputRow from './productInputRow';
+import './invoicePDF.css';
+import { layout1 } from './PDFLayout';
 
 export default class NewInvoice extends Component {
     constructor(props) {
@@ -22,10 +24,12 @@ export default class NewInvoice extends Component {
             total: 0,
             discount: 0,
             tax: 0,
-            saveandPrint: false,
+            save: false,
             client: {},
             newInvoiceId: ''
         }
+        this.exportPDF = this.exportPDF.bind(this);
+        this.addInvoice = this.addInvoice.bind(this);
         this.handleOptionClick = this.handleOptionClick.bind(this);
         this.removeProduct = this.removeProduct.bind(this);
         this.calculateTotalPrice = this.calculateTotalPrice.bind(this);
@@ -37,12 +41,46 @@ export default class NewInvoice extends Component {
         this.getSearchedProduct = this.getSearchedProduct.bind(this);
         this.addProduct = this.addProduct.bind(this);
         this.getSearchOptions = this.getSearchOptions.bind(this);
-        this.saveandPrint = this.saveandPrint.bind(this);
+        this.handleSave = this.handleSave.bind(this);
         this.addNewItem = this.addNewItem.bind(this);
         this.getClient = this.getClient.bind(this);
-        this.printInvoice = this.printInvoice.bind(this);
         this.fetchItems().then(Items => this.setState({ searchedProducts: Items }));
         this.getClient().then(Items => this.setState({ client: Items[0] }));
+
+        const script = document.createElement('script');
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js";
+        script.async = true;
+        document.body.appendChild(script);
+
+    }
+    handleSave() {
+        this.addInvoice(this.state.client, this.state.products)
+            .then(data => data.json())
+            .then(res => console.log(res))
+    }
+    exportPDF() {
+        var doc = new jsPDF();
+        let wrapper = document.createElement('div');
+        wrapper.innerHTML = layout1;
+        document.getElementById('root').appendChild(wrapper);
+        doc.addHTML(document.getElementById('invoice'), () => {
+            doc.save('sample.pdf');
+            document.getElementById('invoice').parentElement.removeChild(document.getElementById('invoice'))
+        });
+    }
+    async addInvoice(client, products) {
+        let response = await fetch('http://localhost:3100/invoices/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                client: {
+                    id: client._id,
+                    name: client.name
+                },
+                products: products
+            }),
+        })
+        return response;
     }
     handleOptionClick(e, index, product) {
         let rows = this.state.products;
@@ -151,24 +189,6 @@ export default class NewInvoice extends Component {
         })
         return response.json()
     }
-    saveandPrint() {
-        let productsId = this.state.selectedProducts.map(product => {
-            return product._id
-        })
-        this.addNewItem(productsId)
-            .then(newInvoice => this.printInvoice(newInvoice))
-            .then(newInvoice => this.setState({ newInvoiceId: newInvoice._id, saveandPrint: true }))
-    }
-    printInvoice(invoice) {
-        let doc = new jsPDF();
-        doc.text(`invoice to ${invoice.client.name}`, 20, 20, 'right');
-        invoice.productsId.forEach((id, i) => {
-            doc.text(`product Id ${id}`, 20, 10 + (i * 10));
-        });
-        doc.text(`total price payable ${this.state.total}`, 20, 100);
-        doc.save(`${invoice.client.id}.pdf`);
-        return invoice;
-    }
     async getClient() {
         let Items = await fetch('http://localhost:3100/clients/' + this.props.match.params.id).then(res => res.json());
         return Items;
@@ -188,7 +208,7 @@ export default class NewInvoice extends Component {
             return <Redirect to={"/invoices"} />
         }
         return (
-            <Box p={2}>
+            <Box p={2} id="jsPDFTest">
                 <Container>
                     <Grid container justify="space-between" alignItems="flex-start">
                         <Grid item xs={4}>
@@ -225,8 +245,10 @@ export default class NewInvoice extends Component {
                             </Card>
                         </Grid>
                     </Grid>
-                    <Box pt={3} pb={1}>
-                        <Typography gutterBottom={true} variant="h6">Products</Typography>
+                    <Box pt={3} pb={2} display="flex" alignItems="center" justifyContent="space-between">
+                        <Typography gutterBottom={true} variant="h5">Products</Typography>
+                        <Button style={{ marginLeft: 'auto', marginRight: 5 }} variant="contained" color="primary" onClick={this.handleSave}>Save Invoice</Button>
+                        <Button variant="contained" color="primary" onClick={this.exportPDF}>export PDF</Button>
                     </Box>
                     {this.getProductInputRow()}
                     <Button color="primary" size="small" onClick={this.addProductInputRow} startIcon={<AddIcon />}>Add Row</Button>
