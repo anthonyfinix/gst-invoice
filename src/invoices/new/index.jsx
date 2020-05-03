@@ -19,8 +19,7 @@ export default class NewInvoice extends Component {
             invoiceNo: '',
             created: '',
             dueDate: '',
-            status: 1,
-
+            status: 2,
         }
         this.addInvoice = this.addInvoice.bind(this);
         this.setProducts = this.setProducts.bind(this);
@@ -38,6 +37,7 @@ export default class NewInvoice extends Component {
             products: this.state.products,
             draft: this.state.draft,
             total: this.state.total,
+            status: this.state.status
         }
         addNewInvoice(data)
         .then((newItem)=>{console.log(newItem)})

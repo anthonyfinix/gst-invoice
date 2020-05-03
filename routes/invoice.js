@@ -32,7 +32,11 @@ router.post('/', (req, res) => {
             name :req.body.client.name,
             id: req.body.client.id,
         },
-        products: req.body.products
+        products: req.body.products,
+        created: req.body.created,
+        status: req.body.status,
+        total: req.body.total,
+
     });
     newInvoice.save()
         .then(invoice => res.json(invoice))

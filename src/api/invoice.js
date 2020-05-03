@@ -8,7 +8,8 @@ export async function addNewInvoice(data) {
                 client: data.client,
                 created: data.created,
                 products: data.products,
-                draft: data.draft,
+                status: data.status,
+                total: data.total,
             })
         })
     .then(res => res.json())
