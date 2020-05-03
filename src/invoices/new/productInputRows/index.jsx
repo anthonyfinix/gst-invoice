@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button } from '../../../utils/mui';
+import { Box, Button, IconButton, DeleteIcon } from '../../../utils/mui';
 import './productInputRows.css';
 
 export default function ProductInputRows(props) {
@@ -10,9 +10,9 @@ export default function ProductInputRows(props) {
     const handleInputChange = (e, i) => {
         let elemName = e.currentTarget.getAttribute('name');
         let elemValue = e.currentTarget.value;
-        setRows(getupdatedRow(elemName, elemValue, i));
+        setRows(getUpdatedValues(elemName, elemValue, i));
         setTotal(getTotal());
-        props.setProducts({products:getupdatedRow(elemName, elemValue, i),total: getTotal()})
+        props.setProducts({ products: getUpdatedValues(elemName, elemValue, i), total: getTotal() })
     }
     const getTotal = () => {
         let total = 0;
@@ -21,7 +21,7 @@ export default function ProductInputRows(props) {
         })
         return total;
     }
-    const getupdatedRow = (elName, elVal, i) => {
+    const getUpdatedValues = (elName, elVal, i) => {
         return rows.map((row, index) => {
             if (index == i) {
                 row[elName] = elVal;
@@ -41,7 +41,15 @@ export default function ProductInputRows(props) {
     const handleAddRow = () => {
         setRows(() => [...rows, { name: '', quantity: '', price: '', tax: '', discount: '', total: '' }])
     }
-
+    const handleRemoveRow = (rowIndex)=>{
+        let updatedRow = [];
+        rows.forEach((row,i)=>{
+            if(i != rowIndex){
+                updatedRow.push(row)
+            }
+        })
+        setRows(updatedRow)
+    }
     const getRows = () => {
         let fields = rows.map((row, i) => {
             return (
@@ -53,6 +61,11 @@ export default function ProductInputRows(props) {
                     <td className="p-0"><input autoComplete="off" type="number" value={row.tax} name="tax" onChange={(e) => { handleInputChange(e, i) }} type="number" /></td>
                     <td className="p-0"><input autoComplete="off" type="number" value={row.discount} name="discount" onChange={(e) => { handleInputChange(e, i) }} type="number" /></td>
                     <td className="p-0"><input autoComplete="off" disabled={true} type="number" value={row.total} name="total" onChange={(e) => { handleInputChange(e, i) }} type="number" /></td>
+                    <td className="p-0">
+                        <IconButton onClick={()=>handleRemoveRow(i)}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </td>
                 </tr>
             )
         })
@@ -69,14 +82,14 @@ export default function ProductInputRows(props) {
                         <td>Price</td>
                         <td>Tax</td>
                         <td>Discount</td>
-                        <td>Total</td>
+                        <td colSpan="2">Total</td>
                     </tr>
                 </thead>
                 <tbody>
                     {getRows()}
                     <tr className="total">
                         <th colSpan="6">Total</th>
-                        <th>{total}</th>
+                        <th colSpan="2">{total}</th>
                     </tr>
                 </tbody>
             </table>
