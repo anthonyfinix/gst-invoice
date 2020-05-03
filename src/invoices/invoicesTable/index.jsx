@@ -14,19 +14,19 @@ import {
     Chip
 } from '../../utils/mui';
 
-const getStatus = (status)=>{
-    switch(status){
+const getStatus = (status) => {
+    switch (status) {
         case 0:
-            return <Chip label="Not Paid"/> 
+            return <Chip label="Not Paid" />
         case 1:
-            return <Chip label="Paid"/> 
+            return <Chip label="Paid" />
         case 2:
-            return <Chip label="Draft"/>
+            return <Chip label="Draft" />
     }
 }
 
 const getRows = (props) => {
-    let rows = props.invoices.map((invoice,i) => {
+    let rows = props.invoices.map((invoice, i) => {
         return (
             <TableRow key={i}>
                 <TableCell component="th" scope="row">
