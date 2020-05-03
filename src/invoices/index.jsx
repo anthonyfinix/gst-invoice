@@ -1,9 +1,7 @@
 import React from 'react';
-import { Typography, IconButton, Container } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { DeleteIcon, ListItemText, ListItem, List, Typography, IconButton, Container } from '../utils/mui';
+import Actions from './actions';
+import InvoicesTable from './invoicesTable';
 
 class invoices extends React.Component {
     constructor(props) {
@@ -23,7 +21,7 @@ class invoices extends React.Component {
         let id = e.currentTarget.getAttribute('value');
         this.getInvoice(id)
             .then(deletedItem => console.log(deletedItem))
-            this.fetchItems()
+        this.fetchItems()
             .then(Items => this.setState({ Items: Items }));
     }
     async getInvoice(id) {
@@ -75,22 +73,9 @@ class invoices extends React.Component {
     }
     render() {
         return (
-            <Container maxWidth="lg" className="py-3">
-                <Typography gutterBottom={true} variant="h5">
-                    Invoices
-                </Typography>
-                {/* <ul className="nav">
-                    <li className="nav-item nav-link">
-                        <button className="btn btn-primary" onClick={this.addNewItem}>Add new</button>
-                    </li>
-                </ul> */}
-                {/* <input list="clients" value={this.state.newItem.name} placeholder="Name" onChange={this.newItemNameChange} />
-                <datalist id="clients">
-                    {this.searchClients()}
-                </datalist> */}
-                <List component="nav">
-                    {this.getItems()}
-                </List>
+            <Container className="py-3">
+                <Actions/>
+                <InvoicesTable invoices={this.state.Items}/>
             </Container>
         )
     }

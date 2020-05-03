@@ -1,0 +1,28 @@
+.product-table{
+    width: 100%;
+    border-spacing: 0px;
+}
+.product-table thead tr td{
+    padding: 10px 10px 10px 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.085);
+}
+.product-table tr td:first-child{
+    width: 15px;
+    padding: 10px 10px 10px 10px;
+}
+.product-table .total th{
+    padding: 10px 10px 10px 10px;
+}
+.product-table td,.product-table th{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.085);
+    border-left: 1px solid rgba(0, 0, 0, 0.085);
+    text-align: left;
+}
+.product-table td:last-child,.product-table th:last-child{
+    border-right: 1px solid rgba(0, 0, 0, 0.085);
+}
+.product-table  td input{
+    padding: 10px 10px 10px 10px;
+    border: none;
+    width: calc(100% - 20px);
+}

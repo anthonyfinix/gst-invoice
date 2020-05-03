@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconButton, Paper, Container } from '@material-ui/core';
+import { IconButton, Paper } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import MaterialTable from "material-table";
 
@@ -116,7 +116,7 @@ class Products extends React.Component {
     }
     render() {
         return (
-            <Container maxWidth="lg" className="py-3">
+            <div className="py-3">
                 <Paper>
                     <IconButton onClick={this.toggleDialog}>
                         <AddIcon />
@@ -152,7 +152,7 @@ class Products extends React.Component {
                     newItemValueChange={this.newItemValueChange}
                     addNewItem={this.addNewItem}
                 />
-            </Container>
+            </div>
         )
     }
 }

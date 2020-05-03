@@ -1,73 +1,58 @@
 import './App.css';
 import 'typeface-roboto';
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { AppBar, Toolbar, Drawer, Container, Typography, Paper } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Clients from './clients/client';
-import Invoices from './invoices/invoice';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Box } from './utils/mui';
+import Clients from './clients';
+import Invoices from './invoices/';
 import Products from './products/product';
-import NewInvoice from './invoices/newInvoice';
-
+import NewInvoice from './invoices/new';
+import MainHeader from './header';
+import Sidebar from './sidebar';
+import { mediamatch } from "./utils/media.match";
 
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      toggleDrawer: false
+      toggleDrawer: true,
+      breakpoint: '',
+      forcedDrawer: false,
     }
-    this.toggleDrawer = this.toggleDrawer.bind(this)
+    this.toggleDrawer = this.toggleDrawer.bind(this);
   }
   toggleDrawer() {
-    this.setState({ toggleDrawer: !this.state.toggleDrawer });
+    this.setState({ toggleDrawer: !this.state.toggleDrawer, forcedDrawer: !this.state.forcedDrawer });
   };
+  componentDidMount() {
+    window.addEventListener("resize", () => {
+      this.setState({ breakpoint: mediamatch() })
+      if (this.state.breakpoint === ('md' || 'sm') && this.state.forcedDrawer === false) {
+        this.setState({ toggleDrawer: false })
+      }else{
+        this.setState({ toggleDrawer: true })
+      }
+    });
+  }
   render() {
     return (
-      <Paper elevation={0} className="App">
+      <Box className="App">
         <Router>
-          <AppBar position='static'>
-            <Toolbar>
-              <IconButton onClick={this.toggleDrawer}>
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6">
-                GST INVOICE
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <Drawer open={this.state.toggleDrawer} onClose={this.toggleDrawer}>
-            <List component="nav" aria-label="main mailbox folders" style={{ width: 300 }}>
-              <Link onClick={this.toggleDrawer} className="list-group-item" to="/">
-                <ListItem button>
-                  <ListItemText primary="Clients" />
-                </ListItem>
-              </Link>
-              <Link onClick={this.toggleDrawer} className="list-group-item" to="/invoices">
-                <ListItem button>
-                  <ListItemText primary="Invoice" />
-                </ListItem>
-              </Link>
-              <Link onClick={this.toggleDrawer} className="list-group-item" to="/products">
-                <ListItem button>
-                  <ListItemText primary="Products" />
-                </ListItem>
-              </Link>
-            </List>
-          </Drawer>
-          <Container maxWidth="md">
-            <Route exact path="/" component={Clients} />
-            <Route exact path="/invoices" component={Invoices} />
-            <Route exact path="/products" component={Products} />
-            <Route exact path="/invoices/new/:id" component={NewInvoice} />
-          </Container>
+          <MainHeader toggleDrawer={this.toggleDrawer} forcedDrawer={this.forcedDrawer} />
+          <Box display="flex">
+            <div>
+              <Sidebar toggleDrawerState={this.state.toggleDrawer} windowState={this.state.breakpoint} toggleDrawer={this.toggleDrawer} />
+            </div>
+            <div style={{ width: "100%" }}>
+              <Route exact path="/" component={Clients} />
+              <Route exact path="/invoices" component={Invoices} />
+              <Route exact path="/products" component={Products} />
+              <Route exact path="/invoice/new/:id?" component={NewInvoice} />
+            </div>
+          </Box>
         </Router>
-      </Paper>
+      </Box>
     );
   }
 }

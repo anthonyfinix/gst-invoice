@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const Client = require('../modals/clients');
-
 // VIEW ALL
 router.get('/', (req, res) => {
     Client.find({}, (err, clients) => {
         if (err) {
-            res.send(err)
-        } else {
+            res.status(500).send(err)
+        } else if (clients) {
             res.send(clients)
+        } else {
+            res.status(500).send(err)
         };
 
     });
@@ -20,7 +21,7 @@ router.get('/:id', (req, res) => {
         if (err) {
             res.send(err)
         } else if (!client) {
-            res.status(404).send('user not found')
+            res.status(404).send('User not found')
         } else if (client) {
             res.send(client)
         } else {
@@ -33,6 +34,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     let newClient = new Client({
         name: req.body.name,
+        email: req.body.email,
         company: req.body.company,
         address: req.body.address,
         contactNumber: req.body.contactNumber,
@@ -53,8 +55,14 @@ router.put('/:id', (req, res) => {
             if (req.body.name) {
                 oldClient.name = req.body.name;
             }
+            if (req.body.email) {
+                oldClient.email = req.body.email;
+            }
             if (req.body.company) {
                 oldClient.company = req.body.company;
+            }
+            if (req.body.contactNumber) {
+                oldClient.contactNumber = req.body.contactNumber;
             }
             oldClient.save().then(client => res.send(client));
         } else {
@@ -69,7 +77,7 @@ router.delete('/:id', (req, res) => {
         if (err) {
             res.send(err)
         } else if (!client) {
-            res.send(404).send('user not found')
+            res.sendStatus(404).send('user not found')
         } else if (client) {
             client.remove().then(deletedClient => res.send(deletedClient))
         } else {
