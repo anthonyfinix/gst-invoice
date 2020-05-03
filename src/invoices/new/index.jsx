@@ -18,7 +18,9 @@ export default class NewInvoice extends Component {
             total: 0,
             invoiceNo: '',
             created: '',
-            draft: false,
+            dueDate: '',
+            status: 1,
+
         }
         this.addInvoice = this.addInvoice.bind(this);
         this.setProducts = this.setProducts.bind(this);
@@ -35,8 +37,11 @@ export default class NewInvoice extends Component {
             created: this.state.created,
             products: this.state.products,
             draft: this.state.draft,
+            total: this.state.total,
         }
-        console.log(data);
+        addNewInvoice(data)
+        .then((newItem)=>{console.log(newItem)})
+        .then(() => this.setState({ redirect: !this.state.redirect }) );
     }
     setClient() {
         if (this.props.match.params.id != undefined) {

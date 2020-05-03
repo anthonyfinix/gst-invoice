@@ -23,7 +23,7 @@ export default function Actions() {
         return (
             <Toolbar className="main-toolbar">
                 <Typography variant="h5" className="main-title">
-                    Invoices {console.log(redirect)}
+                    Invoices
                 </Typography>
                 <Button
                     style={{ marginLeft: 'auto' }}

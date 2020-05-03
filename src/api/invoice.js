@@ -1,7 +1,6 @@
 export async function addNewInvoice(data) {
-    console.log(data)
     let client = await fetch(
-        'http://localhost:3100/clients/',{
+        'http://localhost:3100/invoices/',{
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
