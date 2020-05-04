@@ -13,6 +13,7 @@ import {
 import './newClient.css'
 
 export default (props) => {
+    
     const [clientDetails, setClientDetails] = useState({
         name: { value: '', error: '' },
         company: { value: '', error: '' },
@@ -54,7 +55,7 @@ export default (props) => {
             contactNumber: { value: '', error: '' },
             address: { value: '', error: '' }
         })
-        props.toggleDialog()
+        props.toggleDialog();
     }
     const checkClientName = (value) => {
         // check  empty
@@ -96,7 +97,10 @@ export default (props) => {
             return ''
         }
     }
-
+    const handleAddNewClient = ()=>{
+        props.addNewItem(clientDetails);
+        props.toggleDialog();
+    }
     return (
         <Dialog open={props.dialogToggle} onClose={props.toggleDialog} className="new-client-dialog">
             <Card>
@@ -179,7 +183,7 @@ export default (props) => {
                 </CardContent>
                 <DialogActions>
                     <Button color="primary" onClick={handleClose}>Close</Button>
-                    <Button color="primary" variant="contained" onClick={props.addNewItem}>Add</Button>
+                    <Button color="primary" variant="contained" onClick={handleAddNewClient}>Add</Button>
                 </DialogActions>
             </Card>
         </Dialog>

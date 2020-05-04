@@ -12,7 +12,7 @@ class Clients extends React.Component {
         super(props);
         this.state = {
             Items: [],
-            newItem: {
+            singleClient: {
                 name: '',
                 email: '',
                 company: '',
@@ -29,8 +29,18 @@ class Clients extends React.Component {
         this.getSingleItem = this.getSingleItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
         this.addNewItem = this.addNewItem.bind(this);
-        this.newItemValueChange = this.newItemValueChange.bind(this);
         this.toggleDialog = this.toggleDialog.bind(this);
+        this.getDialogue = this.getDialogue.bind(this);
+    }
+    getDialogue(){
+        if(this.state.dialogToggle){
+            return <NewClient
+            dialogToggle={this.state.dialogToggle}
+            toggleDialog={this.toggleDialog}
+            newItem={this.state.newItem}
+            addNewItem={this.addNewItem}
+        />
+        }
     }
     linktoNewInvoice(data) {
         this.setState({ newInvoiceId: data._id });
@@ -38,7 +48,7 @@ class Clients extends React.Component {
     getSingleItem(data) {
         getSingleClient(data._id)
             .then(singleItem => this.setState({
-                newItem: {
+                singleClient: {
                     _id: singleItem[0]._id,
                     name: singleItem[0].name,
                     email: singleItem[0].email,
@@ -55,31 +65,17 @@ class Clients extends React.Component {
             .then(() => getAllClients())
             .then(Items => this.setState({ Items: Items }));
     }
-    addNewItem() {
-        if (this.state.newItem._id) {
-            updateClient(this.state.newItem)
-                .then(() => getAllClients())
-                .then(Items => this.setState({ Items: Items }))
-                .then(this.toggleDialog);
-        } else {
-            addNewClient(this.state.newItem)
-                .then(()=>getAllClients())
-                .then(Items => this.setState({ Items: Items }))
-                .then(this.toggleDialog);
-        }
-    }
-    newItemValueChange(e) {
-        let newItem = { ...this.state.newItem }
-        newItem[e.currentTarget.getAttribute('name')] = e.target.value;
-        this.setState({ newItem: newItem });
+    addNewItem(clientDetails) {
+        let client = {};
+        Object.keys(clientDetails).map(item => {
+            client[item] = clientDetails[item].value;
+        })
+        addNewClient(client)
+        .then(()=>getAllClients())
+        .then((Items)=>this.setState({Items:Items}))
     }
     toggleDialog() {
-        this.setState({
-            dialogToggle: !this.state.dialogToggle,
-            newItem: {
-                _id: '', name: '', email: '', company: '', address: '', contactNumber: '',
-            }
-        })
+        this.setState({dialogToggle: !this.state.dialogToggle,})
     }
     render() {
         if (this.state.newInvoiceId != null) {
@@ -94,13 +90,7 @@ class Clients extends React.Component {
                         getSingleItem={this.getSingleItem}
                         deleteItem={this.deleteItem}
                     />
-                    <NewClient
-                        dialogToggle={this.state.dialogToggle}
-                        toggleDialog={this.toggleDialog}
-                        newItem={this.state.newItem}
-                        newItemValueChange={this.newItemValueChange}
-                        addNewItem={this.addNewItem}
-                    />
+                    {this.getDialogue()}
                 </Container>
             )
         }
