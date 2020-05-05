@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-import {
-    TableContainer,
-    Table,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableCell,
-    Paper,
-    IconButton,
-    Menu,
-    MenuItem,
-    MoreVertIcon
-} from '../../utils/mui';
-
+import TableContainer from '@material-ui/core/TableContainer';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 export default class ClientsTable extends Component {
     constructor(props) {
@@ -39,7 +36,9 @@ export default class ClientsTable extends Component {
         this.setState({selectedElement: null});
     }
     handleEditClient(client){
-        this.props.getSingleItem(client);
+        this.props.getSingleItem(client).then(()=>{
+            this.props.handleEditClientBtnClick();
+        });
         this.handleMenuClose();
     }
     handleDeleteClient(client){

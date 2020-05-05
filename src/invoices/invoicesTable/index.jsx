@@ -1,18 +1,12 @@
 import React from 'react';
-import {
-    TableContainer,
-    Table,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableCell,
-    Paper,
-    IconButton,
-    Menu,
-    MenuItem,
-    MoreVertIcon,
-    Chip
-} from '../../utils/mui';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import Paper from '@material-ui/core/Paper';
+import TableContainer from '@material-ui/core/TableContainer';
+import Chip from '@material-ui/core/Chip';
 
 const getStatus = (status) => {
     switch (status) {
@@ -22,6 +16,8 @@ const getStatus = (status) => {
             return <Chip label="Paid" />
         case 2:
             return <Chip label="Draft" />
+        default:
+            break;
     }
 }
 

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import './actions.css';
-import {
-    Typography, Toolbar, Button, Icon
-} from '../../utils/mui'
+import Typography from '@material-ui/core/Typography';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
 
 export default function Actions() {
 

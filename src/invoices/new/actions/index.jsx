@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-    Toolbar,
-    Button,
-    Typography
-} from '../../../utils/mui'
-
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 export default function Actions(props) {
     return (

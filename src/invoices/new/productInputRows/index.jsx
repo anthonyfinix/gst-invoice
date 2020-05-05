@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Button, IconButton, DeleteIcon } from '../../../utils/mui';
+import React, { useState } from 'react';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import './productInputRows.css';
 
 export default function ProductInputRows(props) {
@@ -23,7 +26,7 @@ export default function ProductInputRows(props) {
     }
     const getUpdatedValues = (elName, elVal, i) => {
         return rows.map((row, index) => {
-            if (index == i) {
+            if (index === i) {
                 row[elName] = elVal;
                 if (checkNum(row.price)) {
                     row.total = (checkNum(row.quantity) ? parseFloat(row.quantity) : 1) * ((checkNum(row.tax) ? parseFloat(row.price) * parseFloat(row.tax) / 100 : 0) + parseFloat(row.price)) / (checkNum(row.discount) ? parseFloat(row.discount) : 1)
@@ -36,7 +39,7 @@ export default function ProductInputRows(props) {
         })
     }
     const checkNum = (val) => {
-        return parseInt(val) != NaN && parseInt(val) > 0 ? true : false;
+        return isNaN(parseInt(val)) && parseInt(val) > 0 ? true : false;
     }
     const handleAddRow = () => {
         setRows(() => [...rows, { name: '', quantity: '', price: '', tax: '', discount: '', total: '' }])
@@ -44,7 +47,7 @@ export default function ProductInputRows(props) {
     const handleRemoveRow = (rowIndex)=>{
         let updatedRow = [];
         rows.forEach((row,i)=>{
-            if(i != rowIndex){
+            if(i !== rowIndex){
                 updatedRow.push(row)
             }
         })
@@ -56,11 +59,11 @@ export default function ProductInputRows(props) {
                 <tr key={i}>
                     <td>{i + 1}</td>
                     <td className="p-0"><input autoComplete="off" value={row.name} name="name" onChange={(e) => { handleInputChange(e, i) }} type="text" /></td>
-                    <td className="p-0"><input autoComplete="off" type="number" value={row.quantity} name="quantity" onChange={(e) => { handleInputChange(e, i) }} type="number" /></td>
-                    <td className="p-0"><input autoComplete="off" type="number" value={row.price} name="price" onChange={(e) => { handleInputChange(e, i) }} type="number" /></td>
-                    <td className="p-0"><input autoComplete="off" type="number" value={row.tax} name="tax" onChange={(e) => { handleInputChange(e, i) }} type="number" /></td>
-                    <td className="p-0"><input autoComplete="off" type="number" value={row.discount} name="discount" onChange={(e) => { handleInputChange(e, i) }} type="number" /></td>
-                    <td className="p-0"><input autoComplete="off" disabled={true} type="number" value={row.total} name="total" onChange={(e) => { handleInputChange(e, i) }} type="number" /></td>
+                    <td className="p-0"><input autoComplete="off" type="number" value={row.quantity} name="quantity" onChange={(e) => { handleInputChange(e, i) }} /></td>
+                    <td className="p-0"><input autoComplete="off" type="number" value={row.price} name="price" onChange={(e) => { handleInputChange(e, i) }} /></td>
+                    <td className="p-0"><input autoComplete="off" type="number" value={row.tax} name="tax" onChange={(e) => { handleInputChange(e, i) }} /></td>
+                    <td className="p-0"><input autoComplete="off" type="number" value={row.discount} name="discount" onChange={(e) => { handleInputChange(e, i) }} /></td>
+                    <td className="p-0"><input autoComplete="off" disabled={true} type="number" value={row.total} name="total" onChange={(e) => { handleInputChange(e, i) }} /></td>
                     <td className="p-0">
                         <IconButton onClick={()=>handleRemoveRow(i)}>
                             <DeleteIcon />

@@ -2,7 +2,7 @@ import './App.css';
 import 'typeface-roboto';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Box } from './utils/mui';
+import Box from '@material-ui/core/Box';
 import Clients from './clients';
 import Invoices from './invoices/';
 import Products from './products/product';

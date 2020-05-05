@@ -1,8 +1,9 @@
 import React from 'react';
-import { Container } from '../utils/mui';
-import { Route, Redirect } from 'react-router-dom';
+import Container from '@material-ui/core/Container'
+import { Route} from 'react-router-dom';
 import ClientsTable from "./clientsTable";
-import NewClient from './newClient';
+import NewClientDialog from './newClientDialog';
+import EditClientDialog from "./editClientDialog";
 import NewInvoice from '../invoices/new';
 import Actions from './actions';
 import { getAllClients, getSingleClient, deleteSingleClient, addNewClient, updateClient } from "../api";
@@ -12,43 +13,44 @@ class Clients extends React.Component {
         super(props);
         this.state = {
             Items: [],
-            singleClient: {
-                name: '',
-                email: '',
-                company: '',
-                address: '',
-                contactNumber: '',
-            },
-            newInvoiceId: null,
             dialogToggle: false,
+            addClientFlag: false,
+            editClientFlag: false,
         }
         getAllClients().then(clients => {
             this.setState({ Items: clients })
         })
-        this.linktoNewInvoice = this.linktoNewInvoice.bind(this);
         this.getSingleItem = this.getSingleItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
-        this.addNewItem = this.addNewItem.bind(this);
-        this.toggleDialog = this.toggleDialog.bind(this);
-        this.getDialogue = this.getDialogue.bind(this);
+        this.handleAddNewClient = this.handleAddNewClient.bind(this);
+        this.AddNewClientDialogClose = this.AddNewClientDialogClose.bind(this);
+        this.handleClientUpdate = this.handleClientUpdate.bind(this);
+        this.EditClientDialogClose = this.EditClientDialogClose.bind(this);
+        this.getDialog = this.getDialog.bind(this);
+        this.handleAddNewBtnClick = this.handleAddNewBtnClick.bind(this);
+        this.handleEditClientBtnClick = this.handleEditClientBtnClick.bind(this);
     }
-    getDialogue(){
-        if(this.state.dialogToggle){
-            return <NewClient
-            dialogToggle={this.state.dialogToggle}
-            toggleDialog={this.toggleDialog}
-            newItem={this.state.newItem}
-            addNewItem={this.addNewItem}
-        />
+    getDialog() {
+        if (this.state.dialogToggle === true && this.state.addClientFlag === true) {
+            return <NewClientDialog
+                dialogToggle={this.state.dialogToggle}
+                AddNewClientDialogClose={this.AddNewClientDialogClose}
+                handleAddNewClient = {this.handleAddNewClient}
+            />
+        }
+        if (this.state.dialogToggle === true && this.state.editClientFlag === true) {
+            return <EditClientDialog
+                handleClientUpdate = {this.handleClientUpdate}
+                dialogToggle={this.state.dialogToggle}
+                EditClientDialogClose={this.EditClientDialogClose}
+                client={this.state.editClient}
+            />
         }
     }
-    linktoNewInvoice(data) {
-        this.setState({ newInvoiceId: data._id });
-    }
     getSingleItem(data) {
-        getSingleClient(data._id)
+        return getSingleClient(data._id)
             .then(singleItem => this.setState({
-                singleClient: {
+                editClient: {
                     _id: singleItem[0]._id,
                     name: singleItem[0].name,
                     email: singleItem[0].email,
@@ -57,7 +59,18 @@ class Clients extends React.Component {
                     contactNumber: singleItem[0].contactNumber,
                 }
             }))
-            .then(this.toggleDialog())
+    }
+    handleAddNewBtnClick() {
+        this.setState({ addClientFlag: true, dialogToggle: true, });
+    }
+    handleEditClientBtnClick() {
+        this.setState({ editClientFlag: true, dialogToggle: true, });
+    }
+    AddNewClientDialogClose() {
+        this.setState({ dialogToggle: false, addClientFlag: false })
+    }
+    EditClientDialogClose() {
+        this.setState({ dialogToggle: false, editClientFlag: false })
     }
     deleteItem({ _id }) {
         deleteSingleClient(_id)
@@ -65,35 +78,38 @@ class Clients extends React.Component {
             .then(() => getAllClients())
             .then(Items => this.setState({ Items: Items }));
     }
-    addNewItem(clientDetails) {
+    handleAddNewClient(clientDetails) {
         let client = {};
-        Object.keys(clientDetails).map(item => {
+        Object.keys(clientDetails).forEach(item => {
             client[item] = clientDetails[item].value;
         })
-        addNewClient(client)
-        .then(()=>getAllClients())
-        .then((Items)=>this.setState({Items:Items}))
+        return addNewClient(client)
+            .then(() => getAllClients())
+            .then((Items) => this.setState({ Items: Items }))
     }
-    toggleDialog() {
-        this.setState({dialogToggle: !this.state.dialogToggle,})
+    handleClientUpdate(updatedClient) {
+        let client = {};
+        Object.keys(updatedClient).forEach(item => {
+            client[item] = updatedClient[item].value;
+        })
+        return updateClient(client)
+            .then(() => getAllClients())
+            .then((Items) => this.setState({ Items: Items }))
     }
     render() {
-        if (this.state.newInvoiceId != null) {
-            return <Redirect to={`/invoices/new/${this.state.newInvoiceId}`} />
-        } else {
-            return (
-                <Container>
-                    <Actions addNewItem={this.toggleDialog} />
-                    <Route exact path='/invoice/new' component={NewInvoice} />
-                    <ClientsTable
-                        clients={this.state.Items}
-                        getSingleItem={this.getSingleItem}
-                        deleteItem={this.deleteItem}
-                    />
-                    {this.getDialogue()}
-                </Container>
-            )
-        }
+        return (
+            <Container>
+                <Actions handleAddNewBtnClick={this.handleAddNewBtnClick} />
+                <Route exact path='/invoice/new' component={NewInvoice} />
+                <ClientsTable
+                    clients={this.state.Items}
+                    handleEditClientBtnClick={this.handleEditClientBtnClick}
+                    getSingleItem={this.getSingleItem}
+                    deleteItem={this.deleteItem}
+                />
+                {this.getDialog()}
+            </Container>
+        )
     }
 }
 

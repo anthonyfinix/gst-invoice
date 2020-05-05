@@ -1,6 +1,9 @@
 import React from 'react';
-import './actions.css'
-import { Button, Icon, Toolbar, Typography } from '../../utils/mui';
+import './actions.css';
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Icon from '@material-ui/core/Icon';
 
 export default function Actions(props) {
     return (
@@ -14,7 +17,7 @@ export default function Actions(props) {
                 color="primary"
                 endIcon={<Icon>add</Icon>}
                 size="small"
-                onClick={props.addNewItem}
+                onClick={props.handleAddNewBtnClick}
             >
                 Add new
             </Button>

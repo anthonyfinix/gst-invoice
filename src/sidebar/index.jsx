@@ -1,15 +1,13 @@
 import React from 'react';
-import {
-    Box,
-    List,
-    ListItem,
-    ListItemText,
-    ListItemIcon,
-    BusinessIcon,
-    ReceiptIcon,
-    StoreIcon,
-    Drawer
-} from '../utils/mui';
+import Box from '@material-ui/core/Box';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Drawer from '@material-ui/core/Drawer';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import BusinessIcon from '@material-ui/icons/Business';
+import ReceiptIcon from '@material-ui/icons/Receipt';
+import StoreIcon from '@material-ui/icons/Store';
 import { Link } from 'react-router-dom';
 import './sidebar.css';
 

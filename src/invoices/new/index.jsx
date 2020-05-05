@@ -44,7 +44,7 @@ export default class NewInvoice extends Component {
         .then(() => this.setState({ redirect: !this.state.redirect }) );
     }
     setClient() {
-        if (this.props.match.params.id != undefined) {
+        if (this.props.match.params.id !== undefined) {
             this.setState({ client: { name: this.props.match.params.id,id: this.state.client.id } })
         }
     }

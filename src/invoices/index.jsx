@@ -1,5 +1,9 @@
 import React from 'react';
-import { DeleteIcon, ListItemText, ListItem, List, Typography, IconButton, Container } from '../utils/mui';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import IconButton from '@material-ui/core/IconButton';
+import Container from '@material-ui/core/Container';
 import Actions from './actions';
 import InvoicesTable from './invoicesTable';
 

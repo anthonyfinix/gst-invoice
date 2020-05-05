@@ -1,5 +1,6 @@
 import React from 'react';
-import { IconButton, Paper } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import Paper  from '@material-ui/core/Paper';
 import AddIcon from '@material-ui/icons/Add';
 import MaterialTable from "material-table";
 

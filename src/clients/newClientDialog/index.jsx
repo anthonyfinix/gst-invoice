@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import {
-    Dialog,
-    DialogTitle,
-    Card,
-    CardContent,
-    TextField,
-    DialogActions,
-    Button,
-    Box,
-    Typography
-} from '../../utils/mui';
-import './newClient.css'
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import TextField from '@material-ui/core/TextField';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import './newClientDialog.css'
 
 export default (props) => {
     
@@ -42,6 +40,8 @@ export default (props) => {
             case 'address':
                 client[name].error = checkAddress(value)
                 break;
+            default:
+                break;
         }
         client[name].value = value;
         setClientDetails({ ...client });
@@ -55,7 +55,7 @@ export default (props) => {
             contactNumber: { value: '', error: '' },
             address: { value: '', error: '' }
         })
-        props.toggleDialog();
+        props.AddNewClientDialogClose();
     }
     const checkClientName = (value) => {
         // check  empty
@@ -98,11 +98,11 @@ export default (props) => {
         }
     }
     const handleAddNewClient = ()=>{
-        props.addNewItem(clientDetails);
-        props.toggleDialog();
+        props.handleAddNewClient(clientDetails)
+        .then(()=>props.AddNewClientDialogClose())
     }
     return (
-        <Dialog open={props.dialogToggle} onClose={props.toggleDialog} className="new-client-dialog">
+        <Dialog open={props.dialogToggle} onClose={handleClose} className="new-client-dialog">
             <Card>
                 <DialogTitle className="pb-0">New Client</DialogTitle>
                 <Typography variant="caption" gutterBottom className="px-4">
