@@ -1,5 +1,5 @@
 import React from 'react';
-import Container from '@material-ui/core/Container'
+import Box from '@material-ui/core/Box'
 import { Route} from 'react-router-dom';
 import ClientsTable from "./clientsTable";
 import NewClientDialog from './newClientDialog';
@@ -98,7 +98,7 @@ class Clients extends React.Component {
     }
     render() {
         return (
-            <Container>
+            <Box px={2}>
                 <Actions handleAddNewBtnClick={this.handleAddNewBtnClick} />
                 <Route exact path='/invoice/new' component={NewInvoice} />
                 <ClientsTable
@@ -108,7 +108,7 @@ class Clients extends React.Component {
                     deleteItem={this.deleteItem}
                 />
                 {this.getDialog()}
-            </Container>
+            </Box>
         )
     }
 }

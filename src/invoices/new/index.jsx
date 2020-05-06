@@ -12,26 +12,31 @@ export default class NewInvoice extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            client: { name: 'Client Not Selected', _id: 2,company: 'Company not selected', address :'Address not available', contactNumber:'Contacts not available' },
+            client: { name: '', _id: 2, company: '', address: '', contactNumber: '' },
             redirect: false,
             products: [],
             total: 0,
             invoiceNo: '',
-            created: '',
-            dueDate: '',
-            status: 2,
+            created: new Date(),
+            dueDate: new Date().setMonth(new Date().getMonth() + 1),
+            status: 4,
+            invoiceState: { state: false, error: '' }
         }
         this.addInvoice = this.addInvoice.bind(this);
         this.setProducts = this.setProducts.bind(this);
         this.setInvoiceNo = this.setInvoiceNo.bind(this);
-        this.setInvoiceCreatedDate = this.setInvoiceCreatedDate.bind(this);
-        this.getTodayDate = this.getTodayDate.bind(this);
         this.setClient = this.setClient.bind(this);
         this.saveInvoice = this.saveInvoice.bind(this);
         this.getSelectedClient = this.getSelectedClient.bind(this);
+        this.handleDueDate = this.handleDueDate.bind(this);
+        this.handleCreationDate = this.handleCreationDate.bind(this);
     }
-    getSelectedClient(client){
-        this.setState({client: client})
+    componentDidMount() {
+        this.setInvoiceNo();
+        this.setClient();
+    }
+    getSelectedClient(client) {
+        this.setState({ client: client, invoiceState: { state: true,error:'' } })
     }
     saveInvoice() {
         let data = {
@@ -44,18 +49,21 @@ export default class NewInvoice extends Component {
             status: this.state.status
         }
         addNewInvoice(data)
-        .then((newItem)=>{console.log(newItem)})
-        .then(() => this.setState({ redirect: !this.state.redirect }) );
+            .then((newItem) => { console.log(newItem) })
+            .then(() => this.setState({ redirect: !this.state.redirect }));
     }
     setClient() {
         if (this.props.match.params.id !== undefined) {
-            this.setState({ client: { name: this.props.match.params.id,id: this.state.client.id } })
+            this.setState({ client: { name: this.props.match.params.id, id: this.state.client.id } })
         }
     }
-    componentDidMount() {
-        this.setInvoiceNo();
-        this.setInvoiceCreatedDate();
-        this.setClient();
+    handleCreationDate(date) {
+        this.setState({ created: new Date(date) });
+        // console.log(date)
+    }
+    handleDueDate(date) {
+        this.setState({ dueDate: new Date(date) });
+        // console.log(date)
     }
     setProducts(data) {
         this.setState({ products: data.products, total: data.total });
@@ -66,26 +74,25 @@ export default class NewInvoice extends Component {
     setInvoiceNo() {
         this.setState({ invoiceNo: uuidv4(6) });
     }
-    setInvoiceCreatedDate() {
-        this.setState({ created: this.getTodayDate() });
-    }
-    getTodayDate() {
-        let dd = new Date().getDate();
-        let mm = new Date().getMonth();
-        let yyyy = new Date().getFullYear();
-        let today = `${dd}/${mm}/${yyyy}`
-        return today
-    }
     render() {
         if (this.state.redirect) {
             return <Redirect to="/invoices" />
         } else {
             return (
                 <Container className="py-2">
-                    <Actions saveInvoice={this.saveInvoice} />
+                    <Actions
+                        saveInvoice={this.saveInvoice}
+                        invoiceState={this.state.invoiceState}
+                    />
                     <Box className="mt-5" display="flex" justifyContent="space-between">
                         <ClientDetails getSelectedClient={this.getSelectedClient} client={this.state.client} />
-                        <InvoiceSummery invoiceNo={this.state.invoiceNo} created={this.state.created} />
+                        <InvoiceSummery
+                            created={this.state.created}
+                            dueDate={this.state.dueDate}
+                            handleCreationDate={this.handleCreationDate}
+                            handleDueDate={this.handleDueDate}
+                            invoiceNo={this.state.invoiceNo}
+                            created={this.state.created} />
                     </Box>
                     <Box className="mt-3" >
                         <Typography variant="h6">Products</Typography>

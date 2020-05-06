@@ -7,7 +7,7 @@ import Icon from '@material-ui/core/Icon';
 
 export default function Actions(props) {
     return (
-        <Toolbar className="actionToolbar">
+        <Toolbar className="actionToolbar px-0">
             <Typography variant="h5" className="main-title">
                 Clients
             </Typography>

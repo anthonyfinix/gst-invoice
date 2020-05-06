@@ -10,7 +10,7 @@ export default function Actions(props) {
                 Create New Invoice
         </Typography>
             <Button  className="ml-auto" variant="contained" size="small">Cancel</Button>
-            <Button className="ml-2" variant="contained" color="primary" size="small" onClick={props.saveInvoice}>Save Draft</Button>
+            <Button className="ml-2" disabled={!props.invoiceState.state} variant="contained" color="primary" size="small" onClick={props.saveInvoice}>Save Draft</Button>
             <Button className="ml-2" variant="contained" color="primary" size="small">Send</Button>
         </Toolbar>
 

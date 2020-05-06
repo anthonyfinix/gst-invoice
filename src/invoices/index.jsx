@@ -3,7 +3,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
-import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
 import Actions from './actions';
 import InvoicesTable from './invoicesTable';
 
@@ -77,10 +77,10 @@ class invoices extends React.Component {
     }
     render() {
         return (
-            <Container className="py-3">
+            <Box px={1}>
                 <Actions/>
                 <InvoicesTable invoices={this.state.Items}/>
-            </Container>
+            </Box>
         )
     }
 }
