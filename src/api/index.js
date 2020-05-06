@@ -3,7 +3,8 @@ export {
     getSingleClient,
     deleteSingleClient,
     addNewClient,
-    updateClient
+    updateClient,
+    partialSearchClientName
 } from "./client";
 export {
     addNewInvoice,

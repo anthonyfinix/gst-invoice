@@ -85,9 +85,10 @@ router.delete('/:id', (req, res) => {
         }
     });
 });
-// SEARCH WITH NAME
+
+// Partial Search
 router.get('/search/:name', (req, res) => {
-    Client.find({ name: { $regex: req.params.name } }, (err, client) => {
+    Client.find({ name: { $regex: new RegExp(`^${req.params.name}`,'i') } }, (err, client) => {
         if (err) {
             res.send(err)
         } else if (!client) {

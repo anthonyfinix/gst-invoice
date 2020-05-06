@@ -50,3 +50,8 @@ export async function updateClient(data) {
     .then(res => res.json())
     return client;
 }
+export async function partialSearchClientName(searchTerm) {
+    let client = await fetch('http://localhost:3100/clients/search/'+searchTerm,)
+    .then(res => res.json())
+    return client;
+}

@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(cors())
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/gstinvoice', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://127.0.0.1:27017/gstinvoice', {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log('connected to database'))
     .catch((err) => console.error(err));
     

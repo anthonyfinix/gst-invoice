@@ -12,7 +12,7 @@ export default class NewInvoice extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            client: { name: 'anthony', id: 2 },
+            client: { name: 'Client Not Selected', _id: 2,company: 'Company not selected', address :'Address not available', contactNumber:'Contacts not available' },
             redirect: false,
             products: [],
             total: 0,
@@ -28,6 +28,10 @@ export default class NewInvoice extends Component {
         this.getTodayDate = this.getTodayDate.bind(this);
         this.setClient = this.setClient.bind(this);
         this.saveInvoice = this.saveInvoice.bind(this);
+        this.getSelectedClient = this.getSelectedClient.bind(this);
+    }
+    getSelectedClient(client){
+        this.setState({client: client})
     }
     saveInvoice() {
         let data = {
@@ -80,7 +84,7 @@ export default class NewInvoice extends Component {
                 <Container className="py-2">
                     <Actions saveInvoice={this.saveInvoice} />
                     <Box className="mt-5" display="flex" justifyContent="space-between">
-                        <ClientDetails client={this.state.client} />
+                        <ClientDetails getSelectedClient={this.getSelectedClient} client={this.state.client} />
                         <InvoiceSummery invoiceNo={this.state.invoiceNo} created={this.state.created} />
                     </Box>
                     <Box className="mt-3" >

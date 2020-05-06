@@ -29,7 +29,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "nodemon server.js",
+    "server": "nodemon server.js",
     "mongoShell": "cd C:\\Program Files\\MongoDB\\Server\\4.2\bin\\mongo"
   },
   "eslintConfig": {
