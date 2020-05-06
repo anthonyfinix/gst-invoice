@@ -39,7 +39,7 @@ export default function ProductInputRows(props) {
         })
     }
     const checkNum = (val) => {
-        return isNaN(parseInt(val)) && parseInt(val) > 0 ? true : false;
+        return parseInt(val) !== NaN && parseInt(val) > 0 ? true : false;
     }
     const handleAddRow = () => {
         setRows(() => [...rows, { name: '', quantity: '', price: '', tax: '', discount: '', total: '' }])

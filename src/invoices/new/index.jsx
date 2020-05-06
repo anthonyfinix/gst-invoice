@@ -19,7 +19,7 @@ export default class NewInvoice extends Component {
             invoiceNo: '',
             created: '',
             dueDate: '',
-            status: 2,
+            status: 4,
         }
         this.addInvoice = this.addInvoice.bind(this);
         this.setProducts = this.setProducts.bind(this);

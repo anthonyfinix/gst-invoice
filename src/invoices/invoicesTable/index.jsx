@@ -15,6 +15,10 @@ const getStatus = (status) => {
         case 1:
             return <Chip label="Paid" />
         case 2:
+            return <Chip label="Send" />
+        case 3:
+            return <Chip label="Viewed" />
+        case 4:
             return <Chip label="Draft" />
         default:
             break;
