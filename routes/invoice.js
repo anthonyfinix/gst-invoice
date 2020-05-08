@@ -34,6 +34,7 @@ router.post('/', (req, res) => {
         },
         products: req.body.products,
         created: req.body.created,
+        dueDate: req.body.dueDate,
         status: req.body.status,
         total: req.body.total,
 

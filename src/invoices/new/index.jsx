@@ -44,6 +44,7 @@ export default class NewInvoice extends Component {
             invoiceNo: this.state.invoiceNo,
             client: this.state.client,
             created: this.state.created,
+            dueDate: this.state.dueDate,
             products: this.state.products,
             draft: this.state.draft,
             total: this.state.total,

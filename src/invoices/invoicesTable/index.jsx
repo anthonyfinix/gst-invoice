@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import Paper from '@material-ui/core/Paper';
 import TableContainer from '@material-ui/core/TableContainer';
 import Chip from '@material-ui/core/Chip';
+import invoiceTable from './invoiceTable.css'
 
 const getStatus = (status) => {
     switch (status) {
@@ -15,6 +16,10 @@ const getStatus = (status) => {
         case 1:
             return <Chip label="Paid" />
         case 2:
+            return <Chip label="Viewed" />
+        case 3:
+            return <Chip label="Sent" />
+        case 4:
             return <Chip label="Draft" />
         default:
             break;
@@ -35,7 +40,7 @@ const getRows = (props) => {
                     {new Date(invoice.created).toLocaleDateString()}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    Due Date
+                    {new Date(invoice.dueDate).toLocaleDateString()}
                 </TableCell>
                 <TableCell component="th" scope="row">
                     {invoice.total}
@@ -48,8 +53,8 @@ const getRows = (props) => {
 export default function InvoicesTable(props) {
     return (
         <React.Fragment>
-            <TableContainer component={Paper} elevation={0}>
-                <Table aria-label="simple table">
+            <TableContainer className="table-container" component={Paper} elevation={0}>
+                <Table stickyHeader aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell>Status</TableCell>
