@@ -13,7 +13,7 @@ export default (props) => {
     const [clients, setClients] = useState([]);
     const handleSearchTermValueChange = (e) => {
         let value = e.target.value;
-        if (value === '') {
+        if (/[^A-Za-z0-9]/.test(value) || value === '') {
             getAllClients().then((clients) => setClients(clients))
         } else {
             partialSearchClientName(value).then((clients) => setClients(clients))

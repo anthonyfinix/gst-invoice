@@ -7,6 +7,7 @@ export async function addNewInvoice(data) {
                 invoiceNo: data.invoiceNo,
                 client: data.client,
                 created: data.created,
+                dueDate: data.dueDate,
                 products: data.products,
                 status: data.status,
                 total: data.total,
