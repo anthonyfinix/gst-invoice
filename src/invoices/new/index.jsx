@@ -3,7 +3,8 @@ import Actions from './actions';
 import ClientDetails from './clientDetails';
 import InvoiceSummery from './invoiceSummery';
 import ProductInputRows from './productInputRows';
-import { Box, Container, Typography } from '../../utils/mui';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import { addNewInvoice } from '../../api'
 import { Redirect } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -79,26 +80,25 @@ export default class NewInvoice extends Component {
             return <Redirect to="/invoices" />
         } else {
             return (
-                <Container className="py-2">
+                <Box px={2}>
                     <Actions
                         saveInvoice={this.saveInvoice}
                         invoiceState={this.state.invoiceState}
                     />
-                    <Box className="mt-5" display="flex" justifyContent="space-between">
+                    <Box mt={1} display="flex" justifyContent="space-between">
                         <ClientDetails getSelectedClient={this.getSelectedClient} client={this.state.client} />
                         <InvoiceSummery
                             created={this.state.created}
                             dueDate={this.state.dueDate}
                             handleCreationDate={this.handleCreationDate}
                             handleDueDate={this.handleDueDate}
-                            invoiceNo={this.state.invoiceNo}
-                            created={this.state.created} />
+                            invoiceNo={this.state.invoiceNo} />
                     </Box>
                     <Box className="mt-3" >
                         <Typography variant="h6">Products</Typography>
                         <ProductInputRows setProducts={this.setProducts} />
                     </Box>
-                </Container>
+                </Box>
             )
         }
     }

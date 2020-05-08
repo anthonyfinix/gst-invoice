@@ -39,15 +39,19 @@ export default function ProductInputRows(props) {
         })
     }
     const checkNum = (val) => {
-        return isNaN(parseInt(val)) && parseInt(val) > 0 ? true : false;
+        if (!isNaN(parseInt(val)) && parseInt(val) > 0) {
+            return true;
+        } else {
+            return false
+        }
     }
     const handleAddRow = () => {
         setRows(() => [...rows, { name: '', quantity: '', price: '', tax: '', discount: '', total: '' }])
     }
-    const handleRemoveRow = (rowIndex)=>{
+    const handleRemoveRow = (rowIndex) => {
         let updatedRow = [];
-        rows.forEach((row,i)=>{
-            if(i !== rowIndex){
+        rows.forEach((row, i) => {
+            if (i !== rowIndex) {
                 updatedRow.push(row)
             }
         })
@@ -65,7 +69,7 @@ export default function ProductInputRows(props) {
                     <td className="p-0"><input autoComplete="off" type="number" value={row.discount} name="discount" onChange={(e) => { handleInputChange(e, i) }} /></td>
                     <td className="p-0"><input autoComplete="off" disabled={true} type="number" value={row.total} name="total" onChange={(e) => { handleInputChange(e, i) }} /></td>
                     <td className="p-0">
-                        <IconButton onClick={()=>handleRemoveRow(i)}>
+                        <IconButton onClick={() => handleRemoveRow(i)}>
                             <DeleteIcon />
                         </IconButton>
                     </td>
