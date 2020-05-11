@@ -64,7 +64,7 @@ router.delete('/:id', (req, res) => {
 
 // SEARCH WITH NAME
 router.get('/search/:name', (req, res) => {
-    Product.find({ name: { $regex: req.params.name.toString() } }, (err, product) => {
+    Product.find({ name: { $regex: new RegExp(`^${req.params.name}`,'i') } }, (err, product) => {
         if (err) {
             res.send(err)
         } else if (!product) {

@@ -7,7 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import Paper from '@material-ui/core/Paper';
 import TableContainer from '@material-ui/core/TableContainer';
 import Chip from '@material-ui/core/Chip';
-import invoiceTable from './invoiceTable.css'
+import './invoiceTable.css'
 
 const getStatus = (status) => {
     switch (status) {

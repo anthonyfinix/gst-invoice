@@ -9,3 +9,7 @@ export {
 export {
     addNewInvoice,
 } from "./invoice";
+export {
+    getAllProducts,
+    partialSearchProducttName,
+} from "./products";
