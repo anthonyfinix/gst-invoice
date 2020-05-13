@@ -1,7 +1,9 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import Paper  from '@material-ui/core/Paper';
+import Paper from '@material-ui/core/Paper';
 import AddIcon from '@material-ui/icons/Add';
+import ProductTable from './productTable';
+import { deleteProduct } from '../api';
 import MaterialTable from "material-table";
 
 import NewProduct from './newProductDialog';
@@ -24,7 +26,7 @@ class Products extends React.Component {
         this.addNewItem = this.addNewItem.bind(this);
         this.newItemValueChange = this.newItemValueChange.bind(this);
         this.toggleDialog = this.toggleDialog.bind(this);
-        this.getSingleItem = this.getSingleItem.bind(this);
+        this.editClient = this.editClient.bind(this);
         this.fetchItems().then(Items => this.setState({ Items: Items }));
     }
     columns = [
@@ -32,31 +34,21 @@ class Products extends React.Component {
         { title: 'Price', field: 'price' },
         { title: 'Description', field: 'description' }
     ];
-    getSingleItem(data) {
-        (async (id) => {
-            let response = await fetch('http://localhost:3100/products/' + id, { method: 'GET' })
-                .then(res => res.json());
-            return response;
-        })(data._id)
-            .then(singleItem => this.setState({
+    editClient({_id,name,price,sku,taxRate,description}) {
+            this.setState({
                 newItem: {
-                    _id: singleItem[0]._id,
-                    name: singleItem[0].name,
-                    price: singleItem[0].price,
-                    sku: singleItem[0].sku,
-                    taxRate: singleItem[0].taxRate,
-                    description: singleItem[0].description,
+                    _id:_id,
+                    name:name,
+                    price:price,
+                    sku:sku,
+                    taxRate:taxRate,
+                    description:description,
                 }
-            }))
-            .then(this.toggleDialog())
+            })
+            this.toggleDialog()
     }
-    deleteItem(data) {
-        (async (id) => {
-            let response = await fetch('http://localhost:3100/products/' + id, { method: 'DELETE' })
-                .then(res => res.json());
-            return response;
-        })(data._id)
-            .then(deletedItem => console.log(deletedItem))
+    deleteItem(id) {
+        deleteProduct(id)
             .then(() => this.fetchItems())
             .then(Items => this.setState({ Items: Items }));
 
@@ -104,16 +96,7 @@ class Products extends React.Component {
         this.setState({ newItem: newItem });
     }
     toggleDialog() {
-        this.setState({ 
-            dialogToggle: !this.state.dialogToggle ,
-            newItem: {
-                name: '',
-                price: '',
-                sku: '',
-                taxRate: '',
-                description: '',
-            }
-        });
+        this.setState({dialogToggle: !this.state.dialogToggle});
     }
     render() {
         return (
@@ -123,10 +106,8 @@ class Products extends React.Component {
                         <AddIcon />
                     </IconButton>
                 </Paper>
-                {/* <List component="nav">
-                    {this.getItems()}
-                </List> */}
-                <MaterialTable
+                <ProductTable editClient={this.editClient} deleteItem={this.deleteItem} products={this.state.Items} />
+                {/* <MaterialTable
                     columns={this.columns}
                     data={this.state.Items}
                     title="Products"
@@ -145,7 +126,7 @@ class Products extends React.Component {
                     options={{
                         actionsColumnIndex: -1
                     }}
-                />
+                /> */}
                 <NewProduct
                     dialogToggle={this.state.dialogToggle}
                     toggleDialog={this.toggleDialog}

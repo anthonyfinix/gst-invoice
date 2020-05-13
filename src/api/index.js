@@ -12,4 +12,5 @@ export {
 export {
     getAllProducts,
     partialSearchProducttName,
+    deleteProduct
 } from "./products";
