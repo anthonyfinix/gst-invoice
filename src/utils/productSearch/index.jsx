@@ -18,7 +18,14 @@ export default (props) => {
 
     return (
         <ClickAwayListener onClickAway={props.closeProductSearchDialog}>
-            <Box className="product-search-result-dialog">
+            <Box
+                bgcolor="text.primary"
+                color="background.paper"
+                className="product-search-result-dialog"
+                style={{
+                    left: props.productSearchElm.getBoundingClientRect(),
+                    top: props.productSearchElm.getBoundingClientRect().top + 50
+                }}>
                 <List component="nav">
                     {getItems()}
                 </List>
