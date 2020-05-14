@@ -12,5 +12,7 @@ export {
 export {
     getAllProducts,
     partialSearchProducttName,
-    deleteProduct
+    deleteProduct,
+    addNewProduct,
+    updateProduct,
 } from "./products";

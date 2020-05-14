@@ -27,7 +27,7 @@ export default (props) => {
         </Menu>
     }
     const handleProdutEditClick = () => {
-        props.editClient(selectedProduct);
+        props.editProduct(selectedProduct);
         handleTableRowOptionsClose();
     }
     const handleProductDeleteClick = () => {
@@ -42,6 +42,8 @@ export default (props) => {
             <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Price</TableCell>
+                <TableCell>SKU</TableCell>
+                <TableCell>Tax Rate</TableCell>
                 <TableCell>Description</TableCell>
                 <TableCell></TableCell>
             </TableRow>
@@ -60,6 +62,8 @@ export default (props) => {
                     {product.name}
                 </TableCell>
                 <TableCell>{product.price}</TableCell>
+                <TableCell>{product.sku}</TableCell>
+                <TableCell>{product.taxRate}</TableCell>
                 <TableCell>{product.description}</TableCell>
                 <TableCell align="right">
                     <IconButton size="small" data-productid={product._id} onClick={(e) => handleTableRowOptionsClick(e, i, product)}>

@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
 import Clients from './clients';
 import Invoices from './invoices/';
-import Products from './products/product';
+import Products from './products/';
 import NewInvoice from './invoices/new';
 import MainHeader from './header';
 import Sidebar from './sidebar';

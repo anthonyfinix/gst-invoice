@@ -52,7 +52,6 @@ router.put('/:id', bodyParser.json(), (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-    console.log(req.params.id)
     Product.findOne({ _id: req.params.id }, (err, product) => {
         if (err) {
             res.send(err)
