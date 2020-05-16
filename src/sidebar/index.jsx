@@ -8,29 +8,30 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import BusinessIcon from '@material-ui/icons/Business';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import StoreIcon from '@material-ui/icons/Store';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './sidebar.css';
+
 
 function sidebar(props) {
     if (props.windowState === ('sm' || 'md')) {
         return (
             <Drawer open={props.toggleDrawerState} onClose={props.toggleDrawer}>
                 <List component="nav" aria-label="main mailbox folders" style={{ width: 300 }}>
-                    <Link onClick={props.toggleDrawer} to="/">
+                    <NavLink onClick={props.toggleDrawer} to="/">
                         <ListItem button>
                             <ListItemText primary="Clients" />
                         </ListItem>
-                    </Link>
-                    <Link onClick={props.toggleDrawer} to="/invoices">
+                    </NavLink>
+                    <NavLink onClick={props.toggleDrawer} to="/invoices">
                         <ListItem button>
                             <ListItemText primary="Invoice" />
                         </ListItem>
-                    </Link>
-                    <Link onClick={props.toggleDrawer} to="/products">
+                    </NavLink>
+                    <NavLink onClick={props.toggleDrawer} to="/products">
                         <ListItem button>
                             <ListItemText primary="Products" />
                         </ListItem>
-                    </Link>
+                    </NavLink>
                 </List>
             </Drawer>
         )
@@ -38,30 +39,30 @@ function sidebar(props) {
         return (
             <Box boxShadow={3} className={"sidebar " + (props.toggleDrawerState ? "sidebar-opened" : "sidebar-closed")}>
                 <List component="nav">
-                    <Link to="/">
+                    <NavLink to="/">
                         <ListItem button>
                             <ListItemIcon>
                                 <BusinessIcon />
                             </ListItemIcon>
                             <ListItemText primary="Clients" />
                         </ListItem>
-                    </Link>
-                    <Link to="/invoices">
+                    </NavLink>
+                    <NavLink to="/invoices">
                         <ListItem button>
                             <ListItemIcon>
                                 <ReceiptIcon />
                             </ListItemIcon>
                             <ListItemText primary="Invoice" />
                         </ListItem>
-                    </Link>
-                    <Link to="/products">
+                    </NavLink>
+                    <NavLink to="/products">
                         <ListItem button>
                             <ListItemIcon>
                                 <StoreIcon />
                             </ListItemIcon>
                             <ListItemText primary="Products" />
                         </ListItem>
-                    </Link>
+                    </NavLink>
                 </List>
             </Box>
         )
