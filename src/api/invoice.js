@@ -1,5 +1,9 @@
+export async function getAllInvoices() {
+    let invoices = await fetch('http://localhost:3100/invoices/').then(res => res.json())
+    return invoices;
+}
 export async function addNewInvoice(data) {
-    let client = await fetch(
+    let invoice = await fetch(
         'http://localhost:3100/invoices/',{
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -14,5 +18,11 @@ export async function addNewInvoice(data) {
             })
         })
     .then(res => res.json())
-    return client;
+    return invoice;
+}
+
+export async function deleteSingleInvoice(id) {
+    let invoice = await fetch('http://localhost:3100/invoices/'+id, {method: 'DELETE'})
+    .then(res => res.json())
+    return invoice;
 }

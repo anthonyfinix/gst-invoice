@@ -1,11 +1,8 @@
 import React from 'react';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Actions from './actions';
 import InvoicesTable from './invoicesTable';
+import {getAllInvoices,deleteSingleInvoice } from '../api'
 
 class invoices extends React.Component {
     constructor(props) {
@@ -13,7 +10,7 @@ class invoices extends React.Component {
         this.state = {
             Items: [],
         }
-        this.deleteItem = this.deleteItem.bind(this);
+        this.handleInvoiceDelete = this.handleInvoiceDelete.bind(this);
         this.addNewItem = this.addNewItem.bind(this);
         this.newItemNameChange = this.newItemNameChange.bind(this);
         this.getClients = this.getClients.bind(this);
@@ -21,30 +18,16 @@ class invoices extends React.Component {
         this.getInvoice = this.getInvoice.bind(this);
         this.fetchItems().then(Items => this.setState({ Items: Items }));
     }
-    deleteItem(e) {
-        let id = e.currentTarget.getAttribute('value');
-        this.getInvoice(id)
-            .then(deletedItem => console.log(deletedItem))
-        this.fetchItems()
-            .then(Items => this.setState({ Items: Items }));
+    handleInvoiceDelete(invoiceId) {
+        deleteSingleInvoice(invoiceId)
+        .then(()=>getAllInvoices())
+        .then((invoices)=>this.setState({Items:invoices}))
+        // console.log(invoiceId)
     }
     async getInvoice(id) {
         let response = await fetch('http://localhost:3100/invoices/' + id, { method: 'DELETE' })
             .then(res => res.json());
         return response;
-    }
-    getItems() {
-        let Items = this.state.Items.map((Item, i) => {
-            return (
-                <ListItem key={i}>
-                    <ListItemText primary={Item.client.name} />
-                    <IconButton value={Item._id} onClick={this.deleteItem}>
-                        <DeleteIcon />
-                    </IconButton>
-                </ListItem>
-            )
-        });
-        return Items;
     }
     async fetchItems() {
         let Items = await fetch('http://localhost:3100/invoices/').then(res => res.json());
@@ -78,8 +61,8 @@ class invoices extends React.Component {
     render() {
         return (
             <Box px={1}>
-                <Actions/>
-                <InvoicesTable invoices={this.state.Items}/>
+                <Actions />
+                <InvoicesTable handleInvoiceDelete={this.handleInvoiceDelete} invoices={this.state.Items} />
             </Box>
         )
     }

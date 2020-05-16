@@ -7,7 +7,9 @@ export {
     partialSearchClientName
 } from "./client";
 export {
+    getAllInvoices,
     addNewInvoice,
+    deleteSingleInvoice
 } from "./invoice";
 export {
     getAllProducts,
