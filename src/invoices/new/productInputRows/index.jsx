@@ -22,7 +22,7 @@ export default function ProductInputRows(props) {
         props.setProducts({ products: getUpdatedValues(el.getAttribute('name'), el.value, i), total: getTotal() })
         if (el.getAttribute('name') === 'name') {
             setProductSearchElm(el);
-            getSearchResult(el.value).then(products=>{
+            getSearchResult(el.value).then(products => {
                 setSearchedProductsResult(products)
             })
         }
@@ -34,33 +34,31 @@ export default function ProductInputRows(props) {
             return partialSearchProducttName(value)
         }
     }
-    const getTotal = () => {
-        let total = 0;
-        rows.forEach(row => {
-            total = total + (checkNum(row.total) ? parseFloat(row.total) : 0)
-        })
-        return total;
-    }
     const getUpdatedValues = (elName, elVal, i) => {
         return rows.map((row, index) => {
             if (index === i) {
                 row[elName] = elVal;
-                if (checkNum(row.price)) {
-                    row.total = (checkNum(row.quantity) ? parseFloat(row.quantity) : 1) * ((checkNum(row.tax) ? parseFloat(row.price) * parseFloat(row.tax) / 100 : 0) + parseFloat(row.price)) / (checkNum(row.discount) ? parseFloat(row.discount) : 1)
-                } else {
-                    row.price = '';
-                    row.total = '';
-                }
+                row.total = calculateDiscount((getNumber(row.price) + getTax(getNumber(row.price), getNumber(row.tax))) * (row.quantity === '' ? 1 : parseInt(row.quantity)), getNumber(row.discount));
             }
             return row;
         })
     }
-    const checkNum = (val) => {
-        if (!isNaN(parseInt(val)) && parseInt(val) > 0) {
-            return true;
-        } else {
-            return false
-        }
+    const getTotal = () => {
+        let total = 0;
+        rows.forEach(row => {
+            total = total + getNumber(row.total)
+        })
+        return total;
+    }
+    const calculateDiscount = (totalPrice, discountRate) => {
+        return totalPrice - (totalPrice * discountRate / 100)
+    }
+    const getTax = (price, taxRate) => {
+        return parseFloat(taxRate / 100 * price)
+    }
+    const getNumber = (val) => {
+        if (isNaN(val) || val === '') return 0;
+        return parseFloat(val)
     }
     const handleAddRow = () => {
         setRows(() => [...rows, { name: '', quantity: '', price: '', tax: '', discount: '', total: '' }])
@@ -95,21 +93,21 @@ export default function ProductInputRows(props) {
         })
         return fields;
     }
-    const handleSearchProductSelect = (product)=>{
+    const handleSearchProductSelect = (product) => {
         let newRow = [];
-        rows.forEach((row,index)=>{
-            if(index === parseInt(productSearchElm.getAttribute('data-index'))){
-                newRow.push( {name: product.name, quantity: 1, price: product.price, tax:product.taxRate, discount: '', total: product.price })
-            }else{
+        rows.forEach((row, index) => {
+            if (index === parseInt(productSearchElm.getAttribute('data-index'))) {
+                newRow.push({ name: product.name, quantity: 1, price: product.price, tax: product.taxRate, discount: '', total: product.price })
+            } else {
                 newRow.push(row)
             }
         });
         console.log(newRow)
         setRows(newRow);
-        setTotal(()=>{
+        setTotal(() => {
             let total = 0;
-            newRow.forEach(row=>{
-                total = total+parseInt(row.total);
+            newRow.forEach(row => {
+                total = total + parseInt(row.total);
             })
             return total;
         })
@@ -117,16 +115,16 @@ export default function ProductInputRows(props) {
         console.log(productSearchElm.getAttribute('data-index'))
         closeProductSearchDialog();
     }
-    const closeProductSearchDialog = ()=>{
+    const closeProductSearchDialog = () => {
         setProductSearchElm(null)
     }
-    const getProductSearchDialog = ()=>{
-        if(productSearchElm){
-            return  <ProductSearch
-            handleSearchProductSelect = {handleSearchProductSelect}
-            closeProductSearchDialog = {closeProductSearchDialog}
-            productSearchElm = {productSearchElm}
-            products={searchedProductsResult} />
+    const getProductSearchDialog = () => {
+        if (productSearchElm) {
+            return <ProductSearch
+                handleSearchProductSelect={handleSearchProductSelect}
+                closeProductSearchDialog={closeProductSearchDialog}
+                productSearchElm={productSearchElm}
+                products={searchedProductsResult} />
         }
     }
     return (

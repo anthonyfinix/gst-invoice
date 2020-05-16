@@ -23,11 +23,11 @@ export default (props) => {
                 color="background.paper"
                 className="product-search-result-dialog"
                 style={{
-                    left: props.productSearchElm.getBoundingClientRect(),
+                    left: props.productSearchElm.getBoundingClientRect().left,
                     top: props.productSearchElm.getBoundingClientRect().top + 50
                 }}>
                 <List component="nav">
-                    {getItems()}
+                    {getItems(props.productSearchElm)}
                 </List>
             </Box>
         </ClickAwayListener>

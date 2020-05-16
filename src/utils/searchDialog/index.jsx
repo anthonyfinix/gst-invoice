@@ -4,7 +4,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import CancelIcon from '@material-ui/icons/Cancel';
+import Divider from '@material-ui/core/Divider';
 import { getAllClients, partialSearchClientName } from '../../api';
 
 export default (props) => {
@@ -20,14 +25,14 @@ export default (props) => {
         }
         setSearchTerm(value);
     }
-    const handleClientSelect = (selectedClient)=>{
+    const handleClientSelect = (selectedClient) => {
         props.getSelectedClient(selectedClient)
         props.handleClose();
     }
     const getClientList = () => {
         let newClients = clients.map((client, i) => {
             return (
-                <ListItem key={i} button onClick={()=>handleClientSelect(client)}>
+                <ListItem key={i} button onClick={() => handleClientSelect(client)}>
                     <ListItemText primary={client.name} />
                 </ListItem >
             )
@@ -39,18 +44,35 @@ export default (props) => {
             <Popover
                 open={!!props.el}
                 anchorEl={props.el}
-                onClose={props.handleClose}
                 anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
+                    vertical: 'top',
+                    horizontal: 'center',
                 }}
                 transformOrigin={{
                     vertical: 'top',
-                    horizontal: 'left',
+                    horizontal: 'center',
                 }}
+                disableRestoreFocus={true}
             >
                 <Box p={2}>
-                    <TextField variant="outlined" size="small" onChange={handleSearchTermValueChange} value={searchTerm} autoComplete="off" inputProps={{ name: 'search' }} label="Search" />
+                    <Box display="flex" alignItems="center">
+                        <TextField
+                            variant="outlined"
+                            size="small"
+                            onChange={handleSearchTermValueChange}
+                            value={searchTerm}
+                            autoComplete="off"
+                            InputProps={{
+                                name: 'search',
+                                endAdornment: <InputAdornment position="end"><SearchIcon /></InputAdornment>
+                            }}
+                            label="Search" />
+                        <Divider orientation="vertical" />
+                        <IconButton onClick={props.handleClose}>
+                            <CancelIcon />
+                        </IconButton>
+
+                    </Box>
                     <List component="nav">
                         {getClientList()}
                     </List>
