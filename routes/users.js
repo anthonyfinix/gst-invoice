@@ -23,7 +23,7 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/register', (req, res) => {
     const user = {
         name: req.body.name,
         username: req.body.username,
@@ -40,5 +40,10 @@ router.post('/', (req, res) => {
         })
     });
 })
+
+router.post('/login', (req, res, next) => {
+    res.send('login')
+});
+
 
 module.exports = router;

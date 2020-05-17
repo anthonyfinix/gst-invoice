@@ -1,18 +1,21 @@
 const express = require('express');
 const app = express();
-var cors = require('cors')
+const cors = require('cors');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const port = 3100;
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors())
 
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/gstinvoice', {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb://127.0.0.1:27017/gstinvoice', { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('connected to database'))
     .catch((err) => console.error(err));
     
+
+
 const users = require('./routes/users');
 const client = require('./routes/clients');
 const invoice = require('./routes/invoice');
