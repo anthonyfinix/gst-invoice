@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Welcome from './welcome';
+import Login from './login';
+import Register from './register';
 import Box from '@material-ui/core/Box';
 import Clients from './clients';
 import Invoices from './invoices/';
@@ -11,6 +14,9 @@ import Products from './products/';
 import NewInvoice from './invoices/new';
 import MainHeader from './header';
 import Sidebar from './sidebar';
+import Dashboard from './dashboard';
+// import Dashboard from './dashboard';
+// import Profile from './profile';
 import { mediamatch } from "./utils/media.match";
 
 const theme = createMuiTheme({
@@ -26,6 +32,7 @@ class App extends Component {
       toggleDrawer: true,
       breakpoint: '',
       forcedDrawer: false,
+      authFlag: false,
     }
     this.toggleDrawer = this.toggleDrawer.bind(this);
   }
@@ -46,7 +53,12 @@ class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Box className="App">
+        <Router>
+          <Route exact path="/" component={Welcome}/>
+          <Route exact path="/login" component={Login}/>
+          <Route exact path="/register" component={Register}/>
+        </Router>
+        {/* <Box className="App">
           <Router>
             <MainHeader toggleDrawer={this.toggleDrawer} forcedDrawer={this.forcedDrawer} />
             <Box display="flex">
@@ -61,7 +73,7 @@ class App extends Component {
               </div>
             </Box>
           </Router>
-        </Box>
+        </Box> */}
       </ThemeProvider>
     );
   }

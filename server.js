@@ -13,10 +13,12 @@ mongoose.connect('mongodb://127.0.0.1:27017/gstinvoice', {useCreateIndex: true, 
     .then(() => console.log('connected to database'))
     .catch((err) => console.error(err));
     
+const users = require('./routes/users');
 const client = require('./routes/clients');
 const invoice = require('./routes/invoice');
 const product = require('./routes/product');
 
+app.use('/users', users);
 app.use('/clients', client);
 app.use('/invoices', invoice);
 app.use('/products', product);

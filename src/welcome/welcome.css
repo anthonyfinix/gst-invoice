@@ -1,0 +1,30 @@
+#welcome-wrapper{
+    text-align: center;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#welcome-wrapper > div.caption-wrapper > h1{
+    font-size: 30px;
+    margin-bottom: 0px;
+}
+#welcome-wrapper > div.caption-wrapper > div{
+    margin-top: 20px;
+}
+#welcome-wrapper > div.caption-wrapper > div button:first-child {
+    margin-right: 20px;
+}
+#welcome-wrapper div.softwareStacks-wrapper{
+    margin-top: 200px;
+}
+#welcome-wrapper div.softwareStacks-wrapper > div{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+}
+#welcome-wrapper div.softwareStacks-wrapper > div > img{
+    width: 30px;
+}
