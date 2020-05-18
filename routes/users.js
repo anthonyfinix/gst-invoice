@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../modals/user');
 const bcrypt = require('bcrypt');
+const { registrationSchema, loginSchema } = require('../validate');
 
 router.get('/', (req, res) => {
     User.find({}, (err, users) => {
@@ -24,25 +25,37 @@ router.delete('/:id', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    const user = {
-        name: req.body.name,
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
+    const { name, username, email, password } = req.body;
+    const { value, error } = registrationSchema.validate({ name, username, password, email });
+    if (error) res.status(400).send(error.details[0].message);
+    try {
+        hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+    } catch (err) {
+        throw err
     }
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(user.password, salt, (err, hash) => {
-            if (err) throw err;
-            user.password = hash;
-            new User({ ...user }).save()
-                .then(user => res.json(user))
-                .catch(err => res.json({ message: err }));
-        })
-    });
+    new User({ name, username, email, password: hashedPassword }).save()
+        .then(newUser => res.json(newUser))
+        .catch(err => res.json({ message: err }))
 })
 
-router.post('/login', (req, res, next) => {
-    res.send('login')
+router.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    const { values, error } = loginSchema.validate({ username, password });
+    if (error) return res.status(400).send(error.details[0].message);
+    User.findOne({ username })
+        .catch(err => {
+            res.status(500).res.send('there is some error')
+            console.log(err)
+        })
+        .then(user => {
+            if (!user) return res.send('no user found!')
+            bcrypt.compare(password, user.password, (err, isMatched) => {
+                if (err) return res.status(500).send('there is some error encoutered');
+                if (!isMatched) return res.send('Password does not match');
+                return res.send('Welcome' + user.name)
+            })
+
+        })
 });
 
 
