@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../modals/product');
 const bodyParser = require('body-parser');
+const verify = require('../routeGuard');
 
-router.get('/', (req, res) => {
+router.get('/',verify, (req, res) => {
     Product.find({}, (err, products) => {
         if (err) {
             res.send(err)
@@ -63,7 +64,7 @@ router.delete('/:id', (req, res) => {
 
 // SEARCH WITH NAME
 router.get('/search/:name', (req, res) => {
-    Product.find({ name: { $regex: new RegExp(`^${req.params.name}`,'i') } }, (err, product) => {
+    Product.find({ name: { $regex: new RegExp(`^${req.params.name}`, 'i') } }, (err, product) => {
         if (err) {
             res.send(err)
         } else if (!product) {

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../modals/user');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { registrationSchema, loginSchema } = require('../validate');
 
 router.get('/', (req, res) => {
@@ -52,7 +53,8 @@ router.post('/login', (req, res) => {
             bcrypt.compare(password, user.password, (err, isMatched) => {
                 if (err) return res.status(500).send('there is some error encoutered');
                 if (!isMatched) return res.send('Password does not match');
-                return res.send('Welcome' + user.name)
+                const token = jwt.sign({userId: user._id},'secretKey');
+                return res.header('auth-token',token).send({userId: user._id,username: user.username,email:user.email,name: user.name})
             })
 
         })
