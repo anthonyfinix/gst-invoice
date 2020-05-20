@@ -18,7 +18,7 @@ let clientSchema = new mongoose.Schema({
     company: { type: String, required: true },
     address: { type: String, required: true },
     contactNumber: {
-        type: Number,
+        type: String,
         validate: {
             validator: function (v) {
                 return /\b\d{10}\b/.test(v)

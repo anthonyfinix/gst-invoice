@@ -53,7 +53,7 @@ router.post('/login', (req, res) => {
             bcrypt.compare(password, user.password, (err, isMatched) => {
                 if (err) return res.status(500).send('there is some error encoutered');
                 if (!isMatched) return res.send('Password does not match');
-                const token = jwt.sign({userId: user._id},'secretKey');
+                const token = jwt.sign({userId: user._id},'secretKey',{expiresIn: '10h'});
                 return res.header('auth-token',token).send({userId: user._id,username: user.username,email:user.email,name: user.name})
             })
 

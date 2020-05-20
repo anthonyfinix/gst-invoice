@@ -14,7 +14,7 @@ router.get('/',verify, (req, res) => {
     })
 });
 // get single product
-router.get('/:id', (req, res) => {
+router.get('/:id',verify, (req, res) => {
     Product.find({ _id: req.params.id }, (err, product) => {
         if (err) {
             res.send(err)
@@ -25,7 +25,7 @@ router.get('/:id', (req, res) => {
 });
 
 // ADD PRODUCT
-router.post('/', (req, res) => {
+router.post('/',verify, (req, res) => {
     let newProduct = new Product({
         name: req.body.name,
         price: parseInt(req.body.price),
@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
 });
 
 
-router.put('/:id', bodyParser.json(), (req, res) => {
+router.put('/:id',verify, bodyParser.json(), (req, res) => {
     Product.findOne({ _id: req.params.id }, (err, oldProduct) => {
         if (err) {
             res.send(err)
@@ -52,7 +52,7 @@ router.put('/:id', bodyParser.json(), (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id',verify, (req, res) => {
     Product.findOne({ _id: req.params.id }, (err, product) => {
         if (err) {
             res.send(err)
@@ -63,7 +63,7 @@ router.delete('/:id', (req, res) => {
 });
 
 // SEARCH WITH NAME
-router.get('/search/:name', (req, res) => {
+router.get('/search/:name',verify, (req, res) => {
     Product.find({ name: { $regex: new RegExp(`^${req.params.name}`, 'i') } }, (err, product) => {
         if (err) {
             res.send(err)
