@@ -41,20 +41,28 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
     const { username, password } = req.body;
-    const { values, error } = loginSchema.validate({ username, password });
-    if (error) return res.status(400).send(error.details[0].message);
+    const { value, error } = loginSchema.validate({ username, password });
+    if (error) return res.status(400).json({ error: error.details[0].message });
     User.findOne({ username })
         .catch(err => {
-            res.status(500).res.send('there is some error')
-            console.log(err)
+            res.status(500).res.json({ "error": 'there is some error' })
         })
         .then(user => {
-            if (!user) return res.send('no user found!')
+            if (!user) return res.json({ "error": 'no user found!' })
             bcrypt.compare(password, user.password, (err, isMatched) => {
-                if (err) return res.status(500).send('there is some error encoutered');
-                if (!isMatched) return res.send('Password does not match');
-                const token = jwt.sign({userId: user._id},'secretKey',{expiresIn: '10h'});
-                return res.header('auth-token',token).send({userId: user._id,username: user.username,email:user.email,name: user.name})
+                if (err) return res.status(500).json({ 'error': 'there is some error encoutered' });
+                if (!isMatched) return res.json({ "error": 'Password does not match' });
+                const token = jwt.sign({ userId: user._id }, 'secretKey', { expiresIn: '10h' });
+                let userDetails = {
+                    userId: user._id,
+                    username: user.username,
+                    email: user.email,
+                    name: user.name
+                }
+                return res.set({
+                    'auth-token': token,
+                    'Access-Control-Expose-Headers': 'auth-token'
+                }).json({ ...userDetails })
             })
 
         })

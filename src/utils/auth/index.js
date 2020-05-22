@@ -1,0 +1,1 @@
+export {  getLocalWebToken } from './getLocalWebToken';

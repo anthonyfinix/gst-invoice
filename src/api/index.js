@@ -18,3 +18,5 @@ export {
     addNewProduct,
     updateProduct,
 } from "./products";
+
+export { loginUser } from './user';
