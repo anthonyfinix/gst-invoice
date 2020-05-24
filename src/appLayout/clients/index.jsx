@@ -6,7 +6,7 @@ import NewClientDialog from './newClientDialog';
 import EditClientDialog from "./editClientDialog";
 import NewInvoice from '../invoices/new';
 import Actions from './actions';
-import { getAllClients, getSingleClient, deleteSingleClient, addNewClient, updateClient } from "../api";
+import { getAllClients, getSingleClient, deleteSingleClient, addNewClient, updateClient } from "../../api";
 
 class Clients extends React.Component {
     constructor(props) {

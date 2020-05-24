@@ -4,8 +4,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import './productInputRows.css';
-import ProductSearch from '../../../utils/productSearch';
-import { getAllProducts, partialSearchProducttName } from '../../../api'
+import ProductSearch from '../../../../utils/productSearch';
+import { getAllProducts, partialSearchProducttName } from '../../../../api'
 
 export default function ProductInputRows(props) {
 

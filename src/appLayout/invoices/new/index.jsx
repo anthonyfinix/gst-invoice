@@ -5,7 +5,7 @@ import InvoiceSummery from './invoiceSummery';
 import ProductInputRows from './productInputRows';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { addNewInvoice } from '../../api'
+import { addNewInvoice } from '../../../api'
 import { Redirect } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 

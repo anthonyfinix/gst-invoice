@@ -3,6 +3,8 @@ const router = express.Router();
 const User = require('../modals/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const verify = require('../routeGuard');
+
 const { registrationSchema, loginSchema } = require('../validate');
 
 router.get('/', (req, res) => {
@@ -15,7 +17,16 @@ router.get('/', (req, res) => {
 
     });
 })
-router.delete('/:id', (req, res) => {
+router.get('/:username', verify, (req, res) => {
+    const userid = req.userToken.userId;
+    // res.send(req.userToken.userId)
+    User.findOne({ _id: userid }, (err, user) => {
+        if (err) return res.json({'error': err })
+        res.json({username: user.username,name:user.name,email:user.email})
+    })
+})
+
+router.delete('/:id', verify, (req, res) => {
     User.findOne({ _id: req.params.id }, (err, user) => {
         if (err) {
             res.send(err)
@@ -52,7 +63,7 @@ router.post('/login', (req, res) => {
             bcrypt.compare(password, user.password, (err, isMatched) => {
                 if (err) return res.status(500).json({ 'error': 'there is some error encoutered' });
                 if (!isMatched) return res.json({ "error": 'Password does not match' });
-                const token = jwt.sign({ userId: user._id }, 'secretKey', { expiresIn: '10h' });
+                const token = jwt.sign({ userId: user._id }, 'secretKey');
                 let userDetails = {
                     userId: user._id,
                     username: user.username,

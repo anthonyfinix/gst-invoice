@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,23 +11,22 @@ import StoreIcon from '@material-ui/icons/Store';
 import { NavLink } from 'react-router-dom';
 import './sidebar.css';
 
-
 function sidebar(props) {
     if (props.windowState === ('sm' || 'md')) {
         return (
-            <Drawer open={props.toggleDrawerState} onClose={props.toggleDrawer}>
+            <Drawer open={props.drawerState} onClose={props.toggleDrawerState}>
                 <List component="nav" aria-label="main mailbox folders" style={{ width: 300 }}>
-                    <NavLink onClick={props.toggleDrawer} to="/">
+                    <NavLink onClick={props.toggleDrawerState} to={`${props.match.path}/clients`}>
                         <ListItem button>
                             <ListItemText primary="Clients" />
                         </ListItem>
                     </NavLink>
-                    <NavLink onClick={props.toggleDrawer} to="/invoices">
+                    <NavLink onClick={props.toggleDrawerState} to={`${props.match.path}/invoices`}>
                         <ListItem button>
                             <ListItemText primary="Invoice" />
                         </ListItem>
                     </NavLink>
-                    <NavLink onClick={props.toggleDrawer} to="/products">
+                    <NavLink onClick={props.toggleDrawerState} to={`${props.match.path}/products`}>
                         <ListItem button>
                             <ListItemText primary="Products" />
                         </ListItem>
@@ -37,9 +36,9 @@ function sidebar(props) {
         )
     } else {
         return (
-            <Box boxShadow={3} className={"sidebar " + (props.toggleDrawerState ? "sidebar-opened" : "sidebar-closed")}>
+            <Box boxShadow={3} className={"sidebar " + (props.drawerState ? "sidebar-opened" : "sidebar-closed")}>
                 <List component="nav">
-                    <NavLink to="/">
+                    <NavLink to={`${props.match.path}/clients`}>
                         <ListItem button>
                             <ListItemIcon>
                                 <BusinessIcon />
@@ -47,7 +46,7 @@ function sidebar(props) {
                             <ListItemText primary="Clients" />
                         </ListItem>
                     </NavLink>
-                    <NavLink to="/invoices">
+                    <NavLink to={`${props.match.path}/invoices`}>
                         <ListItem button>
                             <ListItemIcon>
                                 <ReceiptIcon />
@@ -55,7 +54,7 @@ function sidebar(props) {
                             <ListItemText primary="Invoice" />
                         </ListItem>
                     </NavLink>
-                    <NavLink to="/products">
+                    <NavLink to={`${props.match.path}/products`}>
                         <ListItem button>
                             <ListItemIcon>
                                 <StoreIcon />

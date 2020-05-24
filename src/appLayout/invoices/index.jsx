@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import Actions from './actions';
 import InvoicesTable from './invoicesTable';
-import {getAllInvoices,deleteSingleInvoice } from '../api'
+import {getAllInvoices,deleteSingleInvoice } from '../../api'
 
 class invoices extends React.Component {
     constructor(props) {

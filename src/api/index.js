@@ -19,4 +19,4 @@ export {
     updateProduct,
 } from "./products";
 
-export { loginUser } from './user';
+export { loginUser, getSingleUserDetails } from './user';

@@ -2,7 +2,7 @@ import React from 'react';
 import ProductTable from './productTable';
 import Actions from './actions';
 import Box from '@material-ui/core/Box';
-import { getAllProducts, deleteProduct, updateProduct, addNewProduct } from '../api';
+import { getAllProducts, deleteProduct, updateProduct, addNewProduct } from '../../api';
 
 import AddProduct from './productAddDilaog';
 import EditProduct from './productUpdateDialog';
