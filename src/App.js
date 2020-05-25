@@ -1,15 +1,14 @@
 import './App.css';
 import 'typeface-roboto';
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Welcome from './welcome';
 import Login from './login';
 import Register from './register';
 import AppLayout from './appLayout';
-// import Dashboard from './dashboard';
-// import Profile from './profile';
+import Default from './default'
 import { mediamatch } from "./utils/media.match";
 import { getlocalStorageToken, PrivateRoute } from './utils';
 import { getSingleUserDetails } from './api';
@@ -55,10 +54,13 @@ class App extends Component {
       <Router>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Route exact path="/" render={(props) => <Welcome {...props} {...this.state} />} />
-          <Route exact path="/login" render={(props) => <Login setUser={this.setUser} {...props} {...this.state} />} />
-          <Route exact path="/register" render={(props) => <Register {...props} {...this.state} />} />
-          <PrivateRoute path='/app' component={AppLayout} {...this.state} />
+          <Switch>
+            <Route exact path="/" render={(props) => <Welcome {...props} {...this.state} />} />
+            <Route exact path="/login" render={(props) => <Login setUser={this.setUser} {...props} {...this.state} />} />
+            <Route exact path="/register" render={(props) => <Register {...props} {...this.state} />} />
+            <PrivateRoute path='/app' component={AppLayout} {...this.state} />
+            <Route exact path="*" component={Default} />
+          </Switch>
         </ThemeProvider>
       </Router>
     );
