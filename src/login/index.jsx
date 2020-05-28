@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import './login.css';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
@@ -8,10 +8,11 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { Link, Redirect } from 'react-router-dom';
-import { loginUser } from '../api'
+import { loginUser } from '../api';
+import { AppContext } from '../App';
 
 export default (props) => {
-
+    const { appDetails: { user } } = useContext(AppContext);
     const [loginDetails, setLoginCred] = useState({
         username: { value: '', error: '' },
         password: { value: '', error: '' }
@@ -31,13 +32,12 @@ export default (props) => {
                 localStorage.setItem('gstInvoice', data.token);
                 props.setUser(data)
                     .then((data) => {
-                        // console.log(data)
                         props.history.push('/app')
                     })
             });
 
     }
-    if (props.userDetails) {
+    if (user) {
         return <Redirect to={`/app`} />
     } else {
         return (

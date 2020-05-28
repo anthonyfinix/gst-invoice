@@ -1,17 +1,16 @@
 import './App.css';
 import 'typeface-roboto';
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { useState, useEffect, createContext } from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Snackbar from '@material-ui/core/Snackbar';
 import Welcome from './welcome';
-import Login from './login';
-import Register from './register';
-import AppLayout from './appLayout';
-import Default from './default'
-import { mediamatch } from "./utils/media.match";
-import { getlocalStorageToken, PrivateRoute } from './utils';
+import { getlocalStorageToken } from './utils/getLocalStrorageToken';
+import Loading from './utils/welcomeLoadingScreen';
 import { getSingleUserDetails } from './api';
+import getWindowDimensionsAndState from './utils/useWindowDimensions';
+
+export const AppContext = createContext();
 
 const theme = createMuiTheme({
   palette: {
@@ -19,52 +18,55 @@ const theme = createMuiTheme({
   }
 })
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      toggleDrawer: true,
-      breakpoint: '',
-      forcedDrawer: false,
-      redirectTo: null,
-      userDetails: null,
-      isAuthenticated: false,
-    }
-    this.toggleDrawer = this.toggleDrawer.bind(this);
-    this.setUser = this.setUser.bind(this);
+export default function App(props) {
+  const [loaded, setloaded] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
+  const [notification, setNotification] = useState(null)
+  useEffect(() => {
     if (getlocalStorageToken()) {
-      console.log('getting data')
-      getSingleUserDetails(getlocalStorageToken()).then(user => this.setState({ isAuthenticated: true, userDetails: { ...user } }))
+      getSingleUserDetails(getlocalStorageToken())
+        .then(user => {
+          if (user.error) return null
+          setUserDetails({ ...user })
+          setloaded(true)
+        });
+    } else {
+      setloaded(true)
     }
-  }
-  setUser(user) {
+  }, [])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setNotification(null)
+    }, 4000)
+  }, [notification])
+
+  const setUser = (user) => {
     return new Promise((resolve, reject) => {
-      this.setState({ userDetails: { ...user } })
-      // this.state.userDetails = { ...user }
-      return resolve(this.state.userDetails);
+      setUserDetails({ ...user })
+      return resolve(user);
     })
   }
 
-  toggleDrawer() {
-    this.setState({ toggleDrawer: !this.state.toggleDrawer, forcedDrawer: !this.state.forcedDrawer });
-  };
-
-  render() {
-    return (
-      <Router>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Switch>
-            <Route exact path="/" render={(props) => <Welcome {...props} {...this.state} />} />
-            <Route exact path="/login" render={(props) => <Login setUser={this.setUser} {...props} {...this.state} />} />
-            <Route exact path="/register" render={(props) => <Register {...props} {...this.state} />} />
-            <PrivateRoute path='/app' component={AppLayout} {...this.state} />
-            <Route exact path="*" component={Default} />
-          </Switch>
-        </ThemeProvider>
-      </Router>
-    );
-  }
+  return (
+    <AppContext.Provider value={{
+      appDetails: {
+        user: { ...userDetails },
+        windowDimensions: getWindowDimensionsAndState(),
+      }, setUserDetails, setNotification
+    }}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {loaded ? <Welcome userDetails={userDetails} setUser={setUser} /> : <Loading />}
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          // key={`${vertical},${horizontal}`}
+          open={!!notification}
+          // onClose={handleClose}
+          message={notification}
+        />
+      </ThemeProvider>
+    </AppContext.Provider>
+  );
 }
 
-export default App;

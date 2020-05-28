@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Box from '@material-ui/core/Box';
 import Clients from './clients';
 import Invoices from './invoices/';
@@ -7,20 +7,23 @@ import NewInvoice from './invoices/new';
 import MainHeader from './header';
 import Sidebar from './sidebar';
 import Dashboard from './dashboard';
-import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
-import useWindowDimensions from '../utils/useWindowDimensions';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { AppContext } from '../App';
 
 export default (props) => {
-
-    const { state } = useWindowDimensions();
-    const [drawerState, setDrawerState] = useState((state === 'sm' ? false : true));
+    const { appDetails: { windowDimensions }, setNotification } = useContext(AppContext);
+    const [drawerState, setDrawerState] = useState((windowDimensions.state === 'sm' ? false : true));
     const [forcedDrawerState, setforcedDrawerState] = useState(false);
     const toggleDrawerState = () => {
         setDrawerState(!drawerState)
     }
     useEffect(() => {
-        state === 'md' && !forcedDrawerState ? setDrawerState(false) : setDrawerState(true)
-    }, [state])
+        windowDimensions.state === 'md' && forcedDrawerState === false ? setDrawerState(false) : setDrawerState(true)
+    }, [windowDimensions.state])
+    
+    useEffect(() => {
+        setNotification('Welcome');
+    }, [])
 
     const handleHeaderToggleDrawerClick = () => {
         setDrawerState(!drawerState)
@@ -37,7 +40,7 @@ export default (props) => {
                             {...props}
                             toggleDrawerState={toggleDrawerState}
                             drawerState={drawerState}
-                            windowState={state}
+                            windowState={windowDimensions.state}
                         />
                     </div>
                     <div style={{ width: "100%" }}>
