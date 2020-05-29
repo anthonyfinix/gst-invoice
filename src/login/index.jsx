@@ -13,6 +13,7 @@ import { AppContext } from '../App';
 
 export default (props) => {
     const { appDetails: { user } } = useContext(AppContext);
+    console.log(user)
     const [loginDetails, setLoginCred] = useState({
         username: { value: '', error: '' },
         password: { value: '', error: '' }
@@ -37,7 +38,7 @@ export default (props) => {
             });
 
     }
-    if (user) {
+    if (user.name) {
         return <Redirect to={`/app`} />
     } else {
         return (

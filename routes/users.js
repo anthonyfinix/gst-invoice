@@ -8,11 +8,19 @@ const verify = require('../routeGuard');
 const { registrationSchema, loginSchema } = require('../validate');
 
 router.get('/', (req, res) => {
+    const { isUsernameAvail } = req.query;
+    if (isUsernameAvail) {
+        return User.find({ username: isUsernameAvail }, (err, username) => {
+            if (err) return res.json({ err })
+            if (username.length > 0) return res.json({ isAvailable: false })
+            return res.json({ isAvailable: true })
+        })
+    }
     User.find({}, (err, users) => {
         if (err) {
-            res.send(err)
+            return res.send(err)
         } else {
-            res.send(users)
+            return res.send(users)
         };
 
     });
@@ -21,17 +29,16 @@ router.get('/:username', verify, (req, res) => {
     const userid = req.userToken.userId;
     // res.send(req.userToken.userId)
     User.findOne({ _id: userid }, (err, user) => {
-        if (err) return res.json({'error': err })
-        res.json({username: user.username,name:user.name,email:user.email})
+        if (err) return res.json({ 'error': err })
+        return res.json({ username: user.username, name: user.name, email: user.email })
     })
 })
-
 router.delete('/:id', verify, (req, res) => {
     User.findOne({ _id: req.params.id }, (err, user) => {
         if (err) {
-            res.send(err)
+            return res.send(err)
         } else {
-            user.remove().then(deletedUser => res.send(deletedUser))
+            return user.remove().then(deletedUser => res.send(deletedUser))
         }
     });
 });

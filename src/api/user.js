@@ -17,6 +17,11 @@ export async function loginUser(username, password) {
     return userDetails;
 }
 
+export async function getUsernameAvailable(username) {
+    let isAvailable = await fetch('http://localhost:3100/users?isUsernameAvail=' + username)
+        .then(res => res.json())
+    return isAvailable
+}
 
 export async function getSingleUserDetails(token) {
     let userDetails = await fetch('http://localhost:3100/users/' + token, {

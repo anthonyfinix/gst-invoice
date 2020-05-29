@@ -19,4 +19,8 @@ export {
     updateProduct,
 } from "./products";
 
-export { loginUser, getSingleUserDetails } from './user';
+export {
+    loginUser,
+    getSingleUserDetails,
+    getUsernameAvailable
+} from './user';
