@@ -8,37 +8,136 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { Link, Redirect } from 'react-router-dom';
-import { getUsernameAvailable } from '../api'
+import { getUsernameAvailable } from '../api';
+import { Name, Password, Username, Email } from '../utils/validate';
 
 export default (props) => {
-    const [registrationDetails, setRegistrationDetails] = useState({ username: '', name: '', password: '', confirmPassword: '' });
+    const [registrationDetails, setRegistrationDetails] = useState({
+        username: { value: '', error: '' },
+        name: { value: '', error: '' },
+        email: { value: '', error: '' },
+        password: { value: '', error: '' },
+        confirmPassword: { value: '', error: '' }
+    });
     const [timer, setTimer] = useState(null);
     const [usernameAvailable, setUsernameAvailable] = useState(null);
+    const [isComplete, setIsComplete] = useState(false);
+    useEffect(() => {
+        if (usernameAvailable === false) {
+            let value = registrationDetails;
+            value.username.error = 'username not available';
+            setRegistrationDetails({ ...value })
+        } else {
+            let value = registrationDetails;
+            let error = validateUsername(value.username.value)
+            if (error) {
+                value.username.error = error;
+            } else {
+                value.username.error = '';
+            }
+            setRegistrationDetails({ ...value })
+        }
+    }, [usernameAvailable])
+
+    useEffect(() => {
+        let completeFlag = true
+        Object.keys(registrationDetails).forEach(key => {
+            if (registrationDetails[key].value === '' || registrationDetails[key].error !== '') {
+                completeFlag = false;
+            }
+        })
+        if (completeFlag) setIsComplete(true)
+    }, [registrationDetails])
+
     const handleRegistrationValueChange = (e) => {
         const element = e.currentTarget;
         let values = registrationDetails;
+        let error = '';
         switch (element.getAttribute('name')) {
             case 'username':
-                clearTimeout(timer)
-                if (element.value !== '') {
-                    setTimer(setTimeout(() => {
-                        getUsernameAvailable(element.value).
-                            then(data => setUsernameAvailable(data.isAvailable))
-                    }, 500))
+                error = validateUsername(element.value)
+                if (error) {
+                    values.username.error = error
+                } else {
+                    values.username.error = ''
                 }
+                checkUserName(element.value)
                 break;
             case 'name':
-                console.log('name')
+                error = validateName(element.value)
+                if (error) {
+                    values.name.error = error
+                } else {
+                    values.name.error = ''
+                }
+                break;
+            case 'email':
+                error = validateEmail(element.value)
+                if (error) {
+                    values.email.error = error
+                } else {
+                    values.email.error = ''
+                }
                 break;
             case 'password':
-                console.log('password')
+                error = validatePassword(element.value);
+                if (error) {
+                    values.password.error = error
+                }else if(values.confirmPassword.value !== ''){
+                    error = comparePassword(values.confirmPassword.value,element.value)
+                    if(error){
+                        values.password.error = error;
+                    }else{
+                        values.password.error = '';
+                    }
+                } else {
+                    values.password.error = ''
+                }
                 break;
             case 'confirmPassword':
-                console.log('confirm password')
+                error = validateConfirmPassword(element.value, values.password.value);
+                if (error) {
+                    values.confirmPassword.error = error
+                } else {
+                    values.confirmPassword.error = ''
+                }
                 break;
         }
-        values[element.getAttribute('name')] = element.value;
+        values[element.getAttribute('name')].value = element.value;
         setRegistrationDetails({ ...values })
+    }
+
+    const checkUserName = (username) => {
+        clearTimeout(timer)
+        if (username !== '') {
+            setTimer(setTimeout(() => {
+                getUsernameAvailable(username).
+                    then(data => setUsernameAvailable(data.isAvailable))
+            }, 500))
+        }
+    }
+    const validateUsername = (username) => {
+        const { error } = Username.validate(username);
+        if (error) return error.details[0].message;
+    }
+    const validateName = (name) => {
+        const { error } = Name.validate(name);
+        if (error) return error.details[0].message;
+    }
+    const validateEmail = (name) => {
+        const { error } = Email.validate(name);
+        if (error) return error.details[0].message;
+    }
+    const validatePassword = (password) => {
+        const { error } = Password.validate(password);
+        if (error) return error.details[0].message;
+    }
+    const validateConfirmPassword = (confirmPassword, password) => {
+        return comparePassword(confirmPassword, password)
+    }
+    const comparePassword = (confirmPassword, password) => {
+        if (!password) return
+        if (password !== confirmPassword) return 'Password does not match';
     }
     return (
         <React.Fragment>
@@ -50,20 +149,22 @@ export default (props) => {
                             <Typography variant="caption" style={{ marginBottom: 20 }}>Please type your details</Typography>
                             <TextField
                                 onChange={handleRegistrationValueChange}
+                                error={usernameAvailable === false ? true : false}
                                 autoComplete='off'
                                 variant="outlined"
-                                value={registrationDetails.username}
+                                value={registrationDetails.username.value}
                                 style={{ marginBottom: 20 }}
                                 label="Username"
-                                error={false}
                                 inputProps={{ name: 'username' }}
-                                helperText={usernameAvailable === false ? "username taken" : ""}
+                                helperText={registrationDetails.username.error}
                                 size="small" />
                             <TextField
                                 onChange={handleRegistrationValueChange}
                                 autoComplete='off'
                                 variant="outlined"
-                                value={registrationDetails.name}
+                                error={!!registrationDetails.name.error}
+                                value={registrationDetails.name.value}
+                                helperText={registrationDetails.name.error}
                                 style={{ marginBottom: 20 }}
                                 label="Name"
                                 inputProps={{ name: 'name' }}
@@ -72,7 +173,20 @@ export default (props) => {
                                 onChange={handleRegistrationValueChange}
                                 autoComplete='off'
                                 variant="outlined"
-                                value={registrationDetails.password}
+                                error={!!registrationDetails.email.error}
+                                value={registrationDetails.email.value}
+                                helperText={registrationDetails.email.error}
+                                style={{ marginBottom: 20 }}
+                                label="Email"
+                                inputProps={{ name: 'email' }}
+                                size="small" />
+                            <TextField
+                                onChange={handleRegistrationValueChange}
+                                autoComplete='off'
+                                variant="outlined"
+                                error={!!registrationDetails.password.error}
+                                value={registrationDetails.password.value}
+                                helperText={registrationDetails.password.error}
                                 style={{ marginBottom: 20 }}
                                 label="Password"
                                 inputProps={{ name: 'password' }}
@@ -81,7 +195,9 @@ export default (props) => {
                                 onChange={handleRegistrationValueChange}
                                 autoComplete='off'
                                 variant="outlined"
-                                value={registrationDetails.confirmPassword}
+                                error={!!registrationDetails.confirmPassword.error}
+                                value={registrationDetails.confirmPassword.value}
+                                helperText={registrationDetails.confirmPassword.error}
                                 style={{ marginBottom: 20 }}
                                 label="Confirm Password"
                                 inputProps={{ name: 'confirmPassword' }}
@@ -92,7 +208,7 @@ export default (props) => {
                         <Link to="/login">
                             <Button size="small" style={{ marginBottom: 5 }} color="primary">Login</Button>
                         </Link>
-                        <Button size="small" variant="contained" style={{ marginLeft: 'auto', marginBottom: 5 }} color="primary">
+                        <Button disabled={!isComplete} size="small" variant="contained" style={{ marginLeft: 'auto', marginBottom: 5 }} color="primary">
                             Register
                         </Button>
                     </CardActions>
