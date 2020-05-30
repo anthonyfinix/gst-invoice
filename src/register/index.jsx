@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './register.css';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
@@ -8,10 +8,12 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { Link, Redirect } from 'react-router-dom';
-import { getUsernameAvailable } from '../api';
+import { AppContext } from '../App';
+import { getUsernameAvailable, registerUser } from '../api';
 import { Name, Password, Username, Email } from '../utils/validate';
 
 export default (props) => {
+    const { appDetails: { user }, setNotification } = useContext(AppContext);
     const [registrationDetails, setRegistrationDetails] = useState({
         username: { value: '', error: '' },
         name: { value: '', error: '' },
@@ -83,11 +85,11 @@ export default (props) => {
                 error = validatePassword(element.value);
                 if (error) {
                     values.password.error = error
-                }else if(values.confirmPassword.value !== ''){
-                    error = comparePassword(values.confirmPassword.value,element.value)
-                    if(error){
+                } else if (values.confirmPassword.value !== '') {
+                    error = comparePassword(values.confirmPassword.value, element.value)
+                    if (error) {
                         values.password.error = error;
-                    }else{
+                    } else {
                         values.password.error = '';
                     }
                 } else {
@@ -102,6 +104,8 @@ export default (props) => {
                     values.confirmPassword.error = ''
                 }
                 break;
+            default:
+                break;
         }
         values[element.getAttribute('name')].value = element.value;
         setRegistrationDetails({ ...values })
@@ -111,10 +115,21 @@ export default (props) => {
         clearTimeout(timer)
         if (username !== '') {
             setTimer(setTimeout(() => {
-                getUsernameAvailable(username).
-                    then(data => setUsernameAvailable(data.isAvailable))
+                getUsernameAvailable(username)
+                .then(data => setUsernameAvailable(data.isAvailable))
             }, 500))
         }
+    }
+    const handleRegistrationClick = () => {
+        let regValues = {};
+        Object.keys(registrationDetails).forEach(key => {
+            if (key !== 'confirmPassword')
+                regValues[key] = registrationDetails[key].value;
+        })
+        registerUser(regValues).then(data => {
+            if (data.error) return setNotification(data.error)
+            props.history.push('/login')
+        })
     }
     const validateUsername = (username) => {
         const { error } = Username.validate(username);
@@ -138,6 +153,9 @@ export default (props) => {
     const comparePassword = (confirmPassword, password) => {
         if (!password) return
         if (password !== confirmPassword) return 'Password does not match';
+    }
+    if (user.name) {
+        return <Redirect to={`/app`} />
     }
     return (
         <React.Fragment>
@@ -208,7 +226,13 @@ export default (props) => {
                         <Link to="/login">
                             <Button size="small" style={{ marginBottom: 5 }} color="primary">Login</Button>
                         </Link>
-                        <Button disabled={!isComplete} size="small" variant="contained" style={{ marginLeft: 'auto', marginBottom: 5 }} color="primary">
+                        <Button
+                            disabled={!isComplete}
+                            size="small"
+                            variant="contained"
+                            style={{ marginLeft: 'auto', marginBottom: 5 }}
+                            onClick={handleRegistrationClick}
+                            color="primary">
                             Register
                         </Button>
                     </CardActions>

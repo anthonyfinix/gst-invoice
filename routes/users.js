@@ -46,7 +46,7 @@ router.delete('/:id', verify, (req, res) => {
 router.post('/register', (req, res) => {
     const { name, username, email, password } = req.body;
     const { value, error } = registrationSchema.validate({ name, username, password, email });
-    if (error) res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).json({error:error.details[0].message});
     try {
         hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
     } catch (err) {
@@ -54,7 +54,7 @@ router.post('/register', (req, res) => {
     }
     new User({ name, username, email, password: hashedPassword }).save()
         .then(newUser => res.json(newUser))
-        .catch(err => res.json({ message: err }))
+        .catch(err => res.json({ err: err }))
 })
 
 router.post('/login', (req, res) => {
@@ -63,7 +63,7 @@ router.post('/login', (req, res) => {
     if (error) return res.status(400).json({ error: error.details[0].message });
     User.findOne({ username })
         .catch(err => {
-            res.status(500).res.json({ "error": 'there is some error' })
+            return res.status(500).res.json({ "error": 'there is some error' })
         })
         .then(user => {
             if (!user) return res.json({ "error": 'no user found!' })

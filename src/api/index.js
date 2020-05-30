@@ -21,6 +21,7 @@ export {
 
 export {
     loginUser,
+    registerUser,
     getSingleUserDetails,
     getUsernameAvailable
 } from './user';
