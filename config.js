@@ -4,6 +4,7 @@ module.exports = {
       uri:
         "mongodb+srv://anthonyfinix:anthonyfinix@123@practicecluster-6usqg.gcp.mongodb.net/gstInvoice?retryWrites=true&w=majority",
     },
+    url:'https://invoice-gst.herokuapp.com/'
   },
   dev: {
     mongodb: {

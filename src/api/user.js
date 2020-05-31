@@ -1,7 +1,7 @@
 import { getlocalStorageToken } from "../utils/getLocalStrorageToken";
 
 export async function loginUser(username, password) {
-    let userDetails = await fetch('http://localhost:3100/users/login', {
+    let userDetails = await fetch('https://invoice-gst.herokuapp.com/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -19,7 +19,7 @@ export async function loginUser(username, password) {
     return userDetails;
 }
 export async function registerUser({ username, password, name, email }) {
-    let userDetails = await fetch('http://localhost:3100/users/register', {
+    let userDetails = await fetch('https://invoice-gst.herokuapp.com/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -40,13 +40,13 @@ export async function registerUser({ username, password, name, email }) {
 }
 
 export async function getUsernameAvailable(username) {
-    let isAvailable = await fetch('http://localhost:3100/users?isUsernameAvail=' + username)
+    let isAvailable = await fetch('https://invoice-gst.herokuapp.com?isUsernameAvail=' + username)
         .then(res => res.json())
     return isAvailable
 }
 
 export async function getSingleUserDetails(token) {
-    let userDetails = await fetch('http://localhost:3100/users/' + token, {
+    let userDetails = await fetch('https://invoice-gst.herokuapp.com/' + token, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
