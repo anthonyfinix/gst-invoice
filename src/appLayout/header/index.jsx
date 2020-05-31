@@ -11,7 +11,6 @@ import "./header.css";
 import { AppContext } from "../../App";
 
 export default ({ match, ...props }) => {
-    console.log(props)
   const [anchorEl, setAnchorEl] = useState(null);
   const {
     appDetails: { user },

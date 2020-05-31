@@ -1,3 +1,5 @@
+import { getlocalStorageToken } from "../utils/getLocalStrorageToken";
+
 export async function loginUser(username, password) {
     let userDetails = await fetch('http://localhost:3100/users/login', {
         method: 'POST',

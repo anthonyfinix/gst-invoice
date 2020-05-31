@@ -16,7 +16,7 @@ class invoices extends React.Component {
         this.getClients = this.getClients.bind(this);
         this.searchClients = this.searchClients.bind(this);
         this.getInvoice = this.getInvoice.bind(this);
-        this.fetchItems().then(Items => this.setState({ Items: Items }));
+        getAllInvoices().then(Items => this.setState({ Items: Items }));
     }
     handleInvoiceDelete(invoiceId) {
         deleteSingleInvoice(invoiceId)
