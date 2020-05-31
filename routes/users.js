@@ -47,6 +47,7 @@ router.post('/register', (req, res) => {
     const { name, username, email, password } = req.body;
     const { value, error } = registrationSchema.validate({ name, username, password, email });
     if (error) return res.status(400).json({error:error.details[0].message});
+    let hashedPassword;
     try {
         hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
     } catch (err) {
