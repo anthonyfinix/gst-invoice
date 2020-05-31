@@ -33,7 +33,7 @@ export default (props) => {
     return (
         <Box className="App">
             <Router>
-                <MainHeader toggleDrawer={handleHeaderToggleDrawerClick} />
+                <MainHeader {...props} toggleDrawer={handleHeaderToggleDrawerClick} />
                 <Box display="flex">
                     <div>
                         <Sidebar
