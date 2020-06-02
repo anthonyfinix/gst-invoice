@@ -66,7 +66,7 @@ export async function getSingleUserDetails(token) {
     })
     .catch((err) => {
       console.log(err);
-      response = "catch ran";
+      response = "Error Happend";
     });
   return response;
   // let userDetails = await fetch(API_URL + "/users/" + token, {
