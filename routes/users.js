@@ -61,7 +61,7 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res) => {
     const { username, password } = req.body;
     const { value, error } = loginSchema.validate({ username, password });
-    if (error) return res.status(400).json({ error: error.details[0].message });
+    if (error) return res.status(400).json({ 'error': error.details[0].message });
     User.findOne({ username })
         .catch(err => {
             return res.status(500).res.json({ "error": 'there is some error' })

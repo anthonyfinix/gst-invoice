@@ -1,7 +1,7 @@
 import { getlocalStorageToken } from "../utils/getLocalStrorageToken";
 
 export async function getAllInvoices() {
-  let invoices = await fetch("https://invoice-gst.herokuapp.com/", {
+  let invoices = await fetch("https://invoice-gst.herokuapp.com/invoices/", {
       headers:{
           "auth-token": getlocalStorageToken(),
       }
@@ -9,7 +9,7 @@ export async function getAllInvoices() {
   return invoices;
 }
 export async function addNewInvoice(data) {
-  let invoice = await fetch("https://invoice-gst.herokuapp.com/", {
+  let invoice = await fetch("https://invoice-gst.herokuapp.com/invoices/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -29,7 +29,7 @@ export async function addNewInvoice(data) {
 }
 
 export async function deleteSingleInvoice(id) {
-  let invoice = await fetch("https://invoice-gst.herokuapp.com/" + id, {
+  let invoice = await fetch("https://invoice-gst.herokuapp.com/invoices/" + id, {
     method: "DELETE",
     headers:{
         "auth-token": getlocalStorageToken(),

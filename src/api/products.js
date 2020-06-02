@@ -1,7 +1,7 @@
 import { getlocalStorageToken } from "../utils/getLocalStrorageToken";
 
 export async function getAllProducts() {
-  let products = await fetch("https://invoice-gst.herokuapp.com/", {
+  let products = await fetch("https://invoice-gst.herokuapp.com/products/", {
     headers: {
       "auth-token": getlocalStorageToken(),
     },
@@ -10,7 +10,7 @@ export async function getAllProducts() {
 }
 export async function partialSearchProducttName(searchTerm) {
   let product = await fetch(
-    "https://invoice-gst.herokuapp.com/search/" + searchTerm,
+    "https://invoice-gst.herokuapp.com/products/search/" + searchTerm,
     {
       headers: {
         "auth-token": getlocalStorageToken(),
@@ -20,7 +20,7 @@ export async function partialSearchProducttName(searchTerm) {
   return product;
 }
 export async function deleteProduct(id) {
-  await fetch("https://invoice-gst.herokuapp.com/" + id, {
+  await fetch("https://invoice-gst.herokuapp.com/products/" + id, {
     method: "DELETE",
     headers: {
       "auth-token": getlocalStorageToken(),
@@ -28,7 +28,7 @@ export async function deleteProduct(id) {
   }).then((res) => res.json());
 }
 export async function addNewProduct(data) {
-  let product = await fetch("https://invoice-gst.herokuapp.com/", {
+  let product = await fetch("https://invoice-gst.herokuapp.com/products/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -46,7 +46,7 @@ export async function addNewProduct(data) {
 }
 export async function updateProduct(data) {
   console.log(data);
-  let product = await fetch("https://invoice-gst.herokuapp.com/" + data._id, {
+  let product = await fetch("https://invoice-gst.herokuapp.com/products/" + data._id, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

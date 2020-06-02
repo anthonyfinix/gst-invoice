@@ -1,21 +1,21 @@
 import { getlocalStorageToken } from "../utils/getLocalStrorageToken";
 
 export async function getAllClients() {
-  let clients = await fetch("https://invoice-gst.herokuapp.com/", {
+  let clients = await fetch("https://invoice-gst.herokuapp.com/clients/", {
     headers: { "auth-token": getlocalStorageToken() },
   }).then((res) => res.json());
   return clients;
 }
 
 export async function getSingleClient(id) {
-  let client = await fetch("https://invoice-gst.herokuapp.com/" + id, {
+  let client = await fetch("https://invoice-gst.herokuapp.com/clients/" + id, {
     headers: { "auth-token": getlocalStorageToken() },
   }).then((res) => res.json());
   return client;
 }
 
 export async function deleteSingleClient(id) {
-  let client = await fetch("https://invoice-gst.herokuapp.com/" + id, {
+  let client = await fetch("https://invoice-gst.herokuapp.com/clients/" + id, {
     method: "DELETE",
     headers: { "auth-token": getlocalStorageToken() },
   }).then((res) => res.json());
@@ -24,7 +24,7 @@ export async function deleteSingleClient(id) {
 
 export async function addNewClient(data) {
   console.log(data);
-  let client = await fetch("https://invoice-gst.herokuapp.com/", {
+  let client = await fetch("https://invoice-gst.herokuapp.com/clients/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export async function addNewClient(data) {
 }
 
 export async function updateClient(data) {
-  let client = await fetch("https://invoice-gst.herokuapp.com/" + data._id, {
+  let client = await fetch("https://invoice-gst.herokuapp.com/clients/" + data._id, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export async function updateClient(data) {
   return client;
 }
 export async function partialSearchClientName(searchTerm) {
-  let client = await fetch("https://invoice-gst.herokuapp.com/search/" + searchTerm,{
+  let client = await fetch("https://invoice-gst.herokuapp.com/clients/search/" + searchTerm,{
       headers: { "auth-token": getlocalStorageToken() },
     }).then((res) => res.json());
   return client;
