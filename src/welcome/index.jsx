@@ -8,6 +8,7 @@ import AppLayout from '../appLayout';
 import PrivateRoute from '../utils/privateRoute';
 
 export default (props) => {
+    console.log('router component ran')
     const { setUser } = props;
     return (
         <Router>

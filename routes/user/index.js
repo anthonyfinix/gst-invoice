@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../modals/user');
+const User = require('../../modals/user');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const verify = require('../routeGuard');
+const verify = require('../../routeGuard');
+const login =  require('./login')
 
-const { registrationSchema, loginSchema } = require('../validate');
+const { registrationSchema } = require('../../validate');
 
 router.get('/', (req, res) => {
     const { isUsernameAvail } = req.query;
@@ -58,34 +58,6 @@ router.post('/register', (req, res) => {
         .catch(err => res.json({ err: err }))
 })
 
-router.post('/login', (req, res) => {
-    const { username, password } = req.body;
-    const { value, error } = loginSchema.validate({ username, password });
-    if (error) return res.status(400).json({ 'error': error.details[0].message });
-    User.findOne({ username })
-        .catch(err => {
-            return res.status(500).res.json({ "error": 'there is some error' })
-        })
-        .then(user => {
-            if (!user) return res.json({ "error": 'no user found!' })
-            bcrypt.compare(password, user.password, (err, isMatched) => {
-                if (err) return res.status(500).json({ 'error': 'there is some error encoutered' });
-                if (!isMatched) return res.json({ "error": 'Password does not match' });
-                const token = jwt.sign({ userId: user._id }, 'secretKey');
-                let userDetails = {
-                    userId: user._id,
-                    username: user.username,
-                    email: user.email,
-                    name: user.name
-                }
-                return res.set({
-                    'auth-token': token,
-                    'Access-Control-Expose-Headers': 'auth-token'
-                }).json({ ...userDetails })
-            })
 
-        })
-});
-
-
+router.post('/login',(req,res)=>{login(req,res)})
 module.exports = router;

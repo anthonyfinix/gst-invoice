@@ -24,7 +24,7 @@ mongoose.connect(config.prod.mongodb.uri, { useCreateIndex: true, useNewUrlParse
     
 
 
-const users = require('./routes/users');
+const users = require('./routes/user/');
 const client = require('./routes/clients');
 const invoice = require('./routes/invoice');
 const product = require('./routes/product');

@@ -13,7 +13,7 @@ import { getUsernameAvailable, registerUser } from '../api';
 import { Name, Password, Username, Email } from '../utils/validate';
 
 export default (props) => {
-    const { appDetails: { user }, setNotification } = useContext(AppContext);
+    const { appDetails: { user } } = useContext(AppContext);
     const [registrationDetails, setRegistrationDetails] = useState({
         username: { value: '', error: '' },
         name: { value: '', error: '' },
@@ -127,7 +127,7 @@ export default (props) => {
                 regValues[key] = registrationDetails[key].value;
         })
         registerUser(regValues).then(data => {
-            if (data.error) return setNotification(data.error)
+            if (data.error) return console.log(data.error)
             props.history.push('/login')
         })
     }

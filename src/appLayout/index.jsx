@@ -11,7 +11,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { AppContext } from '../App';
 
 export default (props) => {
-    const { appDetails: { windowDimensions }, setNotification } = useContext(AppContext);
+    const { appDetails: { windowDimensions } } = useContext(AppContext);
     const [drawerState, setDrawerState] = useState((windowDimensions.state === 'sm' ? false : true));
     const [forcedDrawerState, setforcedDrawerState] = useState(false);
     const toggleDrawerState = () => {
@@ -21,9 +21,6 @@ export default (props) => {
         windowDimensions.state === 'md' && forcedDrawerState === false ? setDrawerState(false) : setDrawerState(true)
     }, [windowDimensions.state])
     
-    useEffect(() => {
-        setNotification('Welcome');
-    }, [])
 
     const handleHeaderToggleDrawerClick = () => {
         setDrawerState(!drawerState)

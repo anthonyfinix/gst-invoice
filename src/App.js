@@ -1,14 +1,13 @@
 import "./App.css";
 import "typeface-roboto";
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, createContext } from "react";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Snackbar from "@material-ui/core/Snackbar";
-import Welcome from "./welcome";
 import { getlocalStorageToken } from "./utils/getLocalStrorageToken";
 import Loading from "./utils/welcomeLoadingScreen";
 import { getSingleUserDetails } from "./api";
 import getWindowDimensionsAndState from "./utils/useWindowDimensions";
+import Welcome from './welcome'
 
 export const AppContext = createContext();
 
@@ -21,37 +20,16 @@ const theme = createMuiTheme({
 export default function App(props) {
   const [loaded, setloaded] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
-  const [notification, setNotification] = useState(null);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setNotification(null);
-    }, 4000);
-  }, [notification]);
-
-  if (getlocalStorageToken()) {
+  console.log("app component ran");
+  if (getlocalStorageToken() && userDetails === null) {
     getSingleUserDetails(getlocalStorageToken()).then((response) => {
+      setUserDetails({ ...response });
       setloaded(true);
     });
-  }else if(!loaded){
-    setloaded(true)
+  } else if (!loaded) {
+    setloaded(true);
   }
-
-  // if (getlocalStorageToken() || !loaded) {
-  //   console.log("checking local Storage");
-  //   getSingleUserDetails(getlocalStorageToken()).then((response) => {
-  //     setNotification(response);
-
-  // if (user) {
-  //   // setNotification(user.error)
-  //   setNotification("hai");
-  //   return null;
-  // } else {
-  //   setUserDetails({ ...user });
-  // }
-  //   });
-  // }
-
   const setUser = (user) => {
     return new Promise((resolve, reject) => {
       setUserDetails({ ...user });
@@ -67,23 +45,11 @@ export default function App(props) {
           windowDimensions: getWindowDimensionsAndState(),
         },
         setUserDetails,
-        setNotification,
       }}
     >
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {loaded ? (
-          <Welcome userDetails={userDetails} setUser={setUser} />
-        ) : (
-          <Loading />
-        )}
-        <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          // key={`${vertical},${horizontal}`}
-          open={!!notification}
-          // onClose={handleClose}
-          message={notification}
-        />
+        {loaded ? <Welcome setUser={setUser} /> : <Loading />}
       </ThemeProvider>
     </AppContext.Provider>
   );

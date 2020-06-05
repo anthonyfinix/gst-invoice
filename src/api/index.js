@@ -24,4 +24,4 @@ export {
     registerUser,
     getSingleUserDetails,
     getUsernameAvailable
-} from './user';
+} from './user/';

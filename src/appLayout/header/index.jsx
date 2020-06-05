@@ -16,6 +16,7 @@ export default ({ match, ...props }) => {
     appDetails: { user },
     setUserDetails,
   } = useContext(AppContext);
+  console.log(user)
 
   const handleUserBtnClick = (e) => {
     setAnchorEl(e.currentTarget);
