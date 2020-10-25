@@ -1,0 +1,18 @@
+#app{
+  min-height: 100vh;
+}
+#app-main-wrapper {
+  flex-grow: 1;
+}
+#app-main-wrapper #main-sidebar-wrapper {
+  flex-basis: 200px;
+  border-right: 1px solid rgba(0, 0, 0, 0.247);
+  transition: all 0.2s ease-out;
+}
+
+#main-sidebar-wrapper.close {
+  margin-left: -200px;
+}
+#main-sidebar-wrapper.open {
+  margin-left: 0px;
+}

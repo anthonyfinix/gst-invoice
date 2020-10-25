@@ -1,58 +1,31 @@
 {
-  "name": "gstinvoice",
-  "version": "0.1.0",
+  "name": "mern",
+  "version": "1.0.0",
+  "description": "boiler plate for mern stack",
+  "main": "index.js",
   "private": true,
-  "dependencies": {
-    "@date-io/date-fns": "^2.6.2",
-    "@hapi/joi": "^17.1.1",
-    "@material-ui/core": "^4.9.14",
-    "@material-ui/icons": "^4.9.1",
-    "@material-ui/lab": "^4.0.0-alpha.53",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "date-fns": "^2.14.0",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "eslint-plugin-flowtype": "^5.1.0",
-    "express": "^4.17.1",
-    "http-proxy": "^1.18.1",
-    "jsonwebtoken": "^8.5.1",
-    "material-table": "^1.57.2",
-    "mongoose": "^5.9.14",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.0",
-    "typeface-roboto": "0.0.75",
-    "typescript": "^3.9.2",
-    "uuid": "^8.0.0"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "nodemon server.js",
-    "mongoShell": "cd C:\\Program Files\\MongoDB\\Server\\4.2\bin\\mongo"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anthonyfinix/mern.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "keywords": [
+    "mern",
+    "boilerplate",
+    "express",
+    "react"
+  ],
+  "author": "Anthony Finix",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anthonyfinix/mern/issues"
   },
-  "devDependencies": {
-    "bcrypt": "^4.0.1",
-    "nodemon": "^2.0.4"
+  "homepage": "https://github.com/anthonyfinix/mern#readme",
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "react-router-dom": "^5.2.0"
   }
 }

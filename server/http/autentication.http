@@ -1,0 +1,22 @@
+GET http://localhost:3500/
+###
+GET http://localhost:3500/login
+x-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFudGhvbnlmaW5peCIsImVtYWlsIjoiYW50aG9ueWZpbml4QGdtYWlsLmNvbSIsImlhdCI6MTYwMzQ2MTI3NSwiZXhwIjoxNjAzNDYxMzM1fQ.lmMHKRxpPuPJvvT11iVV-JycOt6q9N5j0gmnBZKO0VA
+###
+POST http://localhost:3500/login
+Content-Type: application/json
+
+{
+    "username": "anthonyfinix",
+    "password": "anthonyfinix@123"
+}
+###
+POST http://localhost:3500/register
+Content-Type: application/json
+
+{
+    "name":"Something",
+    "username": "anthonyfsinix",
+    "email":"Vola@gmail.com",
+    "password": "anthonyfinix@123"
+}
