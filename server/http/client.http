@@ -1,18 +1,18 @@
-GET http://localhost:3500/api/products
+GET http://localhost:3500/api/clients
 x-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW50aG9ueSBGaW5peCIsInVzZXJuYW1lIjoiYW50aG9ueWZpbml4IiwiZW1haWwiOiJhbnRob255ZmluaXhAZ21haWwuY29tIiwiaWF0IjoxNjAzODk5MDQyLCJleHAiOjE2MDM4OTk2NDJ9.FzO8G-wbFrGSUcs-_PDNI65q2pA21t0ju9xFE3N521Y
 ###
-POST http://localhost:3500/api/products
+POST http://localhost:3500/api/clients
 Content-Type: application/json
 x-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW50aG9ueSBGaW5peCIsInVzZXJuYW1lIjoiYW50aG9ueWZpbml4IiwiZW1haWwiOiJhbnRob255ZmluaXhAZ21haWwuY29tIiwiaWF0IjoxNjAzODk5MDQyLCJleHAiOjE2MDM4OTk2NDJ9.FzO8G-wbFrGSUcs-_PDNI65q2pA21t0ju9xFE3N521Y
 
 {
-    "name":"Nvidia GTX 2080"
+    "name":"Phoenix Inc"
 }
 ###
-DELETE  http://localhost:3500/api/products
+DELETE  http://localhost:3500/api/clients
 Content-Type: application/json
 x-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW50aG9ueSBGaW5peCIsInVzZXJuYW1lIjoiYW50aG9ueWZpbml4IiwiZW1haWwiOiJhbnRob255ZmluaXhAZ21haWwuY29tIiwiaWF0IjoxNjAzODk5MDQyLCJleHAiOjE2MDM4OTk2NDJ9.FzO8G-wbFrGSUcs-_PDNI65q2pA21t0ju9xFE3N521Y
 
 {
-    "id":"5f96984aa394c4dfda6d10d8"
+    "id":"5f99a90ac743e43368115147"
 }
