@@ -1,10 +1,7 @@
-import axios from "axios";
+import axios from "../util/axios";
 
-const logoutUser = async (user) => {
-  let domain = process.env.REACT_APP_API_DOMAIN || 'http://locahost:3500'
-  let response = await axios.get(`${domain}/logout`, {
-    withCredentials: true,
-  });
+const logoutUser = async () => {
+  let response = await axios.get(`/logout`);
   let data = response.data;
   return data;
 };

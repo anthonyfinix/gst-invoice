@@ -9,7 +9,7 @@ import { logoutUser } from '../../../api';
 import { UserContext } from '../../../contexts/userContext';
 
 function UserAvatar() {
-    const {user,setUser} = React.useContext(UserContext);
+    const { user, setUser } = React.useContext(UserContext);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const userAvatarRef = React.useRef();
     function handleUserAvatarPopupClick() {
@@ -21,10 +21,10 @@ function UserAvatar() {
     }
     function handleLogout() {
         logoutUser()
-        .then(()=>{
-            setUser(null)
-            localStorage.removeItem('x-token');
-        })
+            .then(() => {
+                setUser(null)
+                localStorage.removeItem('x-token');
+            })
     }
 
     return (

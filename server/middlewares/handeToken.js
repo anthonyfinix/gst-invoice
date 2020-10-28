@@ -5,6 +5,9 @@ const cookieParser = require("cookie-parser");
 module.exports = async (req, res, next) => {
   const token = req.header("x-token");
   if (token) {
+    if (process.env.NODE_ENV === "development"){
+      res.set({ "Access-Control-Expose-Headers": "x-token" });
+    }
     try {
       let { name, username, email } = jwt.verify(token, process.env.JWT_SECRET);
       res.set({ "x-token": token });
@@ -26,9 +29,6 @@ module.exports = async (req, res, next) => {
                 { expiresIn: process.env.ACCESS_TOKEN_EXPIRY || '10m' }
               );
               res.set({ "x-token": accessToken });
-              if (process.env.NODE_ENV === "development"){
-                res.set({ "Access-Control-Expose-Headers": "x-token" });
-              }
             } catch (error) {
               console.log(`refresh token ${error.message}`);
             }

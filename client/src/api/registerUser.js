@@ -1,8 +1,7 @@
-import axios from 'axios';
+import axios from '../util/axios';
 
 const registerUser = async (user) => {
-    let domain = process.env.REACT_APP_API_DOMAIN || 'http://locahost:3500'
-    let response = await axios.post(`${domain}/register`,user,{withCredentials:true});
+    let response = await axios.post(`/register`,user);
     let data = response.data
     return data;
 };
