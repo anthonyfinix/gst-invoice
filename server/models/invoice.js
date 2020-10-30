@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 invoiceSchema = new mongoose.Schema({
-  name: String
-});
+  recipient: String
+},{ versionKey: false });
 
 module.exports = mongoose.model("Invoice", invoiceSchema);

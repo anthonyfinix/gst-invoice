@@ -1,4 +1,4 @@
-import axios from "../util/axios";
+import axios from "../../util/axios";
 
 const addProduct = async ({name}) => {
   let response = await axios.post(`/api/products`, {name});

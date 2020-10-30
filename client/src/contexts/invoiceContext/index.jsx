@@ -1,21 +1,18 @@
 import React from 'react';
-import getProducts from '../../api/getProducts';
+import getInvoices from '../../api/invoice/getInvoices';
+import addInvoice from '../../api/invoice/addInvoice';
 
 export const InvoiceContext = React.createContext();
 function InvoiceProvider(props) {
-    let [dialogState, setDialogState] = React.useState(false);
-    const toggleDialog = () => {
-        setDialogState(!dialogState)
-    }
     let title = "Invoice"
+    let [dialogState, setDialogState] = React.useState(false);
+    const toggleDialog = () => setDialogState(!dialogState)
     const [items, setInvoice] = React.useState(null);
-    React.useEffect(() => {
-        getProducts()
-            .then(response => setInvoice(response))
-    }, [])
+    const updateInvoices = () => getInvoices().then(response => setInvoice(response))
+    React.useEffect(() => { updateInvoices() }, [])
 
     return (
-        <InvoiceContext.Provider value={{ items, title, dialogState, toggleDialog }}>
+        <InvoiceContext.Provider value={{ items, title, dialogState, toggleDialog, addInvoice, updateInvoices }}>
             {props.children}
         </InvoiceContext.Provider>
     )

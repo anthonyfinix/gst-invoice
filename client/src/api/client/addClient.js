@@ -1,4 +1,4 @@
-import axios from "../util/axios";
+import axios from "../../util/axios";
 
 const getAllClients = async ({name}) => {
   let response = await axios.post(`/api/clients`, {name});

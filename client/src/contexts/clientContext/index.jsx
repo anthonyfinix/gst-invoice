@@ -1,21 +1,18 @@
 import React from 'react';
-import getAllClients from '../../api/getClients';
+import getClients from '../../api/client/getClients';
+import addClient from '../../api/client/addClient';
 
 export const ClientContext = React.createContext();
 function ClientProvider(props) {
-    let [dialogState, setDialogState] = React.useState(false);
-    const toggleDialog = () => {
-        setDialogState(!dialogState)
-    }
     let title = "Client"
+    let [dialogState, setDialogState] = React.useState(false);
+    const toggleDialog = () => setDialogState(!dialogState)
     const [items, setClients] = React.useState(null);
-    React.useEffect(() => {
-        getAllClients()
-            .then(response => setClients(response))
-    }, [])
+    const updateClients = () => getClients().then(response => setClients(response))
+    React.useEffect(() => { getClients().then(response => setClients(response)) }, [])
 
     return (
-        <ClientContext.Provider value={{ items, title, dialogState, toggleDialog }}>
+        <ClientContext.Provider value={{ items, title, dialogState, toggleDialog, addClient, updateClients }}>
             {props.children}
         </ClientContext.Provider>
     )

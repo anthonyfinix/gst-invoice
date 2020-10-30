@@ -1,20 +1,16 @@
 import React from 'react';
-import getProducts from '../../api/getProducts';
-import addProduct from '../../api/addProducts';
+import getProducts from '../../api/product/getProducts';
+import addProduct from '../../api/product/addProducts';
 
 export const ProductContext = React.createContext();
 function ProductProvider(props) {
-    let [dialogState, setDialogState] = React.useState(false);
-    const toggleDialog = () => {
-        setDialogState(!dialogState)
-    }
-    let title = "Product";
+    const title = "Product";
+    const [dialogState, setDialogState] = React.useState(false);
+    const toggleDialog = () => setDialogState(!dialogState)
     const [items, setProducts] = React.useState(null);
-    const updateProducts = () => {
-        getProducts()
-            .then(response => setProducts(response))
-    }
-    React.useEffect(() => updateProducts(), [])
+    const updateProducts = () => getProducts().then(response => setProducts(response))
+
+    React.useEffect(() => {updateProducts()}, [])
 
     return (
         <ProductContext.Provider value={{ items, title, dialogState, toggleDialog, addProduct, updateProducts }}>

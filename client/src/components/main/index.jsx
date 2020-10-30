@@ -7,7 +7,7 @@ import { AppContext } from '../../contexts/appContext';
 import GetEntities from '../getEntity';
 
 function Main() {
-    const { sidebarState, currentProduct } = React.useContext(AppContext)
+    const { sidebarState, currentEntity } = React.useContext(AppContext)
     return (
         <Box id="app" display="flex" flexDirection="column">
             <Header />
@@ -16,7 +16,7 @@ function Main() {
                     <Sidebar />
                 </div>
                 <div id="app-content-wrapper">
-                    <GetEntities product={currentProduct.entity} />
+                    <GetEntities product={currentEntity} />
                 </div>
             </Box>
         </Box>

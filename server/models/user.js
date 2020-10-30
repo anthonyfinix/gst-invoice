@@ -5,6 +5,6 @@ userSchema = new mongoose.Schema({
   username: String,
   password: String,
   email: String,
-});
+},{ versionKey: false });
 
 module.exports = mongoose.model("User", userSchema);

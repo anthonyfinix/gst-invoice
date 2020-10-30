@@ -3,13 +3,13 @@ import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import links from './links';
 import { AppContext } from '../../contexts/appContext';
+import links from './links';
 
 function Sidebar() {
-    const { setCurrentProduct } = React.useContext(AppContext)
+    const { setCurrentEntity } = React.useContext(AppContext)
     const handleSidebarItemClick = (link) => {
-        setCurrentProduct(link.entity)
+        setCurrentEntity(link.entity)
     }
     return (
         <Box>

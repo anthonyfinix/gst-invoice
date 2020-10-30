@@ -4,12 +4,12 @@ export const AppContext = createContext();
 export default function AppProvider(props) {
     const [appConfiguration] = useState({ name: "GST INVOICE" });
     const [sidebarState, setSidebarState] = useState(1);
-    const [currentProduct, setCurrentProduct] = useState("product");
+    const [currentEntity, setCurrentEntity] = useState("product");
     const toggleSidebar = () => {
         setSidebarState(!sidebarState)
     }
     return (
-        <AppContext.Provider value={{ appConfiguration, sidebarState, toggleSidebar, currentProduct, setCurrentProduct }}>
+        <AppContext.Provider value={{ appConfiguration, sidebarState, toggleSidebar, currentEntity, setCurrentEntity }}>
             {props.children}
         </AppContext.Provider>
     )
