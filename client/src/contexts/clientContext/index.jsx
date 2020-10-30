@@ -3,6 +3,11 @@ import getAllClients from '../../api/getClients';
 
 export const ClientContext = React.createContext();
 function ClientProvider(props) {
+    let [dialogState, setDialogState] = React.useState(false);
+    const toggleDialog = () => {
+        setDialogState(!dialogState)
+    }
+    let title = "Client"
     const [items, setClients] = React.useState(null);
     React.useEffect(() => {
         getAllClients()
@@ -10,7 +15,7 @@ function ClientProvider(props) {
     }, [])
 
     return (
-        <ClientContext.Provider value={{ items }}>
+        <ClientContext.Provider value={{ items, title, dialogState, toggleDialog }}>
             {props.children}
         </ClientContext.Provider>
     )

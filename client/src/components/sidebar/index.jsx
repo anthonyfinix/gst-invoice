@@ -8,15 +8,15 @@ import { AppContext } from '../../contexts/appContext';
 
 function Sidebar() {
     const { setCurrentProduct } = React.useContext(AppContext)
-    const handleSidebarItemClick = (e, link) => {
-        setCurrentProduct({provider:link.provider,context:link.context})
+    const handleSidebarItemClick = (link) => {
+        setCurrentProduct(link.entity)
     }
     return (
         <Box>
             <List component="nav">
                 {Object.keys(links).map((item) => {
                     return (
-                        <ListItem key={links[item].title} onClick={(e) => handleSidebarItemClick(e, links[item])} button>
+                        <ListItem key={links[item].title} onClick={() => handleSidebarItemClick(links[item])} button>
                             <ListItemText primary={links[item].title} />
                         </ListItem>
                     )

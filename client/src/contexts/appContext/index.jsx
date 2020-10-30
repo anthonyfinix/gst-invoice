@@ -4,7 +4,7 @@ export const AppContext = createContext();
 export default function AppProvider(props) {
     const [appConfiguration] = useState({ name: "GST INVOICE" });
     const [sidebarState, setSidebarState] = useState(1);
-    const [currentProduct, setCurrentProduct] = useState({provider:"ProductProvider",context:"ProductContext"});
+    const [currentProduct, setCurrentProduct] = useState("product");
     const toggleSidebar = () => {
         setSidebarState(!sidebarState)
     }

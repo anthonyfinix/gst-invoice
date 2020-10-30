@@ -2,13 +2,12 @@ import React from 'react';
 import './main.css'
 import Sidebar from '../sidebar';
 import Box from '@material-ui/core/Box';
-import Product from '../product';
 import Header from '../header';
 import { AppContext } from '../../contexts/appContext';
-import SetProductProvider from '../setProductProvider';
+import GetEntities from '../getEntity';
 
 function Main() {
-    const { sidebarState } = React.useContext(AppContext)
+    const { sidebarState, currentProduct } = React.useContext(AppContext)
     return (
         <Box id="app" display="flex" flexDirection="column">
             <Header />
@@ -17,9 +16,7 @@ function Main() {
                     <Sidebar />
                 </div>
                 <div id="app-content-wrapper">
-                    <SetProductProvider>
-                        <Product />
-                    </SetProductProvider>
+                    <GetEntities product={currentProduct.entity} />
                 </div>
             </Box>
         </Box>
