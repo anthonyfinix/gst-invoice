@@ -23,18 +23,19 @@ module.exports = async (req, res) => {
   let accessToken = jwt.sign(
     { name: user.name, username: user.username, email: user.email },
     process.env.JWT_SECRET,
-    { expiresIn: process.env.ACCESS_TOKEN_EXPIRY  || '10m'}
+    { expiresIn: process.env.ACCESS_TOKEN_EXPIRY || "10m" }
   );
 
   let refreshToken = jwt.sign(
     { username: user.username, email: user.email },
     process.env.JWT_SECRET + user.password,
-    { expiresIn: process.env.REFRESH_TOKEN_EXPIRY || '7d' }
+    { expiresIn: process.env.REFRESH_TOKEN_EXPIRY || "7d" }
   );
 
   // set header
   res.set({ "x-token": accessToken });
-  if(process.env.NODE_ENV === 'development') res.set({"Access-Control-Expose-Headers": "x-token"})
+  if (process.env.NODE_ENV === "development")
+    res.set({ "Access-Control-Expose-Headers": "x-token" });
 
   // set cookies
   let cookieParam = {

@@ -1,39 +1,55 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../models");
 const cookieParser = require("cookie-parser");
+const token = require("../util/token");
 
 module.exports = async (req, res, next) => {
-  const token = req.header("x-token");
-  if (token) {
-    console.log("access token found");
-    try {
-      let { name, username, email } = jwt.verify(token, process.env.JWT_SECRET);
-      res.set({ "x-token": token });
-      req.user = { name, username, email };
-    } catch (error) {
-      console.log("access token validation error found");
-      if (error.message === "jwt expired") {
-        const refreshToken = req.cookies.refreshToken;
-        if (refreshToken) {
-          const { username } = jwt.decode(refreshToken);
-          const user = await User.findOne({ username });
-          if (user) {
-            let refreshSecret = process.env.JWT_SECRET + user.password;
-            try {
-              let { email } = await jwt.verify(refreshToken, refreshSecret);
-              req.user = user;
-              let accessToken = jwt.sign(
-                { name: user.name, username: user.username, email: user.email },
-                process.env.JWT_SECRET,
-                { expiresIn: process.env.ACCESS_TOKEN_EXPIRY || "10m" }
-              );
-              res.set({ "x-token": accessToken });
-            } catch (error) {
-              console.log(`refresh token ${error.message}`);
-            }
-          }
-        }
+  // get tokens
+  const accessToken = req.header("x-token");
+  const refreshToken = req.cookies.refreshToken;
+  // if refresh token and access token exist
+  if (refreshToken && accessToken) {
+    let { error: accessTokenError, payload: accessTokenPayload } = token.verify(
+      accessToken,
+      process.env.JWT_SECRET
+    );
+    // if accessToken expired
+    if (accessTokenError && accessTokenError.message === "jwt expired") {
+      let {
+        username: accessTokenUsername,
+        email: accessTokenEmail,
+      } = token.getPayload(accessToken);
+      // get access token user from db
+      let accessTokenUser = await User.findOne({
+        username: accessTokenUsername,
+        email: accessTokenEmail,
+      });
+      // validate refresh token with accessToken user
+      let refreshTokenSecret =
+        process.env.JWT_SECRET + accessTokenUser.password;
+      let { payload: refreshTokenPayload } = token.verify(
+        refreshToken,
+        refreshTokenSecret
+      );
+      if (refreshTokenPayload) {
+        // if refresh token validates create new access token
+        let newAccessToken = token.new(
+          {
+            name: accessTokenUser.name,
+            username: accessTokenUsername,
+            email: accessTokenEmail,
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: process.env.ACCESS_TOKEN_EXPIRY || "10m" }
+        );
+        // set new access token header
+
+        res.set(("x-token", newAccessToken));
+        req.user = accessTokenPayload;
       }
+    } else if (accessTokenPayload) {
+      // if accessToken not expired set user
+      req.user = accessTokenPayload;
     }
   }
   next();

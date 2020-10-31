@@ -1,14 +1,19 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = {
-  verify: (token) => {
+  verify: (token, secret) => {
+    let response = { payload: undefined, error: undefined };
     try {
-      return jwt.verify(token,process.env.JWT_SECRET);
+      response.payload = jwt.verify(token, secret);
     } catch (error) {
-      return error.message;
+      response.error = error;
     }
+    return response;
   },
-  payload: (token) => {
+  getPayload: (token) => {
     return jwt.decode(token);
+  },
+  new: (payload, secret, options) => {
+    return jwt.sign(payload, secret, options);
   },
 };
