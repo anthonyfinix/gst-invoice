@@ -21,9 +21,9 @@ function UserAvatar() {
     }
     function handleLogout() {
         logoutUser()
-            .then(() => {
-                setUser(null)
+            .then((response) => {
                 localStorage.removeItem('x-token');
+                setUser(null)
             })
     }
 

@@ -12,7 +12,8 @@ import { loginUser } from '../../api';
 import { UserContext } from '../../contexts/userContext';
 
 function Login() {
-    let { setUser } = React.useContext(UserContext);
+    let { setUser,user } = React.useContext(UserContext);
+    console.log(user)
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [snackBar, setSnackbar] = React.useState({ open: false, message: '' });

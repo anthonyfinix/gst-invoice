@@ -10,7 +10,10 @@ const cors = require("cors");
 // custom
 const { handleToken } = require("./middlewares");
 
-db.connect().then((response) => {
+init();
+
+async function init() {
+  let response = await db.connect();
   if (response.connection) {
     const { name, host } = response.connection;
     console.log(`connected to Mongo Atlas Host: ${host}`);
@@ -30,4 +33,4 @@ db.connect().then((response) => {
     console.log(`Error connecting to database`);
     console.log(`ERROR CODE: ${response.code}`);
   }
-});
+}

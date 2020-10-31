@@ -1,4 +1,14 @@
 export default {
+  dashboard: {
+    entity:"dashboard",
+    title: "Dashboard",
+    link: "/products",
+    provider: "ProductProvider",
+    context: "ProductContext",
+    schema: {
+      name: "string",
+    },
+  },
   products: {
     entity:"product",
     title: "Products",

@@ -5,14 +5,13 @@ const cookieParser = require("cookie-parser");
 module.exports = async (req, res, next) => {
   const token = req.header("x-token");
   if (token) {
-    if (process.env.NODE_ENV === "development"){
-      res.set({ "Access-Control-Expose-Headers": "x-token" });
-    }
+    console.log("access token found");
     try {
       let { name, username, email } = jwt.verify(token, process.env.JWT_SECRET);
       res.set({ "x-token": token });
       req.user = { name, username, email };
     } catch (error) {
+      console.log("access token validation error found");
       if (error.message === "jwt expired") {
         const refreshToken = req.cookies.refreshToken;
         if (refreshToken) {
@@ -26,7 +25,7 @@ module.exports = async (req, res, next) => {
               let accessToken = jwt.sign(
                 { name: user.name, username: user.username, email: user.email },
                 process.env.JWT_SECRET,
-                { expiresIn: process.env.ACCESS_TOKEN_EXPIRY || '10m' }
+                { expiresIn: process.env.ACCESS_TOKEN_EXPIRY || "10m" }
               );
               res.set({ "x-token": accessToken });
             } catch (error) {

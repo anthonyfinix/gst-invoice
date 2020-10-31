@@ -17,9 +17,9 @@ function App() {
           <UserProvider>
             <Switch>
               <Route exact path="/" component={Welcome} />
-              <ProtectedRoute exact path="/app" component={Main} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <ProtectedRoute path="/app" component={Main} />
             </Switch>
           </UserProvider>
         </AppProvider>

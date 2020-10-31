@@ -1,13 +1,24 @@
 import React from 'react';
 import InvoiceProvider, { InvoiceContext } from '../../../contexts/invoiceContext';
 import CreateDialog from './createDialog';
-import EntityView from '../../entityView'
+import EntityView from '../../entityView';
+import CreateInvoice from './createInvoice';
+import { useRouteMatch, Route } from 'react-router-dom'
 
 function Invoice() {
+    const match = useRouteMatch();
+    console.log(match.path)
     return (
         <InvoiceProvider>
-            <EntityView context={InvoiceContext} />
-            <CreateDialog/>
+            <Route exact path={match.path} render={(props) => {
+                return (
+                    <React.Fragment>
+                        <EntityView {...props} context={InvoiceContext} />
+                        <CreateDialog {...props} />
+                    </React.Fragment>
+                )
+            }} />
+            <Route path={match.path + '/NewInvoice'} component={CreateInvoice} />
         </InvoiceProvider>
     )
 }
