@@ -8,9 +8,13 @@ function ProductProvider(props) {
     const [dialogState, setDialogState] = React.useState(false);
     const toggleDialog = () => setDialogState(!dialogState)
     const [items, setProducts] = React.useState(null);
-    const updateProducts = () => getProducts().then(response => setProducts(response))
+    const updateProducts = () => getProducts().then(response => {
+        setProducts(response)
+    })
 
-    React.useEffect(() => {updateProducts()}, [])
+    React.useEffect(() => {
+        updateProducts()
+    }, [])
 
     return (
         <ProductContext.Provider value={{ items, title, dialogState, toggleDialog, addProduct, updateProducts }}>

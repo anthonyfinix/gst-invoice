@@ -7,7 +7,6 @@ import { useRouteMatch, Route } from 'react-router-dom'
 
 function Invoice() {
     const match = useRouteMatch();
-    console.log(match.path)
     return (
         <InvoiceProvider>
             <Route exact path={match.path} render={(props) => {

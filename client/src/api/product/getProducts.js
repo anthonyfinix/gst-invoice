@@ -1,7 +1,7 @@
 import axios from "../../util/axios";
 
-const getAllProducts = async (user) => {
-  let response = await axios.get(`/api/products`, user);
+const getAllProducts = async () => {
+  let response = await axios.get(`/api/products`);
   let data = response.data;
   return data;
 };

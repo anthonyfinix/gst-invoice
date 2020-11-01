@@ -1,10 +1,10 @@
-const jwt = require("jsonwebtoken");
 const { User } = require("../models");
-const cookieParser = require("cookie-parser");
 const token = require("../util/token");
 
 module.exports = async (req, res, next) => {
   // get tokens
+  if (process.env.NODE_ENV === "development")
+    res.set({ "Access-Control-Expose-Headers": "x-token" });
   const accessToken = req.header("x-token");
   const refreshToken = req.cookies.refreshToken;
   // if refresh token and access token exist
@@ -43,12 +43,12 @@ module.exports = async (req, res, next) => {
           { expiresIn: process.env.ACCESS_TOKEN_EXPIRY || "10m" }
         );
         // set new access token header
-
-        res.set(("x-token", newAccessToken));
+        res.set("x-token", newAccessToken);
         req.user = accessTokenPayload;
       }
     } else if (accessTokenPayload) {
       // if accessToken not expired set user
+      res.set("x-token", accessToken);
       req.user = accessTokenPayload;
     }
   }

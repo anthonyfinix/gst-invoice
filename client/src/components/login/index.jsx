@@ -6,20 +6,19 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import './login.css';
 import { loginUser } from '../../api';
 import { UserContext } from '../../contexts/userContext';
 
 function Login() {
     let { setUser,user } = React.useContext(UserContext);
-    console.log(user)
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [snackBar, setSnackbar] = React.useState({ open: false, message: '' });
     const [isLoading, setIsLoading] = React.useState(false);
     const history = useHistory();
-
+    
     const handleUsernameChange = (e) => {
         setUsername(e.target.value)
     }
@@ -38,6 +37,7 @@ function Login() {
                     setTimeout(() => closeSnackbar(), 6000)
                 } else {
                     localStorage.setItem('x-token',response.accessToken)
+                    delete response.accessToken;
                     setUser(response)
                     history.push('/app');
                 }
@@ -50,7 +50,9 @@ function Login() {
             })
             .finally(() => setIsLoading(false))
     }
-
+    if(user){
+        return <Redirect to="/app"/>
+    }
     return (
         <Box id="login-main-wrapper" display="flex" justifyContent="center" alignItems="center">
             {isLoading ? <CircularProgress /> : (
