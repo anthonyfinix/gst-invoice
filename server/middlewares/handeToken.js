@@ -44,7 +44,7 @@ module.exports = async (req, res, next) => {
         );
         // set new access token header
         res.set("x-token", newAccessToken);
-        req.user = accessTokenPayload;
+        req.user = accessTokenUser;
       }
     } else if (accessTokenPayload) {
       // if accessToken not expired set user
