@@ -13,7 +13,7 @@ function Invoice() {
                 return (
                     <React.Fragment>
                         <EntityView {...props} context={InvoiceContext} />
-                        <CreateDialog {...props} />
+                        {/* <CreateDialog {...props} /> */}
                     </React.Fragment>
                 )
             }} />

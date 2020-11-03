@@ -9,7 +9,10 @@ function Sidebar({total,...props}) {
             <Button variant="outlined" color="primary">Preview</Button>
             <Button variant="outlined" color="primary">Draft</Button>
             <Button variant="outlined" color="primary">Sent</Button>
-            <Typography variant="h3">{total}</Typography>
+            <Box mt="auto">
+                <Typography variant="h6" align="right">Total</Typography>
+                <Typography variant="h2" align="right">{total}</Typography>
+            </Box>
         </Box>
     )
 }
