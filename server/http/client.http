@@ -16,3 +16,7 @@ x-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW50aG9ueSBGaW5peCIsInV
 {
     "id":"5f99a90ac743e43368115147"
 }
+###
+GET  http://localhost:3500/api/clients/search?q=x
+Content-Type: application/json
+x-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW50aG9ueSBGaW5peCIsInVzZXJuYW1lIjoiYW50aG9ueWZpbml4IiwiZW1haWwiOiJhbnRob255ZmluaXhAZ21haWwuY29tIiwiaWF0IjoxNjA0NTAzNDg1LCJleHAiOjE2MDQ1MDM1NDV9.YzwN2Biam5SVx-LasjcuVAZlEF23gHWJLtXtFVmCxV8
