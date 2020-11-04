@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
     "env-cmd": "^10.1.0",
+    "pdfmake": "^0.1.68",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.4"
