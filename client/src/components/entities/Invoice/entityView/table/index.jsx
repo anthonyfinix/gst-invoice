@@ -26,7 +26,13 @@ function ProductTable({ products, ...props }) {
                     {rows.map((row) => (
                         <TableRow key={row._id}>
                             {columns.map(column => {
-                                if (column !== '_id') return <TableCell key={row[column]} component="th" scope="row">{row[column]}</TableCell>
+                                if (column !== '_id') {
+                                    if (column === 'recipient') return <TableCell key={row[column]} component="th" scope="row">{row[column].name}</TableCell>
+                                    if (column === 'products') return <TableCell key={row[column]} component="th" scope="row">{row[column].length}</TableCell>
+                                    if (column === 'draft') return <TableCell key={row[column]} component="th" scope="row">{row[column]?'yes':"no"}</TableCell>
+                                    return <TableCell key={row[column]} component="th" scope="row">{row[column]}</TableCell>
+                                }
+                                // return <TableCell key={row[column]} component="th" scope="row">{row[column]}</TableCell>
                             })}
                         </TableRow>
                     ))}

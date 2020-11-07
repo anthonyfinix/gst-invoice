@@ -10,9 +10,11 @@ import { ClientContext } from '../../../contexts/clientContext';
 function CreateDialog() {
     const { dialogState, toggleDialog, addClient, updateClients } = React.useContext(ClientContext);
     const [name, setName] = React.useState('');
+    const [email, setEmail] = React.useState('');
     const handleNameChange = (e) => setName(e.target.value)
+    const handleEmailChange = (e) => setEmail(e.target.value)
     const handleAddClient = () => {
-        addClient({ name })
+        addClient({ name, email })
             .then(toggleDialog())
             .then(updateClients())
     }
@@ -34,6 +36,17 @@ function CreateDialog() {
                         margin="normal"
                         value={name}
                         onChange={handleNameChange}
+                        autoComplete="off"
+                        name="username"
+                    />
+                    <TextField
+                        type="email"
+                        fullWidth size="small"
+                        label="Username"
+                        variant="outlined"
+                        margin="normal"
+                        value={email}
+                        onChange={handleEmailChange}
                         autoComplete="off"
                         name="username"
                     />

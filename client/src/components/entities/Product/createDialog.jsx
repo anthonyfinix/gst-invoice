@@ -10,11 +10,11 @@ import { ProductContext } from '../../../contexts/productContext';
 function CreateDialog() {
     const { dialogState, toggleDialog, addProduct, updateProducts } = React.useContext(ProductContext);
     const [name, setName] = React.useState('');
-    const handleNameChange = (e) => {
-        setName(e.target.value)
-    }
+    const [price, setPrice] = React.useState('');
+    const handleNameChange = (e) => setName(e.target.value);
+    const handlePriceChange = (e) => setPrice(e.target.value);
     const handleAddProduct = () => {
-        addProduct({ name })
+        addProduct({ name,price })
             .then(toggleDialog())
             .then(updateProducts())
     }
@@ -36,6 +36,17 @@ function CreateDialog() {
                         margin="normal"
                         value={name}
                         onChange={handleNameChange}
+                        autoComplete="off"
+                        name="username"
+                    />
+                    <TextField
+                        type="number"
+                        fullWidth size="small"
+                        label="Price"
+                        variant="outlined"
+                        margin="normal"
+                        value={price}
+                        onChange={handlePriceChange}
                         autoComplete="off"
                         name="username"
                     />
