@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { ProductContext } from '../../../contexts/productContext';
+import { ProductContext } from './productContext';
 
 function CreateDialog() {
     const { dialogState, toggleDialog, addProduct, updateProducts } = React.useContext(ProductContext);

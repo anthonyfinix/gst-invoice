@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { InvoiceContext } from '../../../contexts/invoiceContext';
+import { InvoiceContext } from './invoiceContext';
 
 function CreateDialog() {
     const { dialogState, toggleDialog, addInvoice, updateInvoices } = React.useContext(InvoiceContext);

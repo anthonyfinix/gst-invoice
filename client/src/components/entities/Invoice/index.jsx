@@ -1,6 +1,5 @@
 import React from 'react';
-import InvoiceProvider, { InvoiceContext } from '../../../contexts/invoiceContext';
-import CreateDialog from './createDialog';
+import InvoiceProvider, { InvoiceContext } from './invoiceContext';
 import EntityView from './entityView';
 import CreateInvoice from './createInvoice';
 import { useRouteMatch, Route } from 'react-router-dom'
@@ -13,7 +12,6 @@ function Invoice() {
                 return (
                     <React.Fragment>
                         <EntityView {...props} context={InvoiceContext} />
-                        {/* <CreateDialog {...props} /> */}
                     </React.Fragment>
                 )
             }} />

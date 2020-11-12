@@ -1,7 +1,7 @@
 import React from 'react';
-import ProductProvider, { ProductContext } from '../../../contexts/productContext';
+import ProductProvider, { ProductContext } from './productContext';
 import CreateDialog from './createDialog';
-import EntityView from '../../entityView'
+import EntityView from './entityView'
 
 function Product() {
     return (

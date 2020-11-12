@@ -1,4 +1,4 @@
-import axios from "../../util/axios";
+import axios from "../../../../util/axios";
 
 const getInvoices = async () => {
   let response = await axios.get(`/api/invoices`);

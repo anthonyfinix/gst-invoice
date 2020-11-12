@@ -3,9 +3,6 @@ import './createInvoice.css';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import TexField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ProductItem from './productItem';
@@ -14,7 +11,7 @@ import NoProductItem from './noProductItem';
 import getProductGrandTotal from './getProductGrandTotal';
 import { useHistory } from 'react-router-dom';
 import createPdf from '../../../../util/pdfMake';
-import { useState } from 'react';
+import {InvoiceContext} from '../invoiceContext';
 
 function CreateInvoice() {
     const history = useHistory();
@@ -25,8 +22,8 @@ function CreateInvoice() {
     const [productQty, setProductQty] = React.useState('');
     const [productPrice, setProductPrice] = React.useState('');
     const [products, setProducts] = React.useState([]);
-    const [draft,setDraft] = React.useState(0);
-    const [invoiceDate,setInvoiceDate] = useState(Date.now());
+    const [draft] = React.useState(0);
+    const [invoiceDate] = React.useState(Date.now());
     const addProduct = () => {
         let product = { name: productName, qty: productQty, price: productPrice }
         if ((productName !== '') || (productQty !== '') || (productPrice !== '')) {
@@ -49,12 +46,8 @@ function CreateInvoice() {
         }
         createPdf('invoice',previewData);
     }
-    const handleDraft = () => {
-
-    }
-    const handleSent = () => {
-
-    }
+    const handleDraft = () => {}
+    const handleSent = () => {}
     const handleViewAllInvoice = () => {
         history.push('/app');
     }

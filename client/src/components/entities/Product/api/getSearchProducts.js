@@ -1,4 +1,4 @@
-import axios from "../../util/axios";
+import axios from "../../../../util/axios";
 
 const getSearchProducts = async (query) => {
   let response = await axios.get(`/api/products/search?q=${query}`);

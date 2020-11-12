@@ -1,6 +1,5 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import ProductHeader from './header';
 import ProductTable from './table'
 import { TextField } from '@material-ui/core';
@@ -9,7 +8,7 @@ function Product({ context, ...props }) {
     const handleSearch = (e) => { contextData.searchItems(e.target.value) }
     const getTable = () => {
         if (!!contextData.items && contextData.items.length > 0) {
-            return (<ProductTable products={contextData.items} />)
+            return (<ProductTable items={contextData.items} columns={contextData.columns} deleteItem={contextData.deleteItem} />)
         }
     }
     return (

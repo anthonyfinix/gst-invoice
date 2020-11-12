@@ -1,4 +1,4 @@
-import axios from "../../util/axios";
+import axios from "../../../../util/axios";
 
 const getAllProducts = async () => {
   let response = await axios.get(`/api/products`);

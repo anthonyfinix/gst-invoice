@@ -1,5 +1,3 @@
-import header from "../components/entityView/header";
-
 export default (type, data) => {
   return format[type](data);
 };

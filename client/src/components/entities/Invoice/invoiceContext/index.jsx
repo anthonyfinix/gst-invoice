@@ -1,7 +1,8 @@
 import React from 'react';
-import getInvoices from '../../api/invoice/getInvoices';
-import addInvoice from '../../api/invoice/addInvoice';
-import getSearchInvoices from '../../api/invoice/getSearchInvoices';
+import getInvoices from '../api/getInvoices';
+import addInvoice from '../api/addInvoice';
+import deleteInvoice from '../api/deleteInvoice';
+import getSearchInvoices from '../api/getSearchInvoices';
 
 export const InvoiceContext = React.createContext();
 function InvoiceProvider(props) {
@@ -9,19 +10,23 @@ function InvoiceProvider(props) {
     let [dialogState, setDialogState] = React.useState(false);
     const toggleDialog = () => setDialogState(!dialogState)
     const [invoices, setInvoices] = React.useState(null);
+    const [columns] = React.useState(['recipient','products','total','draft']);
     const updateInvoices = () => getInvoices().then(response => setInvoices(response))
     const searchInvoices = (query) => getSearchInvoices(query).then(response => setInvoices(response))
+    const handleItemDelete = (id) => deleteInvoice(id).then(() => updateInvoices());
     React.useEffect(() => { updateInvoices() }, [])
 
     return (
         <InvoiceContext.Provider value={{
-            items:invoices,
+            items: invoices,
             title,
+            columns,
             dialogState,
             toggleDialog,
             addInvoice,
             updateInvoices,
-            searchItems:searchInvoices
+            searchItems: searchInvoices,
+            deleteItem: handleItemDelete
         }}>
             {props.children}
         </InvoiceContext.Provider>
