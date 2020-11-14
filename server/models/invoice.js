@@ -13,7 +13,7 @@ invoiceSchema = new mongoose.Schema(
         discountPercentage: Number,
       },
     ],
-    issuedOn: Date,
+    issuedOn: Number,
     total: Number,
     draft: Boolean,
   },

@@ -47,7 +47,9 @@ function CreateInvoice() {
         createPdf('invoice',previewData);
     }
     const handleDraft = () => {}
-    const handleSent = () => {}
+    const handleSent = () => {
+        
+    }
     const handleViewAllInvoice = () => {
         history.push('/app');
     }

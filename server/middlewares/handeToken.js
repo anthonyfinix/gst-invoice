@@ -48,8 +48,9 @@ module.exports = async (req, res, next) => {
       }
     } else if (accessTokenPayload) {
       // if accessToken not expired set user
+      let {username} = token.getPayload(accessToken);
       res.set("x-token", accessToken);
-      req.user = accessTokenPayload;
+      req.user = await User.findOne({username:username})
     }
   }
   next();

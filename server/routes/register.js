@@ -21,7 +21,13 @@ module.exports = async (req, res) => {
   // hash password
   let hashPassword = await bcrypt.hash(password, 10);
   // create and save user
-  let user = new User({ name, username, password: hashPassword, email });
+  let user = new User({
+    name,
+    username,
+    password: hashPassword,
+    email,
+    invoiceCount: 0,
+  });
   let newUser = await user.save();
   // respond
   res.json({ message: `User ${newUser.name} Registered` });
