@@ -3,6 +3,7 @@ module.exports = (req, res) => {
     res.json({
         name:req.user.name,
         username:req.user.username,
-        email:req.user.email
+        email:req.user.email,
+        invoiceIssuedCount:req.user.invoiceIssuedCount
     })
 };

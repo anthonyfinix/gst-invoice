@@ -11,7 +11,7 @@ function InvoiceProvider(props) {
     const toggleDialog = () => setDialogState(!dialogState)
     const [invoices, setInvoices] = React.useState(null);
     const addItem = (newInvoice)=>{addInvoice(newInvoice).then(()=>updateInvoices())}
-    const [columns] = React.useState(['recipient','products','total','draft','issued on','invoice no']);
+    const [columns] = React.useState(['invoiceNo','issuedOn','recipient','products','total','draft']);
     const updateInvoices = () => getInvoices().then(response => setInvoices(response))
     const searchInvoices = (query) => getSearchInvoices(query).then(response => setInvoices(response))
     const handleItemDelete = (id) => deleteInvoice(id).then(() => updateInvoices());
