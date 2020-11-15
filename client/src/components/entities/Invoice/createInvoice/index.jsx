@@ -14,6 +14,7 @@ import createPdf from '../../../../util/pdfMake';
 import {InvoiceContext} from '../invoiceContext';
 
 function CreateInvoice() {
+    const contextData = React.useContext(InvoiceContext)
     const history = useHistory();
     const [recipientName, setRecipientName] = React.useState('');
     const [recipientEmail, setRecipientEmail] = React.useState('');
@@ -22,7 +23,6 @@ function CreateInvoice() {
     const [productQty, setProductQty] = React.useState('');
     const [productPrice, setProductPrice] = React.useState('');
     const [products, setProducts] = React.useState([]);
-    const [draft] = React.useState(0);
     const [invoiceDate] = React.useState(Date.now());
     const addProduct = () => {
         let product = { name: productName, qty: productQty, price: productPrice }
@@ -41,14 +41,33 @@ function CreateInvoice() {
             recipient:{name:recipientName,email:recipientEmail},
             products:products,
             grandTotal:grandTotal,
-            draft:draft,
             invoiceDate:invoiceDate
         }
         createPdf('invoice',previewData);
     }
-    const handleDraft = () => {}
+    const handleDraft = () => {
+        contextData.addItem({
+            recipient:{
+                name:recipientName,
+                email:recipientEmail
+            },
+            products,
+            total:grandTotal,
+            draft:true
+        })
+        handleViewAllInvoice()
+    }
     const handleSent = () => {
-        
+        contextData.addItem({
+            recipient:{
+                name:recipientName,
+                email:recipientEmail
+            },
+            products,
+            total:grandTotal,
+            draft:false
+        })
+        handleViewAllInvoice()
     }
     const handleViewAllInvoice = () => {
         history.push('/app');
@@ -100,7 +119,7 @@ function CreateInvoice() {
                     <Button style={{ marginLeft: "auto" }} variant="contained" onClick={addProduct} color="primary">Add</Button>
                 </Box>
             </Box>
-            <Sidebar handlePreview={handlePreview} total={grandTotal} />
+            <Sidebar handlePreview={handlePreview} handleDraft={handleDraft} handleSent={handleSent} total={grandTotal} />
         </Box>
     )
 }

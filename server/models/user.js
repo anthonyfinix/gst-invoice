@@ -6,7 +6,7 @@ userSchema = new mongoose.Schema(
     username: String,
     password: String,
     email: String,
-    invoiceCount: Number,
+    invoiceIssuedCount: Number,
   },
   { versionKey: false }
 );
