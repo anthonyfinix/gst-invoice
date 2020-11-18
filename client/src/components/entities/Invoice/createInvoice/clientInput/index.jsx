@@ -1,6 +1,6 @@
 import TextField from '@material-ui/core/TextField';
-import Popper from '@material-ui/core/Popper';
 import React from 'react';
+import Popper from '@material-ui/core/Popper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import getSearchClients from '../../../Client/api/getSearchClients';
 import ClientList from './clientList';

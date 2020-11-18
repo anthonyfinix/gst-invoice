@@ -20,24 +20,18 @@ function CreateInvoice() {
     const [recipientName, setRecipientName] = React.useState('');
     const [recipientEmail, setRecipientEmail] = React.useState('');
     const [grandTotal, setGrandTotal] = React.useState(0);
-    const [productName, setProductName] = React.useState('');
-    const [productQty, setProductQty] = React.useState('');
-    const [productPrice, setProductPrice] = React.useState('');
     const [products, setProducts] = React.useState([]);
     const setClient = (client)=>{
         setRecipientName(client.name)
         setRecipientEmail(client.email)
     }
-    const addProduct = () => {
-        if ((productName !== '') || (productQty !== '') || (productPrice !== '')) {
+    const addInvoiceItem = ({name,qty,price}) => {
+        if ((name !== '') || (qty !== '') || (price !== '')) {
             let items = [...products];
-            items.push({ name: productName, qty: productQty, price: productPrice })
+            items.push({ name, qty, price })
             setProducts(items)
             setGrandTotal(getProductGrandTotal(items));
         }
-        setProductName('')
-        setProductQty('')
-        setProductPrice('')
     }
     const handlePreview = () => {
         let previewData = {
@@ -77,9 +71,6 @@ function CreateInvoice() {
     }
     const handleRecipientNameChange = (e) => setRecipientName(e.target.value);
     const handleRecipientEmailChange = (e) => setRecipientEmail(e.target.value);
-    const handleProductChangeName = (e) => setProductName(e.target.value);
-    const handleProductQtyChange = (e) => setProductQty(e.target.value);
-    const handleProductPriceChange = (e) => setProductPrice(e.target.value);
     return (
         <Box id="new-invoice-wrapper" display="flex" height="100%">
             <Box id="new-invoice-content" flexGrow={1} display="flex" flexDirection="column" justifyContent="space-between">
@@ -122,15 +113,7 @@ function CreateInvoice() {
                         ) : <NoProductItem />
                     }
                 </Box>
-                <ProductAdd
-                    productName={productName}
-                    handleProductChangeName={handleProductChangeName}
-                    productQty={productQty}
-                    handleProductQtyChange={handleProductQtyChange}
-                    productPrice={productPrice}
-                    handleProductPriceChange={handleProductPriceChange}
-                    addProduct={addProduct}
-                />
+                <ProductAdd addProduct={addInvoiceItem}/>
             </Box>
             <Sidebar handlePreview={handlePreview} handleDraft={handleDraft} handleSent={handleSent} total={grandTotal} />
         </Box>
