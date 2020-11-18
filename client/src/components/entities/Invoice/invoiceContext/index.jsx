@@ -27,6 +27,7 @@ function InvoiceProvider(props) {
             addItem,
             updateItems:updateInvoices,
             searchItems: searchInvoices,
+            getSearchedItems: getSearchInvoices,
             deleteItem: handleItemDelete
         }}>
             {props.children}

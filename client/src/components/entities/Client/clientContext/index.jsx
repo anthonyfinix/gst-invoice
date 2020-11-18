@@ -31,6 +31,7 @@ function ClientProvider(props) {
             addClient,
             updateClients,
             searchItems: searchClients,
+            getSearchItems: getSearchClients,
             deleteItem: handleItemDelete
         }}>
             {props.children}
