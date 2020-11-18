@@ -5,15 +5,13 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import getSearchClients from '../../../Client/api/getSearchClients';
 import ClientList from './clientList';
 
-function ClientInput({
-    recipientName,
-    handleRecipientNameChange,
-    recipientEmail,
-    handleRecipientEmailChange,
-    searchedClients,
-    setSearchedClients,
-    setClient
-}) {
+function ClientInput({ setRecipient }) {
+    const [searchedClients, setSearchedClients] = React.useState([])
+    const [recipientName, setRecipientName] = React.useState('');
+    const [recipientEmail, setRecipientEmail] = React.useState('');
+    const handleRecipientNameChange = (e) => setRecipientName(e.target.value);
+    const handleRecipientEmailChange = (e) => setRecipientEmail(e.target.value);
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleClose = () => {
         setAnchorEl(null);
@@ -23,8 +21,10 @@ function ClientInput({
         getSearchClients(event.target.value)
             .then(response => setSearchedClients(response))
     };
-    const handleSearchedItemClick = (client)=>{
-        setClient(client)
+    const handleSearchedItemClick = (client) => {
+        setRecipient({ name: client.name, email: client.email });
+        setRecipientName(client.name)
+        setRecipientEmail(client.email)
         handleClose()
     }
 
@@ -50,7 +50,7 @@ function ClientInput({
 
             <ClickAwayListener onClickAway={handleClose}>
                 <Popper placement="bottom-start" open={!!anchorEl} anchorEl={anchorEl} transition>
-                    {({ TransitionProps }) => <ClientList setClient={handleSearchedItemClick} searchedClients={searchedClients} transition={TransitionProps} />}
+                    {({ TransitionProps }) => <ClientList setRecipient={handleSearchedItemClick} searchedClients={searchedClients} transition={TransitionProps} />}
                 </Popper>
             </ClickAwayListener>
 

@@ -8,7 +8,7 @@ import getSearchProducts from '../../../Product/api/getSearchProducts';
 import ProductList from './productList';
 
 function ProductAdd({
-  addProduct
+  addInvoiceItem
 }) {
   const [searchedProducts, setSearchedProducts] = React.useState([])
   const [name, setName] = React.useState('');
@@ -29,12 +29,13 @@ function ProductAdd({
       .then(response => setSearchedProducts(response))
   };
   const handleSearchedItemClick = (product) => {
-    addProduct(product)
+    setName(product.name)
+    setPrice(product.price)
     handleClose()
   }
   const handleAddProductClick = ()=>{
     if ((name !== '') || (quantity !== '') || (price !== '')) {
-      addProduct({name:name,qty:quantity,price:price})
+      addInvoiceItem({name:name,qty:quantity,price:price})
     }
     setName('')
     setQuantity('')

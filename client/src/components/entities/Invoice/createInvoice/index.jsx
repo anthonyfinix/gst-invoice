@@ -3,29 +3,27 @@ import './createInvoice.css';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import ProductItem from './productItem';
+import ProductItem from './InvoiceItems';
 import Sidebar from './sidebar';
-import NoProductItem from './noProductItem';
+import NoProductItem from './noInvoiceItem';
+import InvoiceInput from './invoiceInput';
 import getProductGrandTotal from './getProductGrandTotal';
 import { useHistory } from 'react-router-dom';
 import createPdf from '../../../../util/pdfMake';
 import { InvoiceContext } from '../invoiceContext';
 import ClientInput from './clientInput';
-import ProductAdd from './productAdd';
 
 function CreateInvoice() {
     const contextData = React.useContext(InvoiceContext)
+    let recipient = {};
     const history = useHistory();
-    const [searchedClients, setSearchedClients] = React.useState([])
-    const [recipientName, setRecipientName] = React.useState('');
-    const [recipientEmail, setRecipientEmail] = React.useState('');
     const [grandTotal, setGrandTotal] = React.useState(0);
     const [products, setProducts] = React.useState([]);
-    const setClient = (client)=>{
-        setRecipientName(client.name)
-        setRecipientEmail(client.email)
-    }
-    const addInvoiceItem = ({name,qty,price}) => {
+    const setRecipient = ({ name, email }) => {
+        recipient.name = name;
+        recipient.email = email
+    };
+    const addInvoiceItem = ({ name, qty, price }) => {
         if ((name !== '') || (qty !== '') || (price !== '')) {
             let items = [...products];
             items.push({ name, qty, price })
@@ -35,7 +33,7 @@ function CreateInvoice() {
     }
     const handlePreview = () => {
         let previewData = {
-            recipient: { name: recipientName, email: recipientEmail },
+            recipient: recipient,
             products: products,
             grandTotal: grandTotal,
             invoiceDate: Date.now()
@@ -44,10 +42,7 @@ function CreateInvoice() {
     }
     const handleDraft = () => {
         contextData.addItem({
-            recipient: {
-                name: recipientName,
-                email: recipientEmail
-            },
+            recipient: recipient,
             products,
             total: grandTotal,
             draft: true
@@ -56,10 +51,7 @@ function CreateInvoice() {
     }
     const handleSent = () => {
         contextData.addItem({
-            recipient: {
-                name: recipientName,
-                email: recipientEmail
-            },
+            recipient: recipient,
             products,
             total: grandTotal,
             draft: false
@@ -69,8 +61,6 @@ function CreateInvoice() {
     const handleViewAllInvoice = () => {
         history.push('/app');
     }
-    const handleRecipientNameChange = (e) => setRecipientName(e.target.value);
-    const handleRecipientEmailChange = (e) => setRecipientEmail(e.target.value);
     return (
         <Box id="new-invoice-wrapper" display="flex" height="100%">
             <Box id="new-invoice-content" flexGrow={1} display="flex" flexDirection="column" justifyContent="space-between">
@@ -80,15 +70,7 @@ function CreateInvoice() {
                         <Button variant="contained" color="primary" onClick={handleViewAllInvoice}>View All Invoices</Button>
                     </Box>
                     <Typography variant="body2" style={{ marginBottom: 10 }} >Create New Invoice</Typography>
-                    <ClientInput
-                        searchedClients={searchedClients}
-                        recipientName={recipientName}
-                        handleRecipientNameChange={handleRecipientNameChange}
-                        recipientEmail={recipientEmail}
-                        handleRecipientEmailChange={handleRecipientEmailChange} 
-                        setSearchedClients={setSearchedClients}
-                        setClient={setClient}
-                    />
+                    <ClientInput setRecipient={setRecipient} />
                 </Box>
                 <Box style={{ height: 400, overflowY: "scroll", marginBottom: "auto" }}>
                     {
@@ -113,7 +95,7 @@ function CreateInvoice() {
                         ) : <NoProductItem />
                     }
                 </Box>
-                <ProductAdd addProduct={addInvoiceItem}/>
+                <InvoiceInput addInvoiceItem={addInvoiceItem} />
             </Box>
             <Sidebar handlePreview={handlePreview} handleDraft={handleDraft} handleSent={handleSent} total={grandTotal} />
         </Box>
