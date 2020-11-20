@@ -25,8 +25,8 @@ function ProductTable({ items, columns, deleteItem, ...props }) {
         )
     }
     return (
-        <TableContainer component={Paper} style={{ marginTop: 20 }}>
-            <Table aria-label="simple table">
+        <TableContainer style={{height: "100%"}}>
+            <Table stickyHeader aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         {columns.map((column) => <TableCell key={column}>{column}</TableCell>)}

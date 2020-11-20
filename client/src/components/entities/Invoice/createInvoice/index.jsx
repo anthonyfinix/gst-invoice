@@ -14,6 +14,7 @@ import { InvoiceContext } from '../invoiceContext';
 import ClientInput from './clientInput';
 
 function CreateInvoice() {
+    console.log('test')
     const contextData = React.useContext(InvoiceContext)
     let recipient = {};
     const history = useHistory();
@@ -38,7 +39,8 @@ function CreateInvoice() {
             grandTotal: grandTotal,
             invoiceDate: Date.now()
         }
-        createPdf('invoice', previewData);
+        console.log(previewData)
+        // createPdf('invoice', previewData);
     }
     const handleDraft = () => {
         contextData.addItem({

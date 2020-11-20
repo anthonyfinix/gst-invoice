@@ -12,12 +12,14 @@ function Product({ context, ...props }) {
         }
     }
     return (
-        <Box id="product-main-wrapper" px={2}>
-            <ProductHeader title={contextData.title} toggleDialog={contextData.toggleDialog} context={contextData} />
-            <Box display="flex" my={2}>
+        <Box style={{height:"100%"}} display="flex" flexDirection="column">
+            <Box px={2}>
+                <ProductHeader title={contextData.title} toggleDialog={contextData.toggleDialog} context={contextData} />
                 <TextField style={{ marginLeft: "auto" }} onChange={handleSearch} variant="outlined" size="small" label="search" />
             </Box>
-            {getTable()}
+            <Box style={{height:"100%",overflowY:"scroll"}}>
+                {getTable()}
+            </Box>
         </Box>
     )
 }

@@ -7,7 +7,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
 
 function ProductTable({ products, deleteItem, columns, ...props }) {
     let rows = [...products];
@@ -26,8 +25,8 @@ function ProductTable({ products, deleteItem, columns, ...props }) {
         )
     }
     return (
-        <TableContainer component={Paper} style={{ marginTop: 20 }}>
-            <Table aria-label="simple table">
+        <TableContainer style={{height:"100%"}}>
+            <Table stickyHeader aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         {columns.map((column) => <TableCell key={column}>{column}</TableCell>)}

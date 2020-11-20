@@ -15,8 +15,12 @@ function CreateDialog() {
     const handleEmailChange = (e) => setEmail(e.target.value)
     const handleAddClient = () => {
         addClient({ name, email })
-            .then(toggleDialog())
-            .then(updateClients())
+            .then(()=>{
+                toggleDialog()
+                setName('')
+                setEmail('')
+                updateClients()
+            })
     }
     return (
         <Dialog
@@ -31,30 +35,30 @@ function CreateDialog() {
                     <TextField
                         type="text"
                         fullWidth size="small"
-                        label="Username"
+                        label="Client Name"
                         variant="outlined"
                         margin="normal"
                         value={name}
                         onChange={handleNameChange}
                         autoComplete="off"
-                        name="username"
+                        name="clientName"
                     />
                     <TextField
                         type="email"
                         fullWidth size="small"
-                        label="Username"
+                        label="Client Email Address"
                         variant="outlined"
                         margin="normal"
                         value={email}
                         onChange={handleEmailChange}
                         autoComplete="off"
-                        name="username"
+                        name="clientEmail"
                     />
                 </form>
             </DialogContent>
             <DialogActions>
-                <Button onClick={toggleDialog} color="primary">Close</Button>
-                <Button onClick={handleAddClient} color="primary" autoFocus>Agree</Button>
+                <Button onClick={toggleDialog} color="primary">Cancel</Button>
+                <Button onClick={handleAddClient} color="primary" autoFocus>Add Client</Button>
             </DialogActions>
         </Dialog>
     )

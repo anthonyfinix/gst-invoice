@@ -16,7 +16,11 @@ function CreateDialog() {
     const handleAddProduct = () => {
         addProduct({ name,price })
             .then(toggleDialog())
-            .then(updateProducts())
+            .then(()=>{
+                setName('');
+                setPrice('');
+                updateProducts()
+            })
     }
     return (
         <Dialog
@@ -31,24 +35,24 @@ function CreateDialog() {
                     <TextField
                         type="text"
                         fullWidth size="small"
-                        label="Username"
+                        label="Product Name"
                         variant="outlined"
                         margin="normal"
                         value={name}
                         onChange={handleNameChange}
                         autoComplete="off"
-                        name="username"
+                        name="name"
                     />
                     <TextField
                         type="number"
                         fullWidth size="small"
-                        label="Price"
+                        label="Products Price"
                         variant="outlined"
                         margin="normal"
                         value={price}
                         onChange={handlePriceChange}
                         autoComplete="off"
-                        name="username"
+                        name="price"
                     />
                 </form>
             </DialogContent>

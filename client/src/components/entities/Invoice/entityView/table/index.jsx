@@ -14,7 +14,7 @@ function ProductTable({ products, deleteItem, columns, ...props }) {
         deleteItem(id)
     }
     return (
-        <TableContainer component={Paper} style={{ marginTop: 20 }}>
+        <TableContainer style={{ marginTop: 20 }}>
             <Table aria-label="simple table">
                 <TableHead>
                     <TableRow>
