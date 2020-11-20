@@ -16,13 +16,13 @@ import ClientInput from './clientInput';
 function CreateInvoice() {
     console.log('test')
     const contextData = React.useContext(InvoiceContext)
-    let recipient = {};
+    const recipient = React.useRef({});
     const history = useHistory();
     const [grandTotal, setGrandTotal] = React.useState(0);
     const [products, setProducts] = React.useState([]);
     const setRecipient = ({ name, email }) => {
-        recipient.name = name;
-        recipient.email = email
+        recipient.current.name = name;
+        recipient.current.email = email
     };
     const addInvoiceItem = ({ name, qty, price }) => {
         if ((name !== '') || (qty !== '') || (price !== '')) {
@@ -34,7 +34,10 @@ function CreateInvoice() {
     }
     const handlePreview = () => {
         let previewData = {
-            recipient: recipient,
+            recipient:{
+                name: recipient.current.name,
+                email: recipient.current.email,
+            },
             products: products,
             grandTotal: grandTotal,
             invoiceDate: Date.now()
@@ -53,7 +56,10 @@ function CreateInvoice() {
     }
     const handleSent = () => {
         contextData.addItem({
-            recipient: recipient,
+            recipient:{
+                name: recipient.current.name,
+                email: recipient.current.email,
+            },
             products,
             total: grandTotal,
             draft: false

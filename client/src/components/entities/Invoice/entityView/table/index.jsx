@@ -14,8 +14,8 @@ function ProductTable({ products, deleteItem, columns, ...props }) {
         deleteItem(id)
     }
     return (
-        <TableContainer style={{ marginTop: 20 }}>
-            <Table aria-label="simple table">
+        <TableContainer style={{ height:"100%" }}>
+            <Table stickyHeader aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         {columns.map((column) => <TableCell key={column}>{column}</TableCell>)}
