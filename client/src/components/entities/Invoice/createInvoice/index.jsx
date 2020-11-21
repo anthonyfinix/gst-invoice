@@ -49,11 +49,16 @@ function CreateInvoice() {
         // createPdf('invoice', previewData);
     }
     const handleDraft = () => {
-        contextData.addItem({
+        let newInvoice = {
             recipient: recipient,
             products,
             total: grandTotal,
             draft: true
+        }
+        contextData.addItem(newInvoice).then((response)=>{
+            if(response.error) return setResponse(response.error);
+            contextData.updateItems()
+            handleViewAllInvoice()
         })
         handleViewAllInvoice()
     }
