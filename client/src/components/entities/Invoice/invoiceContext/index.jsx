@@ -10,7 +10,6 @@ function InvoiceProvider(props) {
     let [dialogState, setDialogState] = React.useState(false);
     const toggleDialog = () => setDialogState(!dialogState)
     const [invoices, setInvoices] = React.useState(null);
-    const addItem = (newInvoice) => {console.log(newInvoice);addInvoice(newInvoice).then((response)=> {console.log(response); updateInvoices()})}
     const [columns] = React.useState(['invoiceNo', 'issuedOn', 'recipient', 'products', 'total', 'draft']);
     const updateInvoices = () => getInvoices().then(response => setInvoices(response))
     const searchInvoices = (query) => getSearchInvoices(query).then(response => setInvoices(response))
@@ -24,7 +23,7 @@ function InvoiceProvider(props) {
             columns,
             dialogState,
             toggleDialog,
-            addItem,
+            addItem: addInvoice,
             updateItems: updateInvoices,
             searchItems: searchInvoices,
             getSearchedItems: getSearchInvoices,

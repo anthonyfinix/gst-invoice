@@ -14,7 +14,7 @@ function Product({ context, ...props }) {
                 <ProductHeader title={contextData.title} toggleDialog={contextData.toggleDialog} context={contextData} />
                 <TextField style={{ marginLeft: "auto" }} onChange={handleSearch} variant="outlined" size="small" label="search" />
             </Box>
-            <Box style={{height:"100%"}}>
+            <Box flexGrow={1} style={{height:"100%",overflowY:"scroll"}}>
                 <ProductTable items={contextData.items} columns={contextData.columns} deleteItem={contextData.deleteItem} />
             </Box>
         </Box>

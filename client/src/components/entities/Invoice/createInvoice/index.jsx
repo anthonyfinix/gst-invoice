@@ -12,10 +12,13 @@ import { useHistory } from 'react-router-dom';
 import createPdf from '../../../../util/pdfMake';
 import { InvoiceContext } from '../invoiceContext';
 import ClientInput from './clientInput';
+import Snackbar from '@material-ui/core/Snackbar';
 
 function CreateInvoice() {
     console.log('test')
-    const contextData = React.useContext(InvoiceContext)
+    const contextData = React.useContext(InvoiceContext);
+    const [response, setResponse] = React.useState("");
+    const handleClose = () => setResponse("");
     const recipient = React.useRef({});
     const history = useHistory();
     const [grandTotal, setGrandTotal] = React.useState(0);
@@ -55,7 +58,7 @@ function CreateInvoice() {
         handleViewAllInvoice()
     }
     const handleSent = () => {
-        contextData.addItem({
+        let newInvoice = {
             recipient:{
                 name: recipient.current.name,
                 email: recipient.current.email,
@@ -63,8 +66,12 @@ function CreateInvoice() {
             products,
             total: grandTotal,
             draft: false
+        }
+        contextData.addItem(newInvoice).then((response)=>{
+            if(response.error) return setResponse(response.error);
+            contextData.updateItems()
+            handleViewAllInvoice()
         })
-        handleViewAllInvoice()
     }
     const handleViewAllInvoice = () => {
         history.push('/app');
@@ -106,6 +113,12 @@ function CreateInvoice() {
                 <InvoiceInput addInvoiceItem={addInvoiceItem} />
             </Box>
             <Sidebar handlePreview={handlePreview} handleDraft={handleDraft} handleSent={handleSent} total={grandTotal} />
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center', }}
+                open={!!response}
+                onClose={handleClose}
+                message={response}
+            />
         </Box>
     )
 }
