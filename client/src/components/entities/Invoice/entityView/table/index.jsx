@@ -5,11 +5,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
-import Paper from '@material-ui/core/Paper';
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Row from './row';
 
-function ProductTable({ products, deleteItem, columns, ...props }) {
-    let rows = [...products];
+function ProductTable({ items, deleteItem, columns, ...props }) {
+    if(!items || !columns) return <CircularProgress/>;
+    if(items.length < 0 || columns.length < 0) return <CircularProgress/>;
+    let rows = [...items];
     const handleDelete = (id) => {
         deleteItem(id)
     }

@@ -8,11 +8,6 @@ import { TextField } from '@material-ui/core';
 function Product({ context, ...props }) {
     const contextData = React.useContext(context)
     const handleSearch = (e) => { contextData.searchItems(e.target.value) }
-    const getTable = () => {
-        if (!!contextData.items && contextData.items.length > 0) {
-            return (<ProductTable products={contextData.items} columns={contextData.columns} deleteItem={contextData.deleteItem} />)
-        }
-    }
     return (
         <Box style={{height:"100%"}} display="flex" flexDirection="column">
             <Box px={2}>
@@ -20,7 +15,7 @@ function Product({ context, ...props }) {
                 <TextField style={{ marginLeft: "auto" }} onChange={handleSearch} variant="outlined" size="small" label="search" />
             </Box>
             <Box style={{height:"100%"}}>
-                {getTable()}
+                <ProductTable items={contextData.items} columns={contextData.columns} deleteItem={contextData.deleteItem} />
             </Box>
         </Box>
     )

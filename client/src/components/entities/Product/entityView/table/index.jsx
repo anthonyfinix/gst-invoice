@@ -7,9 +7,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function ProductTable({ items, columns, deleteItem, ...props }) {
+    if(!items || !columns) return <CircularProgress/>;
+    if(items.length < 0 || columns.length < 0) return <CircularProgress/>;
     let rows = [...items]
     const handleDelete = (id) => {
         deleteItem(id)
