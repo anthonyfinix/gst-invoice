@@ -6,7 +6,7 @@ import React from 'react';
 function ProductHeader({ title, toggleDialog }) {
     const match = useRouteMatch()
     return (
-        < Box pt={2} pb={1} display="flex" justifyContent="space-between" alignItems="center" >
+        < Box p={2} pb={1} display="flex" justifyContent="space-between" alignItems="center" >
             <Typography variant="h5">{title}</Typography>
             {title === 'Invoice' ?
                 (<Button color="primary" component={Link} to={`${match.path}/NewInvoice`} variant="contained" size="small">ADD</Button>)

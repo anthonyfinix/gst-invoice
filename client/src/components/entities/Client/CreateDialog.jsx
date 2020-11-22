@@ -9,7 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { ClientContext } from './clientContext';
 
 function CreateDialog() {
-    const { dialogState, toggleDialog, addClient, updateClients } = React.useContext(ClientContext);
+    const { dialogState, toggleDialog, addClient, updateClientList,updateClient,selectedClient,setSelectedClient } = React.useContext(ClientContext);
     const [response, setResponse] = React.useState("");
     const handleClose = () => setResponse("");
     const [name, setName] = React.useState('');
@@ -23,9 +23,26 @@ function CreateDialog() {
                 toggleDialog()
                 setName('')
                 setEmail('')
-                updateClients()
+                updateClientList()
             })
     }
+    const handleUpdateClient = () => {
+        updateClient({ _id:selectedClient._id,name, email })
+            .then((response) => {
+                if (response.error) return setResponse(response.error)
+                toggleDialog()
+                setName('')
+                setEmail('')
+                setSelectedClient(null)
+                updateClientList()
+            })
+    }
+    React.useEffect(()=>{
+        if(!!selectedClient){
+            setName(selectedClient.name)
+            setEmail(selectedClient.email)
+        }
+    },[selectedClient])
     return (
         <React.Fragment>
             <Dialog
@@ -63,7 +80,10 @@ function CreateDialog() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={toggleDialog} color="primary">Cancel</Button>
-                    <Button onClick={handleAddClient} color="primary" autoFocus>Add Client</Button>
+                    {
+                        !!selectedClient?(<Button onClick={handleUpdateClient} color="primary" autoFocus>Update Client</Button>)
+                        :(<Button onClick={handleAddClient} color="primary" autoFocus>Add Client</Button>)
+                    }
                 </DialogActions>
             </Dialog>
 

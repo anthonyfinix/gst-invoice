@@ -9,23 +9,45 @@ import { ProductContext } from './productContext';
 import Snackbar from '@material-ui/core/Snackbar';
 
 function CreateDialog() {
-    const { dialogState, toggleDialog, addProduct, updateProducts } = React.useContext(ProductContext);
+    const { dialogState, toggleDialog, addProduct, updateProductList, selectedProduct,setSelectedProduct,updateItem } = React.useContext(ProductContext);
+
     const [response, setResponse] = React.useState("");
     const handleClose = () => setResponse("");
     const [name, setName] = React.useState('');
     const [price, setPrice] = React.useState('');
     const handleNameChange = (e) => setName(e.target.value);
     const handlePriceChange = (e) => setPrice(e.target.value);
+
     const handleAddProduct = () => {
         addProduct({ name, price })
             .then((response) => {
-                if(response.error) return setResponse(response.error)
+                if (response.error) return setResponse(response.error)
                 toggleDialog()
                 setName('');
                 setPrice('');
-                updateProducts()
+                updateProductList()
             })
     }
+    const handleUpdateProduct = ()=>{
+        updateItem({_id:selectedProduct._id, name, price })
+            .then((response) => {
+                if (response.error) return setResponse(response.error)
+                toggleDialog()
+                setName('');
+                setPrice('');
+                setSelectedProduct(null);
+                updateProductList()
+            })
+    }
+
+
+    React.useEffect(()=>{
+        if(!!selectedProduct) {
+           setName(selectedProduct.name)
+           setPrice(selectedProduct.price)
+        }
+    },[selectedProduct])
+
     return (
         <React.Fragment>
             <Dialog
@@ -63,16 +85,18 @@ function CreateDialog() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={toggleDialog} color="primary">Close</Button>
-                    <Button onClick={handleAddProduct} color="primary" autoFocus>Add</Button>
+                    {!!selectedProduct?
+                    (<Button onClick={handleUpdateProduct} color="primary" autoFocus>Update</Button>):
+                    (<Button onClick={handleAddProduct} color="primary" autoFocus>Add</Button>)}
                 </DialogActions>
             </Dialog>
 
-<Snackbar
-    anchorOrigin={{ vertical: 'bottom', horizontal: 'center', }}
-    open={!!response}
-    onClose={handleClose}
-    message={response}
-/>
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center', }}
+                open={!!response}
+                onClose={handleClose}
+                message={response}
+            />
         </React.Fragment>
     )
 }
