@@ -17,9 +17,7 @@ function ClientTable({ items, columns, deleteItem,setSelectedClient,toggleDialog
     if (items.length < 0 || columns.length < 0) return <CircularProgress />;
     let rows = [...items];
     const handleMenuClose = () => setAnchorEl(null);
-    const handleDelete = (id) => {
-        deleteItem(id)
-    }
+    const handleDelete = (id) => deleteItem(id)
     const openOptionsMenu = (e, client) => {
         setAnchorEl(e.currentTarget);
         selected.current = client

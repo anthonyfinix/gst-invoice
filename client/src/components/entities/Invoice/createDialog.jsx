@@ -8,10 +8,10 @@ import TextField from '@material-ui/core/TextField';
 import { InvoiceContext } from './invoiceContext';
 
 function CreateDialog() {
-    const { dialogState, toggleDialog, addInvoice, updateInvoices } = React.useContext(InvoiceContext);
+    const { dialogState, toggleDialog, addInvoice, updateInvoiceList } = React.useContext(InvoiceContext);
     const [recipient, setRecipient] = React.useState('');
     const handleRecipientChange = (e) => setRecipient(e.target.value)
-    const handleAddInvoice = () => addInvoice({ recipient }).then(toggleDialog()).then(updateInvoices());
+    const handleAddInvoice = () => addInvoice({ recipient }).then(toggleDialog()).then(updateInvoiceList());
     return (
         <Dialog
             open={dialogState}

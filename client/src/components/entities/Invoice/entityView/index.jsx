@@ -13,7 +13,13 @@ function Product({ context, ...props }) {
                 <TextField style={{ marginLeft: "auto" }} onChange={handleSearch} variant="outlined" size="small" label="search" />
             </Box>
             <Box style={{ overflowY: "scroll", height: "100%" }}>
-                <ProductTable deleteItem={contextData.deleteItem} columns={contextData.columns} items={contextData.items} />
+                <ProductTable
+                    deleteItem={contextData.deleteItem}
+                    toggleDialog={contextData.toggleDialog}
+                    columns={contextData.columns}
+                    items={contextData.items}
+                    setSelectedInvoice={contextData.setSelectedInvoice}
+                />
             </Box>
         </Box>
     )

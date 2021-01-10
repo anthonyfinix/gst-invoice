@@ -9,7 +9,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Row from './row';
-import { useEffect } from 'react';
 
 function ProductTable({ items, columns, deleteItem, setSelectedProduct,toggleDialog }) {
     const [anchorEl, setAnchorEl] = React.useState(null);

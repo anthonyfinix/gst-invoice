@@ -13,31 +13,43 @@ import createPdf from '../../../../util/pdfMake';
 import { InvoiceContext } from '../invoiceContext';
 import ClientInput from './clientInput';
 import Snackbar from '@material-ui/core/Snackbar';
+import RowHeader from './InvoiceItemRowHeader';
 
 function CreateInvoice() {
-    console.log('test')
-    const contextData = React.useContext(InvoiceContext);
     const [response, setResponse] = React.useState("");
-    const handleClose = () => setResponse("");
-    const recipient = React.useRef({});
-    const history = useHistory();
     const [grandTotal, setGrandTotal] = React.useState(0);
     const [products, setProducts] = React.useState([]);
-    const setRecipient = ({ name, email }) => {
-        recipient.current.name = name;
-        recipient.current.email = email
-    };
+    const recipient = React.useRef({});
+    const contextData = React.useContext(InvoiceContext);
+    const history = useHistory();
+    React.useEffect(() => {
+        if (!!contextData.selectedInvoice) {
+            recipient.current = { ...contextData.selectedInvoice.recipient }
+            setProducts(contextData.selectedInvoice.products);
+            setGrandTotal(contextData.selectedInvoice.total)
+        }
+    }, [])
+    const handleClose = () => setResponse("");
+    const setRecipient = ({ name, email }) => recipient.current = { name, email };
     const addInvoiceItem = ({ name, qty, price }) => {
         if ((name !== '') || (qty !== '') || (price !== '')) {
             let items = [...products];
-            items.push({ name, qty, price })
+            let itemAdded = false;
+            items = items.map(item => {
+                if (name === item.name) {
+                    item.qty = item.qty + qty;
+                    itemAdded = true;
+                };
+                return item;
+            });
+            if (!itemAdded) items.push({ name, qty, price });
             setProducts(items)
             setGrandTotal(getProductGrandTotal(items));
         }
     }
     const handlePreview = () => {
         let previewData = {
-            recipient:{
+            recipient: {
                 name: recipient.current.name,
                 email: recipient.current.email,
             },
@@ -50,21 +62,37 @@ function CreateInvoice() {
     }
     const handleDraft = () => {
         let newInvoice = {
-            recipient: recipient,
+            recipient: {
+                name: recipient.current.name,
+                email: recipient.current.email,
+            },
             products,
             total: grandTotal,
             draft: true
         }
-        contextData.addItem(newInvoice).then((response)=>{
-            if(response.error) return setResponse(response.error);
-            contextData.updateItems()
-            handleViewAllInvoice()
-        })
+        if (!!contextData.selectedInvoice) {
+            newInvoice._id = contextData.selectedInvoice._id;
+            console.log(newInvoice)
+            contextData.updateInvoice(newInvoice).then((response) => {
+                console.log(response)
+                if (response.error) return setResponse(response.error);
+                contextData.updateItems()
+                handleViewAllInvoice()
+            })
+        } else {
+            console.log(newInvoice)
+            contextData.addItem(newInvoice).then((response) => {
+                console.log(response)
+                if (response.error) return setResponse(response.error);
+                contextData.updateItems()
+                handleViewAllInvoice()
+            })
+        }
         handleViewAllInvoice()
     }
     const handleSent = () => {
         let newInvoice = {
-            recipient:{
+            recipient: {
                 name: recipient.current.name,
                 email: recipient.current.email,
             },
@@ -72,15 +100,26 @@ function CreateInvoice() {
             total: grandTotal,
             draft: false
         }
-        contextData.addItem(newInvoice).then((response)=>{
-            if(response.error) return setResponse(response.error);
-            contextData.updateItems()
-            handleViewAllInvoice()
-        })
+        if (!!contextData.selectedInvoice) {
+            newInvoice._id = contextData.selectedInvoice._id;
+            contextData.updateInvoice(newInvoice).then((response) => {
+                if (response.error) return setResponse(response.error);
+                contextData.updateItems()
+                handleViewAllInvoice()
+            })
+        } else {
+            contextData.addItem(newInvoice).then((response) => {
+                if (response.error) return setResponse(response.error);
+                contextData.updateItems()
+                handleViewAllInvoice()
+            })
+        }
     }
     const handleViewAllInvoice = () => {
+        contextData.setSelectedInvoice(null);
         history.push('/app');
     }
+
     return (
         <Box id="new-invoice-wrapper" display="flex" height="100%">
             <Box id="new-invoice-content" flexGrow={1} display="flex" flexDirection="column" justifyContent="space-between">
@@ -90,26 +129,13 @@ function CreateInvoice() {
                         <Button variant="contained" color="primary" onClick={handleViewAllInvoice}>View All Invoices</Button>
                     </Box>
                     <Typography variant="body2" style={{ marginBottom: 10 }} >Create New Invoice</Typography>
-                    <ClientInput setRecipient={setRecipient} />
+                    <ClientInput existingData={contextData.selectedInvoice} setRecipient={setRecipient} />
                 </Box>
                 <Box style={{ height: 400, overflowY: "scroll", marginBottom: "auto" }}>
                     {
                         !!products.length ? (
                             <>
-                                <Box display="flex" justifyContent="space-between" px={2} pb={1}>
-                                    <div style={{ flexGrow: 1, flexBasis: 0 }}>
-                                        <Typography variant="caption">Name</Typography>
-                                    </div>
-                                    <div style={{ flexGrow: 1, flexBasis: 0 }}>
-                                        <Typography variant="caption">Quantity</Typography>
-                                    </div>
-                                    <div style={{ flexGrow: 1, flexBasis: 0 }}>
-                                        <Typography variant="caption">Price</Typography>
-                                    </div>
-                                    <div style={{ flexGrow: 1, flexBasis: 0 }}>
-                                        <Typography variant="caption">Total</Typography>
-                                    </div>
-                                </Box>
+                                <RowHeader />
                                 {products.map((product, i) => <ProductItem key={i} product={product} />)}
                             </>
                         ) : <NoProductItem />

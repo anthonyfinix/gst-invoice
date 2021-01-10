@@ -1,3 +1,4 @@
+const Joi = require("@hapi/joi");
 const joi = require("@hapi/joi");
 
 const name = joi.string();
@@ -28,15 +29,19 @@ const product = joi.object({
 const invoice = joi.object({
   invoiceNo: date,
   recipient: client.required(),
-  products: joi.array().items(
-    joi.object().keys({
-      name: name.required(),
-      price: joi.number().required(),
-      qty: number.required(),
-      discount: number,
-      discountPercentage: number,
-    })
-  ).required(),
+  products: joi
+    .array()
+    .items(
+      joi.object().keys({
+        _id: name,
+        name: name.required(),
+        price: joi.number().required(),
+        qty: number.required(),
+        discount: number,
+        discountPercentage: number,
+      })
+    )
+    .required(),
   issuedOn: date,
   total: number.required(),
   draft: joi.boolean().required(),

@@ -5,10 +5,16 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import getSearchClients from '../../../Client/api/getSearchClients';
 import ClientList from './clientList';
 
-function ClientInput({ setRecipient }) {
+function ClientInput({ existingData, setRecipient }) {
     const [searchedClients, setSearchedClients] = React.useState([])
     const [recipientName, setRecipientName] = React.useState('');
     const [recipientEmail, setRecipientEmail] = React.useState('');
+    React.useEffect(()=>{
+        if(existingData){
+            setRecipientName(existingData.recipient.name)
+            setRecipientEmail(existingData.recipient.email)
+        }
+    },[])
     const handleRecipientNameChange = (e) => setRecipientName(e.target.value);
     const handleRecipientEmailChange = (e) => setRecipientEmail(e.target.value);
 
