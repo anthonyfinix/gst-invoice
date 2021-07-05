@@ -1,0 +1,30 @@
+#app{
+  height: 100vh;
+  overflow: hidden;
+}
+#app-main-wrapper {
+  flex-grow: 1;
+  height: 100%;
+  overflow: hidden;
+}
+#app-main-wrapper #app-sidebar-wrapper {
+  flex-basis: 200px;
+  border-right: 1px solid rgba(0, 0, 0, 0.247);
+  transition: all 0.2s ease-out;
+}
+
+#app-sidebar-wrapper.close {
+  margin-left: -200px;
+}
+#app-sidebar-wrapper.open {
+  margin-left: 0px;
+}
+#app-sidebar-wrapper{
+  height: 100%;
+  overflow:hidden;
+}
+#app-content-wrapper{
+  flex-grow: 1;
+  height: 100%;
+  overflow: hidden;
+}
